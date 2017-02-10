@@ -8,5 +8,12 @@
     <artifactId>detection</artifactId>
     <version>1.0</version>
 
+    <dependencies>
+        <dependency>
+            <groupId>Utils</groupId>
+            <artifactId>utils</artifactId>
+            <version>LATEST</version>
+        </dependency>
+    </dependencies>
 
 </project>
