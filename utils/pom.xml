@@ -8,5 +8,25 @@
     <artifactId>utils</artifactId>
     <version>1.0</version>
 
+    <repositories>
+
+        <repository>
+            <id>pi4j-core</id>
+            <name>pi4j-core</name>
+            <url>https://mvnrepository.com/artifact/com.pi4j/pi4j-core</url>
+        </repository>
+
+    </repositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>com.pi4j</groupId>
+            <artifactId>pi4j-core</artifactId>
+            <version>0.0.5</version>
+        </dependency>
+
+    </dependencies>
+
 
 </project>
