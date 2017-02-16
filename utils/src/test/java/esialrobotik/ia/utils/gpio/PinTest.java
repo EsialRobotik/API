@@ -1,4 +1,4 @@
-package esialrobotik.ia.utils.io;
+package esialrobotik.ia.utils.gpio;
 
 /**
  * Created by franc on 10/02/2017.
