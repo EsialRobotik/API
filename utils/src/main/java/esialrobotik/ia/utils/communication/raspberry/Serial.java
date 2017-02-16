@@ -7,7 +7,7 @@ import java.io.IOException;
 /**
  * Communication serie
  *
- * Communication série via Pi4J
+ * Communication série pour une raspberry pi via Pi4J
  * @see <a href="http://pi4j.com/example/serial.html">Pi4J Serial Example</a>
  */
 public class Serial {
