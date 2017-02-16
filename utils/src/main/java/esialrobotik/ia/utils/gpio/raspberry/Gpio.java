@@ -1,6 +1,8 @@
 package esialrobotik.ia.utils.gpio.raspberry;
 
 import com.pi4j.io.gpio.GpioPinDigital;
+import com.pi4j.io.gpio.PinPullResistance;
+import com.pi4j.io.gpio.PinState;
 
 /**
  * Gpio abstract class
@@ -30,6 +32,14 @@ public abstract class Gpio {
      */
     public boolean isLow() {
         return gpioPinDigital.isLow();
+    }
+
+    /**
+     * Désactive le GPIO
+     * @param finalStateLow Etat final de la pin, true pour bas, false pour haut
+     */
+    public void shutdown(boolean finalStateLow) {
+        gpioPinDigital.setShutdownOptions(true, finalStateLow ? PinState.LOW : PinState.HIGH, PinPullResistance.OFF);
     }
 
 }
