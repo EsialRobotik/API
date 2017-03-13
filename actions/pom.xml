@@ -4,15 +4,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>Actions</groupId>
+    <groupId>fr.esialrobotik</groupId>
     <artifactId>actions</artifactId>
-    <version>1.0</version>
+    <parent>
+        <groupId>fr.esialrobotik</groupId>
+        <artifactId>API</artifactId>
+        <version>1.0</version>
+    </parent>
 
     <dependencies>
         <dependency>
-            <groupId>Utils</groupId>
+            <groupId>fr.esialrobotik</groupId>
             <artifactId>utils</artifactId>
-            <version>LATEST</version>
+            <version>1.0</version>
         </dependency>
     </dependencies>
 
