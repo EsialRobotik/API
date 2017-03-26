@@ -1,6 +1,7 @@
 package esialrobotik.ia.asserv.raspberry;
 
 import com.pi4j.io.serial.Baud;
+import com.pi4j.io.serial.SerialDataEvent;
 import com.pi4j.io.serial.SerialDataEventListener;
 import esialrobotik.ia.asserv.AsservInterface;
 import esialrobotik.ia.asserv.Position;
@@ -19,6 +20,17 @@ public class Asserv implements AsservInterface {
 
     public Asserv(String serialPort, Baud baudRate) {
         serial = new Serial(serialPort, baudRate);
+        serial.addReaderListeners(new SerialDataEventListener() {
+            @Override
+            public void dataReceived(SerialDataEvent serialDataEvent) {
+                try {
+                    parseAsservPosition(serialDataEvent.getAsciiString());
+                } catch (IOException e) {
+                    // TODO logger
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
