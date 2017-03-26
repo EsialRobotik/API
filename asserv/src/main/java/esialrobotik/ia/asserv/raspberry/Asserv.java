@@ -20,15 +20,12 @@ public class Asserv implements AsservInterface {
 
     public Asserv(String serialPort, Baud baudRate) {
         serial = new Serial(serialPort, baudRate);
-        serial.addReaderListeners(new SerialDataEventListener() {
-            @Override
-            public void dataReceived(SerialDataEvent serialDataEvent) {
-                try {
-                    parseAsservPosition(serialDataEvent.getAsciiString());
-                } catch (IOException e) {
-                    // TODO logger
-                    e.printStackTrace();
-                }
+        serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
+            try {
+                parseAsservPosition(serialDataEvent.getAsciiString());
+            } catch (IOException e) {
+                // TODO logger
+                e.printStackTrace();
             }
         });
     }
@@ -36,55 +33,46 @@ public class Asserv implements AsservInterface {
     @Override
     public void enableLowSpeed(boolean enable) {
         serial.write("elw" + (enable ? 1 : 0));
-        // TODO implémenter dans l'asserv
     }
 
     @Override
     public void enableRegulatorAngle(boolean enable) {
         serial.write("era" + (enable ? 1 : 0));
-        // TODO implémenter dans l'asserv
     }
 
     @Override
     public void enableRegulatorDistance(boolean enable) {
         serial.write("erd" + (enable ? 1 : 0));
-        // TODO implémenter dans l'asserv
     }
 
     @Override
     public void resetTheta() {
-        serial.write("rt");
-        // TODO implémenter dans l'asserv
+        serial.write("rth");
     }
 
     @Override
     public void resetRegualtorAngle() {
         serial.write("rra");
-        // TODO implémenter dans l'asserv
     }
 
     @Override
     public void resetRegulatorDistance() {
         serial.write("rrd");
-        // TODO implémenter dans l'asserv
     }
 
     @Override
     public void defineX(int x) {
-        serial.write("dx" + x);
-        // TODO implémenter dans l'asserv
+        serial.write("dfx" + x);
     }
 
     @Override
     public void defineY(int y) {
-        serial.write("dy" + y);
-        // TODO implémenter dans l'asserv
+        serial.write("dfy" + y);
     }
 
     @Override
     public void definePosition(Position position) {
-        serial.write("dp" + position.x + "#" + position.y + "#" + position.theta);
-        // TODO implémenter dans l'asserv
+        serial.write("dfp" + position.x + "#" + position.y + "#" + position.theta);
     }
 
     @Override
@@ -104,8 +92,7 @@ public class Asserv implements AsservInterface {
 
     @Override
     public void goToReverse(Position position) {
-        serial.write("gr" + position.x + "#" + position.y);
-        // TODO à implémenter dans l'asserv
+        serial.write("b" + position.x + "#" + position.y);
     }
 
     @Override
