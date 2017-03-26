@@ -5,6 +5,61 @@ package esialrobotik.ia.asserv;
  */
 public interface AsservInterface {
 
+    int COMMAND_NONE = 0;
+    int COMMAND_IN_PROGRESS = 1;
+    int COMMAND_FINISHED = 2;
+
+    /**
+     * Active ou désactive le mode low speed
+     * @param enable true pour activer, false pour désactiver
+     */
+    void enableLowSpeed(boolean enable);
+
+    /**
+     * Active ou désactive le régulateur d'angle
+     * @param enable true pour activer, false pour désactiver
+     */
+    void enableRegulatorAngle(boolean enable);
+
+    /**
+     * Active ou désactive le régulateur de distance
+     * @param enable true pour activer, false pour désactiver
+     */
+    void enableRegulatorDistance(boolean enable);
+
+    /**
+     * Remet à 0 l'angle dans l'asserv
+     */
+    void resetTheta();
+
+    /**
+     * Reset le régulateur d'angle
+     */
+    void resetRegualtorAngle();
+
+    /**
+     * Reset le régulateur d'angle
+     */
+    void resetRegulatorDistance();
+
+    /**
+     * Définie la position X du robot
+     * @param x X en mm
+     */
+    void defineX(int x);
+
+    /**
+     * Définie la position Y du robot
+     * @param y Y en mm
+     */
+    void defineY(int y);
+
+    /**
+     * Définie la position en (x,y) + cap du robot
+     * @param position position du robot
+     */
+    void definePosition(Position position);
+
     /**
      * Arrêt d'urgence de l'asserv, défini la consigne comme étant la position courante du robot
      */
@@ -47,9 +102,26 @@ public interface AsservInterface {
     void turn(int degree);
 
     /**
-     * Récupère la position courante du robot
+     * Demande la position courante du robot à l'asserv
      * @return position en (x,y) en mm et angle theta en radians du robot
+     */
+    Position askPosition();
+
+    /**
+     * Renvoit la position du robot stockée par l'API
+     * @return position stockée du robot
      */
     Position getPosition();
 
+    /**
+     * Définie la position du robot
+     * @param position position (avec angle) du robot
+     */
+    void setPosition(Position position);
+
+    /**
+     * Retourne le statue de la dernière commande de l'asservissement
+     * @return COMMAND_NONE, COMMAND_IN_PROGRESS, COMMAND_FINISHED
+     */
+    int getLastCommandStatus();
 }

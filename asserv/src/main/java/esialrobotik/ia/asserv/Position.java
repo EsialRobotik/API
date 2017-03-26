@@ -20,4 +20,35 @@ public class Position {
      */
     public double theta;
 
+    /**
+     * Constructeur sans angle
+     * @param x X en mm
+     * @param y Y en mm
+     */
+    public Position(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
+     * Construteur avec angle
+     * @param x X en mm
+     * @param y Y en mm
+     * @param theta theta en radian
+     */
+    public Position(int x, int y, double theta) {
+        this.x = x;
+        this.y = y;
+        this.theta = theta;
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "x=" + x +
+                ", y=" + y +
+                ", theta=" + theta +
+                '}';
+    }
+
 }
