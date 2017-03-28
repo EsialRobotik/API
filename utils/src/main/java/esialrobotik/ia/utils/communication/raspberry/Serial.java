@@ -1,6 +1,9 @@
 package esialrobotik.ia.utils.communication.raspberry;
 
 import com.pi4j.io.serial.*;
+import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -18,11 +21,26 @@ public class Serial {
     protected com.pi4j.io.serial.Serial serial;
 
     /**
+     * Port série
+     */
+    protected String serialPort;
+
+    /**
+     * Logger
+     */
+    protected Logger logger = null;
+
+    /**
      * Constructeur
      * @param serialPort Nom du port série (ex : /dev/ttyUSB0 ou /dev/ttyAMA0
      * @param baudRate Baud rate
      */
     public Serial(String serialPort, Baud baudRate) {
+        LoggerFactory.init(Level.TRACE);
+        logger = LoggerFactory.getLogger(Serial.class);
+
+        logger.info("Serial " + serialPort + " init at baud " + baudRate.getValue());
+        this.serialPort = serialPort;
         SerialConfig serialConfig = new SerialConfig();
         serialConfig.device(serialPort)
                 .baud(baudRate)
@@ -35,8 +53,7 @@ public class Serial {
         try {
             serial.open(serialConfig);
         } catch (IOException e) {
-            // TODO loger ça correctement
-            e.printStackTrace();
+            logger.error("Serial " + serialPort + " init fail at baud " + baudRate.getValue() + " : " + e.getMessage());
         }
     }
 
@@ -46,10 +63,10 @@ public class Serial {
      */
     public void write(String string) {
         try {
+            logger.info("Serial " + serialPort + " write : " + string);
             serial.writeln(string);
         } catch (IOException e) {
-            // TODO loger ça correctement
-            e.printStackTrace();
+            logger.error("Serial " + serialPort + " write fail : " + e.getMessage());
         }
     }
 

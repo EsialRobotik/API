@@ -5,9 +5,12 @@ package esialrobotik.ia.asserv;
  */
 public interface AsservInterface {
 
-    int COMMAND_NONE = 0;
-    int COMMAND_IN_PROGRESS = 1;
-    int COMMAND_FINISHED = 2;
+
+    enum CommandStatus {
+        COMMAND_NONE,
+        COMMAND_IN_PROGRESS,
+        COMMAND_FINISHED
+    }
 
     /**
      * Active ou désactive le mode low speed
@@ -102,22 +105,10 @@ public interface AsservInterface {
     void turn(int degree);
 
     /**
-     * Demande la position courante du robot à l'asserv
-     * @return position en (x,y) en mm et angle theta en radians du robot
-     */
-    Position askPosition();
-
-    /**
      * Renvoit la position du robot stockée par l'API
      * @return position stockée du robot
      */
     Position getPosition();
-
-    /**
-     * Définie la position du robot
-     * @param position position (avec angle) du robot
-     */
-    void setPosition(Position position);
 
     /**
      * Retourne le statue de la dernière commande de l'asservissement

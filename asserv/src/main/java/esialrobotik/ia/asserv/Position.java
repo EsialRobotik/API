@@ -8,17 +8,17 @@ public class Position {
     /**
      * Position X en mm sur la table
      */
-    public int x;
+    private int x;
 
     /**
      * Position Y en mm sur la table
      */
-    public int y;
+    private int y;
 
     /**
      * Cap en radians
      */
-    public double theta;
+    private double theta;
 
     /**
      * Constructeur sans angle
@@ -39,6 +39,30 @@ public class Position {
     public Position(int x, int y, double theta) {
         this.x = x;
         this.y = y;
+        this.theta = theta;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public double getTheta() {
+        return theta;
+    }
+
+    public void setTheta(double theta) {
         this.theta = theta;
     }
 
