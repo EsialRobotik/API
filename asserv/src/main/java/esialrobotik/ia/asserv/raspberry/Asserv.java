@@ -36,6 +36,11 @@ public class Asserv implements AsservInterface {
      */
     protected Logger logger = null;
 
+    /**
+     * Constructeur
+     * @param serialPort Port série vers l'asserv
+     * @param baudRate Baud rate
+     */
     public Asserv(String serialPort, Baud baudRate) {
         LoggerFactory.init(Level.TRACE);
         logger = LoggerFactory.getLogger(Asserv.class);
@@ -149,7 +154,11 @@ public class Asserv implements AsservInterface {
         serial.write("t" + degree);
     }
 
-    protected void parseAsservPosition(String str) {
+    /**
+     * Parse le retour de la boucle d'asserv contenant la position du robot
+     * @param str
+     */
+    private void parseAsservPosition(String str) {
         if (str.startsWith("#")) {
             position.setX(Integer.parseInt(str.substring(2, str.indexOf("y"))));
             position.setY(Integer.parseInt(str.substring(str.indexOf("y") + 1, str.indexOf("a"))));
