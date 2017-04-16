@@ -57,60 +57,9 @@ public class Asserv implements AsservInterface {
         });
     }
 
-    @Override
-    public void enableLowSpeed(boolean enable) {
-        logger.info("enableLowSpeed : " + enable);
-        serial.write("elw" + (enable ? 1 : 0));
-    }
-
-    @Override
-    public void enableRegulatorAngle(boolean enable) {
-        logger.info("enableRegulatorAngle : " + enable);
-        serial.write("era" + (enable ? 1 : 0));
-    }
-
-    @Override
-    public void enableRegulatorDistance(boolean enable) {
-        logger.info("enableRegulatorDistance : " + enable);
-        serial.write("erd" + (enable ? 1 : 0));
-    }
-
-    @Override
-    public void resetTheta() {
-        logger.info("resetTheta");
-        serial.write("rth");
-    }
-
-    @Override
-    public void resetRegualtorAngle() {
-        logger.info("resetRegualtorAngle");
-        serial.write("rra");
-    }
-
-    @Override
-    public void resetRegulatorDistance() {
-        logger.info("resetRegulatorDistance");
-        serial.write("rrd");
-    }
-
-    @Override
-    public void defineX(int x) {
-        logger.info("defineX : " + x);
-        serial.write("dfx" + x);
-    }
-
-    @Override
-    public void defineY(int y) {
-        logger.info("defineY : " + y);
-        serial.write("dfy" + y);
-    }
-
-    @Override
-    public void definePosition(Position position) {
-        logger.info("definePosition : " + position.toString());
-        this.position = position;
-        serial.write("dfp" + position.getX() + "#" + position.getY() + "#" + position.getTheta());
-    }
+    /*******************************************************************************************************************
+     * Commandes basiques
+     ******************************************************************************************************************/
 
     @Override
     public void emergencyStop() {
@@ -125,24 +74,6 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
-    public void goTo(Position position) {
-        logger.info("goTo : " + position.toString());
-        serial.write("g" + position.getX() + "#" + position.getY());
-    }
-
-    @Override
-    public void goToReverse(Position position) {
-        logger.info("goToReverse : " + position.toString());
-        serial.write("b" + position.getX() + "#" + position.getY());
-    }
-
-    @Override
-    public void face(Position position) {
-        logger.info("face : " + position.toString());
-        serial.write("f" + position.getX() + "#" + position.getY());
-    }
-
-    @Override
     public void go(int dist) {
         logger.info("go : " + dist);
         serial.write("v" + dist);
@@ -154,18 +85,95 @@ public class Asserv implements AsservInterface {
         serial.write("t" + degree);
     }
 
+    /*******************************************************************************************************************
+     * Commandes GOTO
+     ******************************************************************************************************************/
+
+    @Override
+    public void goTo(Position position) {
+        logger.info("goTo : " + position.toString());
+        serial.write("go" + position.getX() + "#" + position.getY());
+    }
+
+    @Override
+    public void goToReverse(Position position) {
+        logger.info("goToReverse : " + position.toString());
+        serial.write("gr" + position.getX() + "#" + position.getY());
+    }
+
+    @Override
+    public void face(Position position) {
+        logger.info("goToFace : " + position.toString());
+        serial.write("gf" + position.getX() + "#" + position.getY());
+    }
+
+    /*******************************************************************************************************************
+     * Commandes controle odométrie
+     ******************************************************************************************************************/
+
+    @Override
+    public void setOdometrieX(int x) {
+        logger.info("setOdometrieX : " + x);
+        serial.write("Osx" + x);
+    }
+
+    @Override
+    public void setOdometrieY(int y) {
+        logger.info("setOdometrieY : " + y);
+        serial.write("Osy" + y);
+    }
+
+    @Override
+    public void setOdometireTheta(double theta) {
+        logger.info("setOdometireTheta");
+        serial.write("Osa");
+    }
+
+    /*******************************************************************************************************************
+     * Commandes controle régulateurs
+     ******************************************************************************************************************/
+
+    @Override
+    public void enableLowSpeed(boolean enable) {
+        logger.info("enableLowSpeed : " + enable);
+        serial.write(enable ? "Rle" : "Rld");
+    }
+
+    @Override
+    public void enableRegulatorAngle(boolean enable) {
+        logger.info("enableRegulatorAngle : " + enable);
+        serial.write(enable ? "Rae" : "Rad");
+    }
+
+    @Override
+    public void resetRegualtorAngle() {
+        logger.info("resetRegualtorAngle");
+        serial.write("Rar");
+    }
+
+    @Override
+    public void enableRegulatorDistance(boolean enable) {
+        logger.info("enableRegulatorDistance : " + enable);
+        serial.write(enable ? "Rda" : "Rdd");
+    }
+
+    @Override
+    public void resetRegulatorDistance() {
+        logger.info("resetRegulatorDistance");
+        serial.write("Rdr");
+    }
+
     /**
      * Parse le retour de la boucle d'asserv contenant la position du robot
-     * @param str
+     * @param str Position du robot renvoyée par l'asserv
      */
     private void parseAsservPosition(String str) {
         if (str.startsWith("#")) {
-            position.setX(Integer.parseInt(str.substring(2, str.indexOf("y"))));
-            position.setY(Integer.parseInt(str.substring(str.indexOf("y") + 1, str.indexOf("a"))));
-            position.setTheta(Integer.parseInt(str.substring(str.indexOf("a") + 1, str.indexOf("d"))));
-            lastCommandStatus = Integer.parseInt(str.substring(str.indexOf("d") + 1, str.indexOf("vg")));
-//            int motorSpeedLeft = Integer.parseInt(str.substring(str.indexOf("vg") + 1, str.indexOf("vd")));
-//            int motorSpeedRight = Integer.parseInt(str.substring(str.indexOf("vd") + 1));
+            String[] data = str.substring(1).split(";");
+            position.setX(Integer.parseInt(data[0]));
+            position.setY(Integer.parseInt(data[1]));
+            position.setTheta(Double.parseDouble(data[2]));
+            lastCommandStatus = Integer.parseInt(data[3]);
         }
     }
 
