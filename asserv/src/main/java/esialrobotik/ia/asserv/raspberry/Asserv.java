@@ -29,7 +29,12 @@ public class Asserv implements AsservInterface {
     /**
      * Status de la dernière commande
      */
-    protected int lastCommandStatus;
+    protected int asservStatus;
+
+    /**
+     * Taille de la file de commande
+     */
+    protected int queueSize;
 
     /**
      * Logger
@@ -96,9 +101,15 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
+    public void goToChain(Position position) {
+        logger.info("goToChain : " + position.toString());
+        serial.write("ge" + position.getX() + "#" + position.getY());
+    }
+
+    @Override
     public void goToReverse(Position position) {
         logger.info("goToReverse : " + position.toString());
-        serial.write("gr" + position.getX() + "#" + position.getY());
+        serial.write("gb" + position.getX() + "#" + position.getY());
     }
 
     @Override
@@ -146,15 +157,15 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
-    public void resetRegualtorAngle() {
-        logger.info("resetRegualtorAngle");
+    public void resetRegulatorAngle() {
+        logger.info("resetRegulatorAngle");
         serial.write("Rar");
     }
 
     @Override
     public void enableRegulatorDistance(boolean enable) {
         logger.info("enableRegulatorDistance : " + enable);
-        serial.write(enable ? "Rda" : "Rdd");
+        serial.write(enable ? "Rde" : "Rdd");
     }
 
     @Override
@@ -165,6 +176,7 @@ public class Asserv implements AsservInterface {
 
     /**
      * Parse le retour de la boucle d'asserv contenant la position du robot
+     * #<positionX>;<positionY>;<angle>;<commandStatus>;<cmdQueueSize>;<vitesseG>;<vitesseD>
      * @param str Position du robot renvoyée par l'asserv
      */
     private void parseAsservPosition(String str) {
@@ -173,7 +185,8 @@ public class Asserv implements AsservInterface {
             position.setX(Integer.parseInt(data[0]));
             position.setY(Integer.parseInt(data[1]));
             position.setTheta(Double.parseDouble(data[2]));
-            lastCommandStatus = Integer.parseInt(data[3]);
+            asservStatus = Integer.parseInt(data[3]);
+            queueSize = Integer.parseInt(data[4]);
         }
     }
 
@@ -182,8 +195,13 @@ public class Asserv implements AsservInterface {
         return position;
     }
 
-    public int getLastCommandStatus() {
-        return lastCommandStatus;
+    @Override
+    public int getAsservStatus() {
+        return asservStatus;
     }
 
+    @Override
+    public int getQueueSize() {
+        return queueSize;
+    }
 }
