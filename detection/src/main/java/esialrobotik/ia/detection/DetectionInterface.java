@@ -15,7 +15,7 @@ public interface DetectionInterface {
     //We never know right
     void stopDetection();
 
-    int[] ultraSoundDetection();
+    long[] ultraSoundDetection();
 
     List<PolarCoordinatePoint> getLidarDetection();
 }
