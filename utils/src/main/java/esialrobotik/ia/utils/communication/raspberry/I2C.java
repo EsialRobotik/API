@@ -3,6 +3,9 @@ package esialrobotik.ia.utils.communication.raspberry;
 import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
+import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -20,19 +23,29 @@ public class I2C {
     protected I2CDevice i2CDevice;
 
     /**
+     * Adresse du device
+     */
+    protected int deviceAddress;
+
+    /**
+     * Logger
+     */
+    protected Logger logger = null;
+
+    /**
      * Constructeur
      * @param deviceAddress Adresse du device (ex : 0x39)
      */
     public I2C(int deviceAddress) {
+        LoggerFactory.init(Level.TRACE);
+        logger = LoggerFactory.getLogger(I2C.class);
+
         try {
+            logger.info("I2C " + deviceAddress + " init");
             I2CBus i2c = I2CFactory.getInstance(I2CBus.BUS_1);
             i2CDevice = i2c.getDevice(deviceAddress);
-        } catch (I2CFactory.UnsupportedBusNumberException e) {
-            // TODO log
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO log
-            e.printStackTrace();
+        } catch (I2CFactory.UnsupportedBusNumberException | IOException e) {
+            logger.error("I2C " + deviceAddress + " init fail : " + e.getMessage());
         }
     }
 
@@ -41,15 +54,15 @@ public class I2C {
      * @param deviceAddress Adresse du device (ex : 0x39)
      */
     public I2C(byte deviceAddress) {
+        LoggerFactory.init(Level.TRACE);
+        logger = LoggerFactory.getLogger(I2C.class);
+
         try {
+            logger.info("I2C " + deviceAddress + " init");
             I2CBus i2c = I2CFactory.getInstance(I2CBus.BUS_1);
             i2CDevice = i2c.getDevice(deviceAddress);
-        } catch (I2CFactory.UnsupportedBusNumberException e) {
-            // TODO log
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO log
-            e.printStackTrace();
+        } catch (I2CFactory.UnsupportedBusNumberException | IOException e) {
+            logger.error("I2C " + deviceAddress + " init fail : " + e.getMessage());
         }
     }
 
@@ -60,21 +73,20 @@ public class I2C {
      */
     public int read(byte register) {
         try {
+            logger.info("I2C " + deviceAddress + " read register " + register);
             return i2CDevice.read(register);
         } catch (IOException e) {
-            // TODO log
-            e.printStackTrace();
+            logger.error("I2C " + deviceAddress + " read register " + register + " fail : " + e.getMessage());
+            return 0;
         }
-        // TODO on intercepte l'exception ou pas ?
-        return 0;
     }
 
     public void write(byte register, byte value) {
         try {
+            logger.info("I2C " + deviceAddress + " write register " + register + " with value " + value);
             i2CDevice.write(register, value);
         } catch (IOException e) {
-            // TODO log
-            e.printStackTrace();
+            logger.info("I2C " + deviceAddress + " write register " + register + " with value " + value + " fail : " + e.getMessage());
         }
     }
 
