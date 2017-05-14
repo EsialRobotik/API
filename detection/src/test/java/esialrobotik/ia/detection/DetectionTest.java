@@ -46,7 +46,7 @@ public class DetectionTest {
         detectionInterface.init();
         long[] res = detectionInterface.ultraSoundDetection();
         Assert.assertEquals(1, res.length);
-        Assert.assertEquals(0, res[0]);
+        Assert.assertEquals(2000000, res[0]);
     }
 
     @Test

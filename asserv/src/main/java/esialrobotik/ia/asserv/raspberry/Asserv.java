@@ -1,7 +1,9 @@
 package esialrobotik.ia.asserv.raspberry;
 
+import com.google.inject.Inject;
 import com.pi4j.io.serial.Baud;
 import com.pi4j.io.serial.SerialDataEventListener;
+import esialrobotik.ia.asserv.AsservAPIConfiguration;
 import esialrobotik.ia.asserv.AsservInterface;
 import esialrobotik.ia.asserv.Position;
 import esialrobotik.ia.utils.communication.raspberry.Serial;
@@ -43,10 +45,13 @@ public class Asserv implements AsservInterface {
 
     /**
      * Constructeur
-     * @param serialPort Port série vers l'asserv
-     * @param baudRate Baud rate
+     * @param configuration Configuration object of the asserv API
      */
-    public Asserv(String serialPort, Baud baudRate) {
+    @Inject
+    public Asserv(AsservAPIConfiguration configuration) {
+
+        String serialPort = configuration.getSeriePort();
+        Baud baudRate = Baud.getInstance(configuration.getBaud());
         LoggerFactory.init(Level.TRACE);
         logger = LoggerFactory.getLogger(Asserv.class);
 
