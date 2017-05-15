@@ -36,6 +36,10 @@ public class DetectionInterfaceImpl implements DetectionInterface{
 
     }
 
+    public int getUltraSoundSensorCOunt() {
+        return srf04List.size();
+    }
+
     public long[] ultraSoundDetection() {
         long[] res = new long[srf04List.size()];
         for(int i = 0; i < srf04List.size(); ++i) {
