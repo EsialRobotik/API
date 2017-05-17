@@ -84,27 +84,33 @@ public class LoggerFactoryTest {
 
     @Test
     public void testLogInThread() throws IOException {
-        LoggerFactory.init(Level.TRACE);
-        Logger logger = LoggerFactory.getLogger(LoggerFactoryTest.class);
-        Assert.assertEquals(Level.TRACE, logger.getLevel());
-
-        Thread[] threads = new Thread[10];
+        ThreadLog thread = new ThreadLog();
+        thread.start();
         for (int i = 0; i < 10; i++) {
-            threads[i] = new Thread(() -> {
-                logger.info("Test");
-            });
-            threads[i].run();
+            thread.log("Test" + i);
         }
-
-        for (int i = 0; i < 10; i++) {
-            try {
-                threads[i].join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        thread.interrupt();
 
         BufferedReader br = new BufferedReader(new FileReader(new File(CustomConfigurationFactory.rollingFilename)));
         Assert.assertTrue(br.lines().count() == 10);
+    }
+
+    private class ThreadLog extends Thread {
+
+        Logger logger;
+
+        public ThreadLog() {
+            LoggerFactory.init(Level.TRACE);
+            logger = LoggerFactory.getLogger(LoggerFactoryTest.class);
+        }
+
+        @Override
+        public void run() {
+            while (!isInterrupted());
+        }
+
+        public void log(String str) {
+            logger.info("Test");
+        }
     }
 }
