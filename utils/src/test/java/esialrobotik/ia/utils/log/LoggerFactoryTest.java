@@ -9,6 +9,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import java.io.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.fail;
 
@@ -55,5 +58,53 @@ public class LoggerFactoryTest {
         Assert.assertTrue(br.readLine().contains("INFO"));
         Assert.assertTrue(br.readLine().contains("DEBUG"));
         Assert.assertTrue(br.readLine().contains("TRACE"));
+    }
+
+    @Test
+    public void testLogInThreadPool() throws IOException {
+        LoggerFactory.init(Level.TRACE);
+        Logger logger = LoggerFactory.getLogger(LoggerFactoryTest.class);
+        Assert.assertEquals(Level.TRACE, logger.getLevel());
+
+        ExecutorService executorService = Executors.newFixedThreadPool(4);
+        for (int i = 0; i < 10; i++) {
+            executorService.execute(() -> {
+                logger.info("Test");
+            });
+        }
+        executorService.shutdown();
+        try {
+            executorService.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        BufferedReader br = new BufferedReader(new FileReader(new File(CustomConfigurationFactory.rollingFilename)));
+        Assert.assertTrue(br.lines().count() == 10);
+    }
+
+    @Test
+    public void testLogInThread() throws IOException {
+        LoggerFactory.init(Level.TRACE);
+        Logger logger = LoggerFactory.getLogger(LoggerFactoryTest.class);
+        Assert.assertEquals(Level.TRACE, logger.getLevel());
+
+        Thread[] threads = new Thread[10];
+        for (int i = 0; i < 10; i++) {
+            threads[i] = new Thread(() -> {
+                logger.info("Test");
+            });
+            threads[i].run();
+        }
+
+        for (int i = 0; i < 10; i++) {
+            try {
+                threads[i].join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        BufferedReader br = new BufferedReader(new FileReader(new File(CustomConfigurationFactory.rollingFilename)));
+        Assert.assertTrue(br.lines().count() == 10);
     }
 }
