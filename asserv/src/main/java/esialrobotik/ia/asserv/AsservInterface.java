@@ -13,6 +13,12 @@ public interface AsservInterface {
         STATUS_BLOCKED
     }
 
+    enum MovementDirection {
+        BACKWARD,
+        FORWARD,
+        NONE
+    }
+
     /***********************************************************************
      * Commande basique
      ************************************************************************/
@@ -143,4 +149,10 @@ public interface AsservInterface {
      * @return position stockée du robot
      */
     Position getPosition();
+
+    /**
+     * Renvoit la dernière direction du mouvement lu sur la connection série
+     * @return Direction d movement
+     */
+    MovementDirection getMovementDirection();
 }

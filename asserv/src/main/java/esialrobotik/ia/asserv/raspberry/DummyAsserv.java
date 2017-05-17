@@ -103,4 +103,9 @@ public class DummyAsserv implements AsservInterface {
   public Position getPosition() {
     return null;
   }
+
+  @Override
+  public MovementDirection getMovementDirection() {
+    return null;
+  }
 }

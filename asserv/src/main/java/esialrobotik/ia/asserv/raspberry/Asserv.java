@@ -28,6 +28,8 @@ public class Asserv implements AsservInterface {
      */
     protected Position position;
 
+    protected MovementDirection direction;
+
     /**
      * Status de la dernière commande
      */
@@ -192,12 +194,29 @@ public class Asserv implements AsservInterface {
             position.setTheta(Double.parseDouble(data[2]));
             asservStatus = Integer.parseInt(data[3]);
             queueSize = Integer.parseInt(data[4]);
+
+            int vitesseG = Integer.parseInt(data[5]);
+            int vitesseD = Integer.parseInt(data[6]);
+            if(vitesseD > 0 && vitesseG > 0) {
+                direction = MovementDirection.FORWARD;
+            }
+            else if(vitesseD < 0 && vitesseG < 0) {
+                direction = MovementDirection.BACKWARD;
+            }
+            else {
+                direction = MovementDirection.NONE;
+            }
         }
     }
 
     @Override
     public Position getPosition() {
         return position;
+    }
+
+    @Override
+    public MovementDirection getMovementDirection() {
+        return null;
     }
 
     @Override
