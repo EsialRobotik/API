@@ -1,12 +1,12 @@
 package esialrobotik.ia.actions.a2017.minerai;
 
-import esialrobotik.ia.actions.ActionExecutor;
+import esialrobotik.ia.actions.a2017.ActionAX12Abstract;
 
 /**
  * Created by franc on 19/05/2017.
  * Déploie le ramasse minerai
  */
-public class MineraiDeployer implements ActionExecutor {
+public class MineraiDeployer extends ActionAX12Abstract {
 
     @Override
     public void execute() {
