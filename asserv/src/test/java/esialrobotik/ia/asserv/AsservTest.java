@@ -20,7 +20,8 @@ public class AsservTest {
     JsonParser parser = new JsonParser();
     JsonObject object = new JsonParser().parse(config).getAsJsonObject();
 
-    AsservAPIConfiguration configuration = new AsservAPIConfiguration(object);
+    AsservAPIConfiguration configuration = new AsservAPIConfiguration();
+    configuration.loadConfig(object);
     //Injector injector = Guice.createInjector(new AsservModule(configuration));
   }
 }

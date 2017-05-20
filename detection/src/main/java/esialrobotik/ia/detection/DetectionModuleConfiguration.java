@@ -26,9 +26,12 @@ public class DetectionModuleConfiguration {
     private List<GPioPair> gPioPairList;
     private Class<? extends UltraSoundInterface> ultraSoundClass;
 
-    public DetectionModuleConfiguration(JsonObject configNode) {
-        this.gPioPairList = new ArrayList<GPioPair>();
+    @Inject
+    public DetectionModuleConfiguration() {
+    }
 
+    public void loadConfiguration(JsonObject configNode) {
+        this.gPioPairList = new ArrayList<GPioPair>();
         JsonArray gpioPairArray = configNode.getAsJsonArray("gpioList");
         for(JsonElement e : gpioPairArray) {
             JsonObject temp = e.getAsJsonObject();

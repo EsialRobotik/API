@@ -38,7 +38,8 @@ public class DetectionTest {
         JsonParser parser = new JsonParser();
         JsonObject object = parser.parse(configure).getAsJsonObject();
 
-        DetectionModuleConfiguration config = new DetectionModuleConfiguration(object);
+        DetectionModuleConfiguration config = new DetectionModuleConfiguration();
+        config.loadConfiguration(object);
         Injector injector = Guice.createInjector(new DetectionAPIModule(config));
 
         DetectionInterface detectionInterface = injector.getInstance(DetectionInterface.class);
@@ -54,7 +55,8 @@ public class DetectionTest {
         JsonParser parser = new JsonParser();
         JsonObject object = parser.parse(configureSRF04).getAsJsonObject();
 
-        DetectionModuleConfiguration config = new DetectionModuleConfiguration(object);
+        DetectionModuleConfiguration config = new DetectionModuleConfiguration();
+        config.loadConfiguration(object);
         Assert.assertEquals(SRF04JNI.class, config.getUltraSoundClass());
         Injector injector = Guice.createInjector(new DetectionAPIModule(config));
 
