@@ -21,12 +21,15 @@ public class GpioInput extends Gpio {
      * @param gpioPin Numéro du GPIO (gpio, pas numéro de la pin : <a href="http://pi4j.com/pins/model-3b-rev1.html">Mapping des pins</a>
      * @param pullUp true pour un GPIO en pull up, false pour du pull in
      */
-    public GpioInput(Pin gpioPin, boolean pullUp) {
+    public GpioInput(int gpioPin, boolean pullUp) {
         final GpioController gpio = GpioFactory.getInstance();
-        Pin pin = CommandArgumentParser.getPin(
-                RaspiPin.class,    // pin provider class to obtain pin instance from
-                gpioPin  // default pin if no pin argument found
-        );
+
+        Pin pin = new PinImpl(RaspiGpioProvider.NAME,
+                gpioPin,
+                "GPIO " + gpioPin,
+                EnumSet.of(PinMode.DIGITAL_INPUT, PinMode.DIGITAL_OUTPUT, PinMode.SOFT_PWM_OUTPUT),
+                PinPullResistance.all(),
+                EnumSet.allOf(PinEdge.class));
         PinPullResistance pull = CommandArgumentParser.getPinPullResistance(
                 pullUp ? PinPullResistance.PULL_UP : PinPullResistance.PULL_DOWN  // default pin pull resistance if no pull argument found
         );
@@ -59,8 +62,8 @@ public class GpioInput extends Gpio {
     // On ajoute les triggers ou pas ? c'est des events liés à l'état d'une autre pin
 
     public static void main(String args[]) throws InterruptedException {
-        GpioInput input = new GpioInput(RaspiPin.GPIO_04, false); // Tirette
-        GpioInput input2 = new GpioInput(RaspiPin.GPIO_05, false); // Capteur couleur
+        GpioInput input = new GpioInput(4, false); // Tirette
+        GpioInput input2 = new GpioInput(5, false); // Capteur couleur
         while (true) {
             System.out.println((input.isHigh() ? "HIGH" : "-") + "##" + (input.isLow() ? "LOW" : "-")
                 + "   " + (input2.isHigh() ? "HIGH" : "-") + "##" + (input2.isLow() ? "LOW" : "-"));
