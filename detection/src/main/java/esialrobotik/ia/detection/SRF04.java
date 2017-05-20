@@ -14,6 +14,8 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class SRF04 implements UltraSoundInterface {
 
+    private static long TIMEOUT = 30; // If no change after 30ms, it's a timeout
+
     private GpioInput gpioInput;
     private GpioOutput gpioOutput;
 
@@ -52,21 +54,35 @@ public class SRF04 implements UltraSoundInterface {
         this.gpioOutput.setHigh();
         LockSupport.parkNanos(10000);
         final long[] time = new long[2];
-        Thread t = new Thread(new Runnable() {
-            public void run() {
-                while (gpioInput.isLow());
-                time[0] = System.nanoTime();
-                while (gpioInput.isHigh());
-                time[1] = System.nanoTime();
+
+        long checkoutTimeout = System.currentTimeMillis();
+        while (gpioInput.isLow()){
+            if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
+                return 0;
             }
-        });
-        t.start();
-        try {
-            t.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
+        time[0] = System.nanoTime();
+        checkoutTimeout = System.currentTimeMillis();
+        while (gpioInput.isHigh()) {
+            if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
+                return 0;
+            }
+        }
+        time[1] = System.nanoTime();
 
         return (time[1] - time[0]) / 5800;
     }
+
+    public static void main(String args[]) throws InterruptedException {
+        SRF04 srf04 = new SRF04(17, 27);
+
+        System.out.println(System.currentTimeMillis() + " - Start");
+        long measure;
+        while (true) {
+            measure = srf04.getMeasure();
+            System.out.println(System.currentTimeMillis() + " - " + measure);
+            Thread.sleep(12);
+        }
+    }
+
 }

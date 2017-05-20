@@ -3,8 +3,11 @@ package esialrobotik.ia.utils.gpio.raspberry;
 import com.pi4j.io.gpio.*;
 import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import com.pi4j.io.gpio.impl.PinImpl;
+import com.pi4j.util.CommandArgumentParser;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 /**
  * Raspberry GPIO Input wrapper
@@ -15,13 +18,19 @@ public class GpioInput extends Gpio {
 
     /**
      * Constructeur
-     * @param gpioNumber Numéro du GPIO (gpio, pas numéro de la pin : <a href="http://pi4j.com/pins/model-3b-rev1.html">Mapping des pins</a>
+     * @param gpioPin Numéro du GPIO (gpio, pas numéro de la pin : <a href="http://pi4j.com/pins/model-3b-rev1.html">Mapping des pins</a>
      * @param pullUp true pour un GPIO en pull up, false pour du pull in
      */
-    public GpioInput(int gpioNumber, boolean pullUp) {
+    public GpioInput(Pin gpioPin, boolean pullUp) {
         final GpioController gpio = GpioFactory.getInstance();
-        PinImpl pin = new PinImpl("RaspberryPi GPIO Provider", gpioNumber, "GPIO"+gpioNumber, EnumSet.of(PinMode.DIGITAL_INPUT, PinMode.DIGITAL_OUTPUT), PinPullResistance.all());
-        gpioPinDigital = gpio.provisionDigitalInputPin(pin, pullUp ? PinPullResistance.PULL_UP : PinPullResistance.PULL_DOWN);
+        Pin pin = CommandArgumentParser.getPin(
+                RaspiPin.class,    // pin provider class to obtain pin instance from
+                gpioPin  // default pin if no pin argument found
+        );
+        PinPullResistance pull = CommandArgumentParser.getPinPullResistance(
+                pullUp ? PinPullResistance.PULL_UP : PinPullResistance.PULL_DOWN  // default pin pull resistance if no pull argument found
+        );
+        gpioPinDigital =  gpio.provisionDigitalInputPin(pin, pull);
     }
 
     /**
@@ -48,5 +57,15 @@ public class GpioInput extends Gpio {
     }
 
     // On ajoute les triggers ou pas ? c'est des events liés à l'état d'une autre pin
+
+    public static void main(String args[]) throws InterruptedException {
+        GpioInput input = new GpioInput(RaspiPin.GPIO_04, false); // Tirette
+        GpioInput input2 = new GpioInput(RaspiPin.GPIO_05, false); // Capteur couleur
+        while (true) {
+            System.out.println((input.isHigh() ? "HIGH" : "-") + "##" + (input.isLow() ? "LOW" : "-")
+                + "   " + (input2.isHigh() ? "HIGH" : "-") + "##" + (input2.isLow() ? "LOW" : "-"));
+            Thread.sleep(1000);
+        }
+    }
 
 }

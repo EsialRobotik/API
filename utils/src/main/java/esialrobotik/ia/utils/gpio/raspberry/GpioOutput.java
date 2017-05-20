@@ -2,6 +2,7 @@ package esialrobotik.ia.utils.gpio.raspberry;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.io.gpio.impl.PinImpl;
+import com.pi4j.util.CommandArgumentParser;
 
 import java.util.EnumSet;
 
@@ -14,12 +15,15 @@ public class GpioOutput extends Gpio {
 
     /**
      * Constructeur
-     * @param gpioNumber Numéro du GPIO (gpio, pas numéro de la pin : <a href="http://pi4j.com/pins/model-3b-rev1.html">Mapping des pins</a>
+     * @param gpioPin Numéro du GPIO (gpio, pas numéro de la pin : <a href="http://pi4j.com/pins/model-3b-rev1.html">Mapping des pins</a>
      * @param initialLow Etat initiale de la pin, true pour bas, false pour haut
      */
-    public GpioOutput(int gpioNumber, boolean initialLow) {
+    public GpioOutput(Pin gpioPin, boolean initialLow) {
         final GpioController gpio = GpioFactory.getInstance();
-        PinImpl pin = new PinImpl("RaspberryPi GPIO Provider", gpioNumber, "GPIO"+gpioNumber, EnumSet.of(PinMode.DIGITAL_INPUT, PinMode.DIGITAL_OUTPUT), PinPullResistance.all());
+        Pin pin = CommandArgumentParser.getPin(
+                RaspiPin.class,    // pin provider class to obtain pin instance from
+                gpioPin  // default pin if no pin argument found
+        );
         gpioPinDigital = gpio.provisionDigitalOutputPin(pin, initialLow ? PinState.LOW : PinState.HIGH);
     }
 
