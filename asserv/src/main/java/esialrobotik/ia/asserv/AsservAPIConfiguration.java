@@ -9,23 +9,24 @@ import javax.inject.Inject;
  * Created by Guillaume on 14/05/2017.
  */
 public class AsservAPIConfiguration {
-  private int baud;
-  private String serie;
 
-  @Inject
-  public AsservAPIConfiguration () {
-  }
+    private int baud;
+    private String serie;
 
-  public void loadConfig(JsonObject object) {
-    baud = object.get("baud").getAsInt();
-    serie = object.get("serie").getAsString();
-  }
+    @Inject
+    public AsservAPIConfiguration() {
+    }
 
-  public int getBaud() {
-    return this.baud;
-  }
+    public void loadConfig(JsonObject object) {
+        baud = object.get("baud").getAsInt();
+        serie = object.get("serie").getAsString();
+    }
 
-  public String getSeriePort() {
-    return serie;
-  }
+    public int getBaud() {
+        return this.baud;
+    }
+
+    public String getSeriePort() {
+        return serie;
+    }
 }

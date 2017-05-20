@@ -1,6 +1,7 @@
 package esialrobotik.ia.detection;
 
 import com.google.inject.Inject;
+import esialrobotik.ia.detection.ultrasound.UltraSoundInterface;
 import esialrobotik.ia.utils.PolarCoordinatePoint;
 
 import java.util.ArrayList;

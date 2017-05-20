@@ -8,6 +8,7 @@ import com.pi4j.io.gpio.PinState;
  * Gpio abstract class
  *
  * Représentation des GPIOs pour une raspberry pi via la libraire Pi4J
+ * Attention, le mapping de PI4J ne correspond pas à ce que l'on trouve habituellement en cherche le pinout d'une raspberry !
  * @see <a href="http://pi4j.com/usage.html">Pi4J Usage</a>
  * @see <a href="http://pi4j.com/pins/model-3b-rev1.html">Raspberry Pi 3 Model B - Pin numbering</a>
  */

@@ -4,8 +4,8 @@ package esialrobotik.ia.detection;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.inject.Guice;
-import com.google.inject.Inject;
 import com.google.inject.Injector;
+import esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04;
 import org.junit.Assert;
 import org.junit.Test;
 

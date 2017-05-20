@@ -64,7 +64,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>esialrobotik.ia.detection.SRF04</mainClass>
+                            <mainClass>SRF04</mainClass>
                             <!--<mainClass>esialrobotik.ia.utils.gpio.raspberry.GpioInput</mainClass>-->
                         </manifest>
                     </archive>

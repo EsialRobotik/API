@@ -4,5 +4,7 @@ package esialrobotik.ia.actions;
  * Created by franc on 10/02/2017.
  */
 public interface ActionInterface {
-    public ActionExecutor getActionExecutor(int id);
+
+    ActionExecutor getActionExecutor(int id);
+
 }

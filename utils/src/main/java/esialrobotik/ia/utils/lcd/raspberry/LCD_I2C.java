@@ -1,9 +1,14 @@
-package esialrobotik.ia.utils.lcd;
+package esialrobotik.ia.utils.lcd.raspberry;
 
 import java.util.Scanner;
 
 import esialrobotik.ia.utils.communication.raspberry.I2C;
+import esialrobotik.ia.utils.lcd.LCD;
 
+/**
+ * LCD 2 lignes / 16 colonnes de Joy-It
+ * @see <a href="https://www.gotronic.fr/pj2-sbc-lcd16x2-fr-1441.pdf">Documentation</a>
+ */
 public class LCD_I2C implements LCD {
 
     private I2C i2cDevice;

@@ -2,6 +2,7 @@ package esialrobotik.ia.detection;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import esialrobotik.ia.detection.ultrasound.UltraSoundInterface;
 
 import javax.inject.Singleton;
 

@@ -10,8 +10,9 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
 
     Serial serialAX12;
 
-    public void init(Serial serialAX12) {
+    public ActionExecutor init(Serial serialAX12) {
         this.serialAX12 = serialAX12;
+        return this;
     }
 
 }
