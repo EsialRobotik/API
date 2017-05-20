@@ -57,7 +57,7 @@ public class DetectionTest {
 
         DetectionModuleConfiguration config = new DetectionModuleConfiguration();
         config.loadConfiguration(object);
-        Assert.assertEquals(SRF04JNI.class, config.getUltraSoundClass());
+        Assert.assertEquals(SRF04.class, config.getUltraSoundClass());
         Injector injector = Guice.createInjector(new DetectionAPIModule(config));
 
         DetectionInterface detectionInterface = injector.getInstance(DetectionInterface.class);

@@ -40,7 +40,7 @@ public class DetectionModuleConfiguration {
 
         String type = configNode.get("type").getAsString();
         if(type.equals("srf04")) {
-            ultraSoundClass = SRF04JNI.class;
+            ultraSoundClass = SRF04.class;
         }
         else if(type.equals("test")) {
             ultraSoundClass = DummyUltraSound.class;
