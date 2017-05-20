@@ -90,4 +90,13 @@ public class I2C {
         }
     }
 
+    public void write(byte value) {
+        try {
+            logger.info("I2C " + deviceAddress + " write value " + value);
+            i2CDevice.write(value);
+        } catch (IOException e) {
+            logger.info("I2C " + deviceAddress + " write value " + value + " fail : " + e.getMessage());
+        }
+    }
+
 }
