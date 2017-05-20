@@ -14,7 +14,7 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class SRF04 implements UltraSoundInterface {
 
-    private static long TIMEOUT = 30; // If no change after 30ms, it's a timeout
+    private static long TIMEOUT = 300; // If no change after 30ms, it's a timeout
 
     private GpioInput gpioInput;
     private GpioOutput gpioOutput;
@@ -53,11 +53,13 @@ public class SRF04 implements UltraSoundInterface {
 
         this.gpioOutput.setHigh();
         LockSupport.parkNanos(10000);
+        this.gpioOutput.setLow();
         final long[] time = new long[2];
 
         long checkoutTimeout = System.currentTimeMillis();
         while (gpioInput.isLow()){
             if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
+                System.out.println("Timeout 1");
                 return 0;
             }
         }
@@ -65,22 +67,31 @@ public class SRF04 implements UltraSoundInterface {
         checkoutTimeout = System.currentTimeMillis();
         while (gpioInput.isHigh()) {
             if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
+                System.out.println("Timeout 2");
                 return 0;
             }
         }
         time[1] = System.nanoTime();
-
         return (time[1] - time[0]) / 5800;
     }
 
     public static void main(String args[]) throws InterruptedException {
-        SRF04 srf04 = new SRF04(17, 27);
+        SRF04 srf04AvantDroit = new SRF04(0, 2); // Avant droit
+        SRF04 srf04AvantMilieu = new SRF04(12, 13); // Avant milieu
+        SRF04 srf04AvantGauche = new SRF04(21, 22); // Avant gauche
+        SRF04 srf04Arriere = new SRF04(24, 25); // Arriere
 
         System.out.println(System.currentTimeMillis() + " - Start");
-        long measure;
+        long measureAvantDroit, measureAvantMilieu, measureAvantGauche, measureArriere;
         while (true) {
-            measure = srf04.getMeasure();
-            System.out.println(System.currentTimeMillis() + " - " + measure);
+            measureAvantDroit = srf04AvantDroit.getMeasure();
+            Thread.sleep(12);
+            measureAvantMilieu = srf04AvantMilieu.getMeasure();
+            Thread.sleep(12);
+            measureAvantGauche = srf04AvantGauche.getMeasure();
+            Thread.sleep(12);
+            measureArriere = srf04Arriere.getMeasure();
+            System.out.println("measureAvantDroit=" + measureAvantDroit + "  measureAvantMilieu=" + measureAvantMilieu + "  measureAvantGauche=" + measureAvantGauche + "  measureArriere=" + measureArriere);
             Thread.sleep(12);
         }
     }
