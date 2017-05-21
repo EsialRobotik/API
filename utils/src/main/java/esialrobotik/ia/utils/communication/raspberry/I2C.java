@@ -37,7 +37,6 @@ public class I2C {
      * @param deviceAddress Adresse du device (ex : 0x39)
      */
     public I2C(int deviceAddress) {
-        LoggerFactory.init(Level.TRACE);
         logger = LoggerFactory.getLogger(I2C.class);
 
         try {
@@ -54,7 +53,6 @@ public class I2C {
      * @param deviceAddress Adresse du device (ex : 0x39)
      */
     public I2C(byte deviceAddress) {
-        LoggerFactory.init(Level.TRACE);
         logger = LoggerFactory.getLogger(I2C.class);
 
         try {

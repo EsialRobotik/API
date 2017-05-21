@@ -9,6 +9,7 @@ import esialrobotik.ia.asserv.Position;
 import esialrobotik.ia.utils.communication.raspberry.Serial;
 import esialrobotik.ia.utils.log.LoggerFactory;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
@@ -44,6 +45,28 @@ public class Asserv implements AsservInterface {
      * Logger
      */
     protected Logger logger = null;
+
+    /**
+     * Constructeur
+     * @param serialPort Port série
+     * @param baudRate Baud rate
+     */
+    public Asserv(String serialPort, Baud baudRate) {
+        logger = LoggerFactory.getLogger(Asserv.class);
+
+        logger.info("Initialisation de la liason série de l'asserv, port =  " + serialPort + ", baudRate = " + baudRate.getValue());
+        serial = new Serial(serialPort, baudRate);
+        serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
+            try {
+                parseAsservPosition(serialDataEvent.getAsciiString());
+//                logger.debug("Position : " + getPosition().toString());
+            } catch (IOException e) {
+//                logger.error("Echec du parsing de la position : " + e.getMessage());
+            }
+        });
+
+        position = new Position(0, 0);
+    }
 
     /**
      * Constructeur
@@ -187,8 +210,14 @@ public class Asserv implements AsservInterface {
      * @param str Position du robot renvoyée par l'asserv
      */
     private void parseAsservPosition(String str) {
+        str = str.trim(); // Un petit trim pour virer la merde
         if (str.startsWith("#")) {
-            String[] data = str.substring(1).split(";");
+            str = str.substring(1);
+            if (str.contains("#")) { // Si par hasard on reçoit deux lignes à la fois, on abandonne
+                return;
+            }
+            String[] data = str.split(";");
+
             position.setX(Integer.parseInt(data[0]));
             position.setY(Integer.parseInt(data[1]));
             position.setTheta(Double.parseDouble(data[2]));
@@ -227,5 +256,19 @@ public class Asserv implements AsservInterface {
     @Override
     public int getQueueSize() {
         return queueSize;
+    }
+
+    public static void main(String... args) {
+        Asserv asserv = new Asserv("/dev/serial/by-id/usb-mbed_Microcontroller_101000000000000000000002F7F2854A-if01", Baud._230400);
+        asserv.go(200);
+        asserv.go(-200);
+        asserv.go(200);
+        asserv.go(-200);
+        asserv.go(200);
+        asserv.go(-200);
+        asserv.go(200);
+        asserv.go(-200);
+        asserv.go(200);
+        asserv.go(-200);
     }
 }

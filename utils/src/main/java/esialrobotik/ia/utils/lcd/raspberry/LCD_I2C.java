@@ -1,7 +1,5 @@
 package esialrobotik.ia.utils.lcd.raspberry;
 
-import java.util.Scanner;
-
 import esialrobotik.ia.utils.communication.raspberry.I2C;
 import esialrobotik.ia.utils.lcd.LCD;
 
@@ -170,12 +168,9 @@ public class LCD_I2C implements LCD {
 
 
     public static void main(String args[]) {
-	LCD screen = new LCD_I2C();
-	Scanner sysin = new Scanner(System.in);
-
-	while(true) {
-	    screen.println(sysin.nextLine());
-	}
+        LCD screen = new LCD_I2C();
+        screen.println("Coucou");
+        screen.println("Youpi !!!");
     }
 
 }
