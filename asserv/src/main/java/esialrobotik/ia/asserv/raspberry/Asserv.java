@@ -7,10 +7,6 @@ import esialrobotik.ia.asserv.AsservAPIConfiguration;
 import esialrobotik.ia.asserv.AsservInterface;
 import esialrobotik.ia.asserv.Position;
 import esialrobotik.ia.utils.communication.raspberry.Serial;
-import esialrobotik.ia.utils.log.LoggerFactory;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
 
@@ -37,14 +33,14 @@ public class Asserv implements AsservInterface {
     protected int asservStatus;
 
     /**
-     * Taille de la file de commande
+     * Taille de la file de commande restant dans l'asserv
      */
     protected int queueSize;
 
     /**
      * Logger
      */
-    protected Logger logger = null;
+//    protected Logger logger = null;
 
     /**
      * Constructeur
@@ -52,9 +48,9 @@ public class Asserv implements AsservInterface {
      * @param baudRate Baud rate
      */
     public Asserv(String serialPort, Baud baudRate) {
-        logger = LoggerFactory.getLogger(Asserv.class);
+//        logger = LoggerFactory.getLogger(Asserv.class);
 
-        logger.info("Initialisation de la liason série de l'asserv, port =  " + serialPort + ", baudRate = " + baudRate.getValue());
+//        logger.info("Initialisation de la liason série de l'asserv, port =  " + serialPort + ", baudRate = " + baudRate.getValue());
         serial = new Serial(serialPort, baudRate);
         serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
             try {
@@ -77,19 +73,20 @@ public class Asserv implements AsservInterface {
 
         String serialPort = configuration.getSeriePort();
         Baud baudRate = Baud.getInstance(configuration.getBaud());
-        LoggerFactory.init(Level.TRACE);
-        logger = LoggerFactory.getLogger(Asserv.class);
+//        logger = LoggerFactory.getLogger(Asserv.class);
 
-        logger.info("Initialisation de la liason série de l'asserv, port =  " + serialPort + ", baudRate = " + baudRate.getValue());
+//        logger.info("Initialisation de la liason série de l'asserv, port =  " + serialPort + ", baudRate = " + baudRate.getValue());
         serial = new Serial(serialPort, baudRate);
         serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
             try {
                 parseAsservPosition(serialDataEvent.getAsciiString());
-                logger.debug("Position : " + getPosition().toString());
+//                logger.debug("Position : " + getPosition().toString());
             } catch (IOException e) {
-                logger.error("Echec du parsing de la position : " + e.getMessage());
+//                logger.error("Echec du parsing de la position : " + e.getMessage());
             }
         });
+
+        position = new Position(0, 0);
     }
 
     /*******************************************************************************************************************
@@ -98,25 +95,25 @@ public class Asserv implements AsservInterface {
 
     @Override
     public void emergencyStop() {
-        logger.info("emergencyStop");
+//        logger.info("emergencyStop");
         serial.write("h");
     }
 
     @Override
     public void emergencyReset() {
-        logger.info("emergencyReset");
+//        logger.info("emergencyReset");
         serial.write("r");
     }
 
     @Override
     public void go(int dist) {
-        logger.info("go : " + dist);
+//        logger.info("go : " + dist);
         serial.write("v" + dist);
     }
 
     @Override
     public void turn(int degree) {
-        logger.info("turn : " + degree);
+//        logger.info("turn : " + degree);
         serial.write("t" + degree);
     }
 
@@ -126,25 +123,25 @@ public class Asserv implements AsservInterface {
 
     @Override
     public void goTo(Position position) {
-        logger.info("goTo : " + position.toString());
+//        logger.info("goTo : " + position.toString());
         serial.write("go" + position.getX() + "#" + position.getY());
     }
 
     @Override
     public void goToChain(Position position) {
-        logger.info("goToChain : " + position.toString());
+//        logger.info("goToChain : " + position.toString());
         serial.write("ge" + position.getX() + "#" + position.getY());
     }
 
     @Override
     public void goToReverse(Position position) {
-        logger.info("goToReverse : " + position.toString());
+//        logger.info("goToReverse : " + position.toString());
         serial.write("gb" + position.getX() + "#" + position.getY());
     }
 
     @Override
     public void face(Position position) {
-        logger.info("goToFace : " + position.toString());
+//        logger.info("goToFace : " + position.toString());
         serial.write("gf" + position.getX() + "#" + position.getY());
     }
 
@@ -154,19 +151,19 @@ public class Asserv implements AsservInterface {
 
     @Override
     public void setOdometrieX(int x) {
-        logger.info("setOdometrieX : " + x);
+//        logger.info("setOdometrieX : " + x);
         serial.write("Osx" + x);
     }
 
     @Override
     public void setOdometrieY(int y) {
-        logger.info("setOdometrieY : " + y);
+//        logger.info("setOdometrieY : " + y);
         serial.write("Osy" + y);
     }
 
     @Override
     public void setOdometireTheta(double theta) {
-        logger.info("setOdometireTheta");
+//        logger.info("setOdometireTheta");
         serial.write("Osa");
     }
 
@@ -176,31 +173,31 @@ public class Asserv implements AsservInterface {
 
     @Override
     public void enableLowSpeed(boolean enable) {
-        logger.info("enableLowSpeed : " + enable);
+//        logger.info("enableLowSpeed : " + enable);
         serial.write(enable ? "Rle" : "Rld");
     }
 
     @Override
     public void enableRegulatorAngle(boolean enable) {
-        logger.info("enableRegulatorAngle : " + enable);
+//        logger.info("enableRegulatorAngle : " + enable);
         serial.write(enable ? "Rae" : "Rad");
     }
 
     @Override
     public void resetRegulatorAngle() {
-        logger.info("resetRegulatorAngle");
+//        logger.info("resetRegulatorAngle");
         serial.write("Rar");
     }
 
     @Override
     public void enableRegulatorDistance(boolean enable) {
-        logger.info("enableRegulatorDistance : " + enable);
+//        logger.info("enableRegulatorDistance : " + enable);
         serial.write(enable ? "Rde" : "Rdd");
     }
 
     @Override
     public void resetRegulatorDistance() {
-        logger.info("resetRegulatorDistance");
+//        logger.info("resetRegulatorDistance");
         serial.write("Rdr");
     }
 
