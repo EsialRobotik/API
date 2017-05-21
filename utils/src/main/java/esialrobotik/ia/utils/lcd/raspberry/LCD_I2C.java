@@ -1,7 +1,13 @@
 package esialrobotik.ia.utils.lcd.raspberry;
 
+import java.util.Scanner;
+
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
+
 import esialrobotik.ia.utils.communication.raspberry.I2C;
 import esialrobotik.ia.utils.lcd.LCD;
+import esialrobotik.ia.utils.log.LoggerFactory;
 
 /**
  * LCD 2 lignes / 16 colonnes de Joy-It
@@ -10,6 +16,7 @@ import esialrobotik.ia.utils.lcd.LCD;
 public class LCD_I2C implements LCD {
 
     private I2C i2cDevice;
+    private Logger logger;
 
     // Default address and line counts
     private static final int DEFAULT_I2C_ADDRESS  = 0x27;
@@ -77,6 +84,9 @@ public class LCD_I2C implements LCD {
 	    throw new ArrayIndexOutOfBoundsException();
 	}
 
+	this.logger = LoggerFactory.getLogger(LCD_I2C.class);
+	logger.info("Initializing " + lineLength + "x"+ lineCount + " LCD "
+		+ "on I2C address " + String.format("0x%X", i2cAddress));
 	this.lines = new String[lineCount];
 	this.lineLength = lineLength;
 	this.i2cDevice = new I2C(i2cAddress);
@@ -130,7 +140,8 @@ public class LCD_I2C implements LCD {
 
 	for(int i = 0; i < lines.length; i++) {
 	    if(lines[i] != null) {
-		System.out.println("Will write " + lines[i]);
+		logger.info("Will display '" + lines[i] + "' on line " + (i+1));
+
 		i2cWrite(LINE_ADDR[i]);
 		byte[] strBytes = lines[i].getBytes();
 		for(int j = 0; j < strBytes.length; j++) {
@@ -168,9 +179,16 @@ public class LCD_I2C implements LCD {
 
 
     public static void main(String args[]) {
+        LoggerFactory.init(Level.INFO);
+
         LCD screen = new LCD_I2C();
         screen.println("Coucou");
         screen.println("Youpi !!!");
+        Scanner sysin = new Scanner(System.in);
+
+        while(true) {
+            screen.println(sysin.nextLine());
+        }
     }
 
 }

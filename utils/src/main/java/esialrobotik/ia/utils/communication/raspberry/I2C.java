@@ -38,13 +38,14 @@ public class I2C {
      */
     public I2C(int deviceAddress) {
         logger = LoggerFactory.getLogger(I2C.class);
+        this.deviceAddress = deviceAddress;
 
         try {
-            logger.info("I2C " + deviceAddress + " init");
+            logger.info(String.format("I2C 0x%02X init", deviceAddress));
             I2CBus i2c = I2CFactory.getInstance(I2CBus.BUS_1);
             i2CDevice = i2c.getDevice(deviceAddress);
         } catch (I2CFactory.UnsupportedBusNumberException | IOException e) {
-            logger.error("I2C " + deviceAddress + " init fail : " + e.getMessage());
+            logger.error(String.format("I2C 0x%02X init fail : " + e.getMessage(), deviceAddress));
         }
     }
 
@@ -53,15 +54,7 @@ public class I2C {
      * @param deviceAddress Adresse du device (ex : 0x39)
      */
     public I2C(byte deviceAddress) {
-        logger = LoggerFactory.getLogger(I2C.class);
-
-        try {
-            logger.info("I2C " + deviceAddress + " init");
-            I2CBus i2c = I2CFactory.getInstance(I2CBus.BUS_1);
-            i2CDevice = i2c.getDevice(deviceAddress);
-        } catch (I2CFactory.UnsupportedBusNumberException | IOException e) {
-            logger.error("I2C " + deviceAddress + " init fail : " + e.getMessage());
-        }
+        this((int) deviceAddress);
     }
 
     /**
@@ -71,29 +64,33 @@ public class I2C {
      */
     public int read(byte register) {
         try {
-            logger.info("I2C " + deviceAddress + " read register " + register);
+            logger.trace(String.format("I2C 0x%02X read register 0x%02X", deviceAddress, register));
             return i2CDevice.read(register);
         } catch (IOException e) {
-            logger.error("I2C " + deviceAddress + " read register " + register + " fail : " + e.getMessage());
+            logger.error(String.format("I2C 0x%02X read register 0x%02X fail : " + e.getMessage(),
+                    deviceAddress, register));
             return 0;
         }
     }
 
     public void write(byte register, byte value) {
         try {
-            logger.info("I2C " + deviceAddress + " write register " + register + " with value " + value);
+            logger.trace(String.format("I2C 0x%02X write register 0x%02X with value 0x%02X",
+                    deviceAddress, register , value));
             i2CDevice.write(register, value);
         } catch (IOException e) {
-            logger.info("I2C " + deviceAddress + " write register " + register + " with value " + value + " fail : " + e.getMessage());
+            logger.error(String.format("I2C 0x%02X write register 0x%02X with value 0x%02X fail : " + e.getMessage(),
+                    deviceAddress, register , value));
         }
     }
 
     public void write(byte value) {
         try {
-            logger.info("I2C " + deviceAddress + " write value " + value);
+            logger.trace(String.format("I2C 0x%02X write value 0x%02X", deviceAddress, value));
             i2CDevice.write(value);
         } catch (IOException e) {
-            logger.info("I2C " + deviceAddress + " write value " + value + " fail : " + e.getMessage());
+            logger.error(String.format("I2C 0x%02X write value 0x%02X fail : " + e.getMessage(),
+                    deviceAddress, value));
         }
     }
 
