@@ -23,6 +23,7 @@ import java.net.URI;
 @Plugin(name = "DebugConfigurationFactory", category = ConfigurationFactory.CATEGORY)
 @Order(50)
 public class CustomConfigurationFactory extends ConfigurationFactory {
+
     public static final String rollingFilename =  "log.log";
     public static final String rollingFilenameArchive =  "log-%d{MM-dd-yy HH:mm}.log";
     private Level level;

@@ -1,7 +1,8 @@
 package esialrobotik.ia.asserv;
 
-import esialrobotik.ia.asserv.AsservInterface;
-import esialrobotik.ia.asserv.Position;
+import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 
 /**
  * For test.
@@ -10,44 +11,54 @@ import esialrobotik.ia.asserv.Position;
  */
 public class DummyAsserv implements AsservInterface {
 
+    /**
+     * Logger
+     */
+    protected Logger logger = null;
+
+    public DummyAsserv() {
+        logger = LoggerFactory.getLogger(DummyAsserv.class);
+        logger.info("Dummy Asserv GOOOO!");
+    }
+
     @Override
     public void emergencyStop() {
-
+        logger.info("emergencyStop");
     }
 
     @Override
     public void emergencyReset() {
-
+        logger.info("emergencyReset");
     }
 
     @Override
     public void go(int dist) {
-
+        logger.info("go");
     }
 
     @Override
     public void turn(int degree) {
-
+        logger.info("turn");
     }
 
     @Override
     public void goTo(Position position) {
-
+        logger.info("goTo");
     }
 
     @Override
     public void goToChain(Position position) {
-
+        logger.info("goToChain");
     }
 
     @Override
     public void goToReverse(Position position) {
-
+        logger.info("goToReverse");
     }
 
     @Override
     public void face(Position position) {
-
+        logger.info("face");
     }
 
     @Override
@@ -108,5 +119,18 @@ public class DummyAsserv implements AsservInterface {
     @Override
     public MovementDirection getMovementDirection() {
         return null;
+    }
+
+    public static void main(String... args) {
+        LoggerFactory.init(Level.TRACE);
+        DummyAsserv asserv = new DummyAsserv();
+        asserv.go(10);
+        asserv.go(10);
+        asserv.go(10);
+        asserv.go(10);
+        asserv.go(10);
+        asserv.go(10);
+        asserv.go(10);
+        asserv.go(10);
     }
 }

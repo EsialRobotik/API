@@ -36,7 +36,6 @@ public class Serial {
      * @param baudRate Baud rate
      */
     public Serial(String serialPort, Baud baudRate) {
-        LoggerFactory.init(Level.TRACE);
         logger = LoggerFactory.getLogger(Serial.class);
 
         logger.info("Serial " + serialPort + " init at baud " + baudRate.getValue());
