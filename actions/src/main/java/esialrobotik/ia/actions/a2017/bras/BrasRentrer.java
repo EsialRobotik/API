@@ -8,14 +8,13 @@ import esialrobotik.ia.actions.a2017.ActionAX12Abstract;
  */
 public class BrasRentrer extends ActionAX12Abstract {
 
-    @Override
-    public void execute() {
-        // TODO
-    }
-
-    @Override
-    public boolean finished() {
-        return false;
-    }
+	@Override
+	protected void childExecution() {
+		go(ETAT.MAIN_FERMEE);
+		attend(200);
+		go(ETAT.POIGNET_VERTICAL);
+		attend(400);
+		go(ETAT.BRAS_LEVE);
+	}
 
 }

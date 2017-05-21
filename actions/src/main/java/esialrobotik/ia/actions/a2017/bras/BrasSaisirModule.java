@@ -8,14 +8,9 @@ import esialrobotik.ia.actions.a2017.ActionAX12Abstract;
  */
 public class BrasSaisirModule extends ActionAX12Abstract {
 
-    @Override
-    public void execute() {
-        // TODO
-    }
-
-    @Override
-    public boolean finished() {
-        return false;
-    }
+	@Override
+	protected void childExecution() {
+		go(ETAT.MAIN_FERMEE);
+	}
 
 }

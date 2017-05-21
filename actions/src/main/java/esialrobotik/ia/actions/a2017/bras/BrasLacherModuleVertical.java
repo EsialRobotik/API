@@ -9,13 +9,11 @@ import esialrobotik.ia.actions.a2017.ActionAX12Abstract;
 public class BrasLacherModuleVertical extends ActionAX12Abstract {
 
     @Override
-    public void execute() {
-        // TODO
+    public void childExecution() {
+		go(ETAT.BRAS_BAISSE);
+		go(ETAT.POIGNET_VERTICAL);
+		attend(300);
+		go(ETAT.MAIN_GRANDE_OUVERTE);
     }
-
-    @Override
-    public boolean finished() {
-        return false;
-    }
-
+    
 }

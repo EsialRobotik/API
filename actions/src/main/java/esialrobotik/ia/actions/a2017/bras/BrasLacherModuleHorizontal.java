@@ -8,14 +8,13 @@ import esialrobotik.ia.actions.a2017.ActionAX12Abstract;
  */
 public class BrasLacherModuleHorizontal extends ActionAX12Abstract {
 
-    @Override
-    public void execute() {
-        // TODO
-    }
-
-    @Override
-    public boolean finished() {
-        return false;
-    }
+	@Override
+	protected void childExecution() {
+		go(ETAT.BRAS_DEPOSER);
+		attend(200);
+		go(ETAT.POIGNET_HORIZONTAL);
+		attend(500);
+		go(ETAT.MAIN_DEPOSE);	
+	}
 
 }
