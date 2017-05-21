@@ -57,6 +57,24 @@ public class Serial {
     }
 
     /**
+     * Constructeur
+     * @param serialPort Nom du port série (ex : /dev/ttyUSB0 ou /dev/ttyAMA0
+     * @param baudRate Baud rate
+     */
+    public Serial(String serialPort, int baudRate) {
+        logger = LoggerFactory.getLogger(Serial.class);
+
+        logger.info("Serial " + serialPort + " init at baud " + baudRate);
+        this.serialPort = serialPort;
+        serial = SerialFactory.createInstance();
+        try {
+            serial.open(serialPort, baudRate);
+        } catch (IOException e) {
+            logger.error("Serial " + serialPort + " init fail at baud " + baudRate + " : " + e.getMessage());
+        }
+    }
+
+    /**
      * Envoie une string sur la liaison série
      * @param string String à envoyer
      */
