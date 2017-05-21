@@ -70,6 +70,20 @@ public class Serial {
     }
 
     /**
+     * Envoie une string sur la liaison série
+     * @param string String à envoyer
+     */
+    public void write(byte[] bytes) {
+        try {
+            logger.info("Serial " + serialPort + " write "+bytes.length+" byte(s)");
+            serial.write(bytes);
+            serial.flush();
+        } catch (IOException e) {
+            logger.error("Serial " + serialPort + " write fail : " + e.getMessage());
+        }
+    }
+    
+    /**
      * Ajoute des listeners écoutant la liaison série
      * @param serialDataEventListeners Listeners écoutant la liaison série
      * @see <a href="http://pi4j.com/example/serial.html">Pi4J Serial Example</a>

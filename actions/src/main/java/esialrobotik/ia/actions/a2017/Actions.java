@@ -23,7 +23,7 @@ public class Actions implements ActionInterface {
 
     public Actions() {
         // TODO implémenter le bon port série et passer ça en conf ? voir avec iCule
-        this.serialAX12 = new Serial("/dev/ttyAMA0", Baud._115200);
+        this.serialAX12 = new Serial("/dev/ttyUSB0", Baud._115200);
         // On instancie les différents types d'actions, on fait les init et on stocke tout ça dans la liste
         actionExecutors = new ArrayList<>();
 
