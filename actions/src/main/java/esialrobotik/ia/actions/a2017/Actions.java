@@ -3,12 +3,14 @@ package esialrobotik.ia.actions.a2017;
 import com.pi4j.io.serial.Baud;
 import esialrobotik.ia.actions.ActionExecutor;
 import esialrobotik.ia.actions.ActionInterface;
+import esialrobotik.ia.actions.ActionModuleConfiguration;
 import esialrobotik.ia.actions.a2017.bras.*;
 import esialrobotik.ia.actions.a2017.minerai.MineraiLarguer;
 import esialrobotik.ia.actions.a2017.minerai.MineraiRamasser;
 import esialrobotik.ia.actions.a2017.minerai.MineraiRentrer;
 import esialrobotik.ia.utils.communication.raspberry.Serial;
 
+import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,13 +19,13 @@ import java.util.List;
  */
 public class Actions implements ActionInterface {
 
-    Serial serialAX12;
+    private Serial serialAX12;
 
-    List<ActionExecutor> actionExecutors;
+    private List<ActionExecutor> actionExecutors;
 
-    public Actions() {
-        // TODO implémenter le bon port série et passer ça en conf ? voir avec iCule
-        this.serialAX12 = new Serial("/dev/ttyUSB0", Baud._115200);
+    @Inject
+    public Actions(ActionModuleConfiguration actionModuleConfiguration) {
+        this.serialAX12 = new Serial(actionModuleConfiguration.getSerialPort(), Baud.getInstance(actionModuleConfiguration.getBaud()));
         // On instancie les différents types d'actions, on fait les init et on stocke tout ça dans la liste
         actionExecutors = new ArrayList<>();
 
