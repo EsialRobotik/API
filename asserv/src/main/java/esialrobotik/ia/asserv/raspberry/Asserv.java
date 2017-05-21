@@ -280,18 +280,47 @@ public class Asserv implements AsservInterface {
         return queueSize;
     }
 
-    public static void main(String... args) {
-        LoggerFactory.init(Level.TRACE);
+    @Override
+    public void calage(boolean positiveY) throws InterruptedException {
+        // Calage bordure à la rache
+        enableLowSpeed(true);
+        go(-200);
+        Thread.sleep(2000);
+        enableRegulatorAngle(false);
+        Thread.sleep(2000);
+
+        resetRegulatorAngle();
+        setOdometrieX(102);
+        enableRegulatorAngle(true);
+        emergencyStop();
+        emergencyReset();
+        go(120);
+        Thread.sleep(1000);
+        turn(positiveY ? 90 : -90);
+        Thread.sleep(1000);
+        go(-200);
+        Thread.sleep(2000);
+        enableRegulatorAngle(false);
+        Thread.sleep(2000);
+
+        setOdometrieY((positiveY ? 1 : -1) * (710 + 18 + 102));
+        emergencyStop();
+        emergencyReset();
+        enableLowSpeed(false);
+        enableRegulatorAngle(true);
+        go(80);
+        Thread.sleep(5000);
+        turn(positiveY ? -90 : 90);
+    }
+
+    public static void main(String... args) throws InterruptedException {
+        LoggerFactory.init(Level.INFO);
         Asserv asserv = new Asserv("/dev/serial/by-id/usb-mbed_Microcontroller_101000000000000000000002F7F2854A-if01", Baud._230400);
-        asserv.go(200);
-        asserv.go(-200);
-        asserv.go(200);
-        asserv.go(-200);
-        asserv.go(200);
-        asserv.go(-200);
-        asserv.go(200);
-        asserv.go(-200);
-        asserv.go(200);
-        asserv.go(-200);
+
+        asserv.calage(false);
+
+        Thread.sleep(2000);
+
+        System.exit(0);
     }
 }

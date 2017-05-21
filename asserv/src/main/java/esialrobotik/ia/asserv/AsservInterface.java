@@ -155,4 +155,10 @@ public interface AsservInterface {
      * @return Direction d movement
      */
     MovementDirection getMovementDirection();
+
+    /**
+     * Cale le robot
+     * @param positiveY Le robot se trouve du coté des Y positifs
+     */
+    void calage(boolean positiveY) throws InterruptedException;
 }
