@@ -121,6 +121,11 @@ public class DummyAsserv implements AsservInterface {
         return null;
     }
 
+    @Override
+    public void calage(boolean positiveY) throws InterruptedException {
+        // TODO Auto-generated method stub
+    }
+
     public static void main(String... args) {
         LoggerFactory.init(Level.TRACE);
         DummyAsserv asserv = new DummyAsserv();
