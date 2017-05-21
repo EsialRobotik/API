@@ -102,8 +102,8 @@ public class DummyAsserv implements AsservInterface {
     }
 
     @Override
-    public int getAsservStatus() {
-        return 0;
+    public AsservStatus getAsservStatus() {
+        return AsservStatus.STATUS_IDLE;
     }
 
     @Override

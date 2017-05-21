@@ -30,7 +30,7 @@ public class Asserv implements AsservInterface {
     /**
      * Status de la dernière commande
      */
-    protected int asservStatus;
+    protected AsservStatus asservStatus;
 
     /**
      * Taille de la file de commande restant dans l'asserv
@@ -96,24 +96,28 @@ public class Asserv implements AsservInterface {
     @Override
     public void emergencyStop() {
 //        logger.info("emergencyStop");
+        asservStatus = AsservStatus.STATUS_HALTED;
         serial.write("h");
     }
 
     @Override
     public void emergencyReset() {
 //        logger.info("emergencyReset");
+        asservStatus = AsservStatus.STATUS_IDLE;
         serial.write("r");
     }
 
     @Override
     public void go(int dist) {
 //        logger.info("go : " + dist);
+        asservStatus = AsservStatus.STATUS_RUNNING;
         serial.write("v" + dist);
     }
 
     @Override
     public void turn(int degree) {
 //        logger.info("turn : " + degree);
+        asservStatus = AsservStatus.STATUS_RUNNING;
         serial.write("t" + degree);
     }
 
@@ -124,24 +128,28 @@ public class Asserv implements AsservInterface {
     @Override
     public void goTo(Position position) {
 //        logger.info("goTo : " + position.toString());
+        asservStatus = AsservStatus.STATUS_RUNNING;
         serial.write("go" + position.getX() + "#" + position.getY());
     }
 
     @Override
     public void goToChain(Position position) {
 //        logger.info("goToChain : " + position.toString());
+        asservStatus = AsservStatus.STATUS_RUNNING;
         serial.write("ge" + position.getX() + "#" + position.getY());
     }
 
     @Override
     public void goToReverse(Position position) {
 //        logger.info("goToReverse : " + position.toString());
+        asservStatus = AsservStatus.STATUS_RUNNING;
         serial.write("gb" + position.getX() + "#" + position.getY());
     }
 
     @Override
     public void face(Position position) {
 //        logger.info("goToFace : " + position.toString());
+        asservStatus = AsservStatus.STATUS_RUNNING;
         serial.write("gf" + position.getX() + "#" + position.getY());
     }
 
@@ -218,7 +226,21 @@ public class Asserv implements AsservInterface {
             position.setX(Integer.parseInt(data[0]));
             position.setY(Integer.parseInt(data[1]));
             position.setTheta(Double.parseDouble(data[2]));
-            asservStatus = Integer.parseInt(data[3]);
+            int asservStatusInt = Integer.parseInt(data[3]);
+            switch(asservStatusInt) {
+                case 0:
+                    asservStatus = AsservStatus.STATUS_IDLE;
+                    break;
+                case 1:
+                    asservStatus = AsservStatus.STATUS_RUNNING;
+                    break;
+                case 2:
+                    asservStatus = AsservStatus.STATUS_HALTED;
+                    break;
+                case 3:
+                    asservStatus = AsservStatus.STATUS_BLOCKED;
+                    break;
+            }
             queueSize = Integer.parseInt(data[4]);
 
             int vitesseG = Integer.parseInt(data[5]);
@@ -246,7 +268,7 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
-    public int getAsservStatus() {
+    public AsservStatus getAsservStatus() {
         return asservStatus;
     }
 
