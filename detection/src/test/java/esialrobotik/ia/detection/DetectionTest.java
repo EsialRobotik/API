@@ -6,12 +6,18 @@ import com.google.gson.JsonParser;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04;
+import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Level;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Created by franc on 10/02/2017.
  */
+
+
+
 public class DetectionTest {
     String configure = "{" +
             "  \"type\":\"test\", \n" +
@@ -32,6 +38,12 @@ public class DetectionTest {
             "    }\n" +
             "  ]\n" +
             "}";
+    
+    
+    @Before
+    public void setUp(){
+       LoggerFactory.init(Level.TRACE);
+    }
 
     @Test
     public void testLoading() {
