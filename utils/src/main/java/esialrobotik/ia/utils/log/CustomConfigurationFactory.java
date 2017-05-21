@@ -39,6 +39,10 @@ public class CustomConfigurationFactory extends ConfigurationFactory {
     }
 
     private Configuration createConfiguration(final String name, ConfigurationBuilder<BuiltConfiguration> builder) {
+        if(this.level == null) { //The first call to this thing is issue by this motherfucker of log4j and so if this things is null, it crash.
+            // but if the factory is redeclare after with a different log level it works O.o
+            this.level = Level.DEBUG;
+        }
         builder.setConfigurationName(name);
         builder.setStatusLevel(Level.ERROR);
         builder.add(builder.newFilter("ThresholdFilter", Filter.Result.ACCEPT, Filter.Result.NEUTRAL).

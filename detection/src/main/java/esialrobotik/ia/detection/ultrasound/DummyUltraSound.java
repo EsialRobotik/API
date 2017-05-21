@@ -5,6 +5,7 @@ import com.google.inject.assistedinject.Assisted;
 import esialrobotik.ia.detection.DetectionModuleConfiguration;
 import esialrobotik.ia.utils.log.LoggerFactory;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -45,7 +46,7 @@ public class DummyUltraSound implements UltraSoundInterface {
     }
 
     public static void main(String... args) {
-        LoggerFactory.init(Level.TRACE);
+        LoggerFactory.init(Level.DEBUG);
         DummyUltraSound dummyUltraSound = new DummyUltraSound();
         dummyUltraSound.init();
         dummyUltraSound.getMeasure();

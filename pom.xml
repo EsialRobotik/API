@@ -29,6 +29,7 @@
             <version>2.8.2</version>
         </dependency>
 
+
     </dependencies>
 
     <modules>
@@ -55,36 +56,6 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
-            </plugin>
-
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.5.3</version>
-                <configuration>
-                    <outputDirectory>.</outputDirectory>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                    <archive>
-                        <manifest>
-                            <!--<mainClass>esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04</mainClass>-->
-                            <mainClass>esialrobotik.ia.detection.ultrasound.DummyUltraSound</mainClass>
-                            <!--<mainClass>esialrobotik.ia.utils.gpio.raspberry.GpioInput</mainClass>-->
-                            <!--<mainClass>esialrobotik.ia.asserv.raspberry.Asserv</mainClass>-->
-                            <!--<mainClass>esialrobotik.ia.asserv.DummyAsserv</mainClass>-->
-                            <!--<mainClass>esialrobotik.ia.utils.lcd.raspberry.LCD_I2C</mainClass>-->
-                        </manifest>
-                    </archive>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
 
         </plugins>
