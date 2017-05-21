@@ -65,8 +65,8 @@ public class GpioInput extends Gpio {
         GpioInput input = new GpioInput(4, false); // Tirette
         GpioInput input2 = new GpioInput(5, false); // Capteur couleur
         while (true) {
-            System.out.println((input.isHigh() ? "HIGH" : "-") + "##" + (input.isLow() ? "LOW" : "-")
-                + "   " + (input2.isHigh() ? "HIGH" : "-") + "##" + (input2.isLow() ? "LOW" : "-"));
+            System.out.println("Tirette : " + (input.isHigh() ? "HIGH" : "LOW")
+                + "   Couleur : " + (input2.isHigh() ? "HIGH" : "LOW"));
             Thread.sleep(1000);
         }
     }

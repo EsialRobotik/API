@@ -59,7 +59,6 @@ public class SRF04 implements UltraSoundInterface {
         long checkoutTimeout = System.currentTimeMillis();
         while (gpioInput.isLow()){
             if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
-                System.out.println("Timeout 1");
                 return 0;
             }
         }
@@ -67,7 +66,6 @@ public class SRF04 implements UltraSoundInterface {
         checkoutTimeout = System.currentTimeMillis();
         while (gpioInput.isHigh()) {
             if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
-                System.out.println("Timeout 2");
                 return 0;
             }
         }
