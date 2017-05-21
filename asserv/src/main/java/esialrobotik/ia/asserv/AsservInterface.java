@@ -136,7 +136,7 @@ public interface AsservInterface {
      * Retourne le statue de la dernière commande de l'asservissement
      * @return AsservStatus
      */
-    int getAsservStatus();
+    AsservStatus getAsservStatus();
 
     /**
      * Retourne la taille de file de commandes
