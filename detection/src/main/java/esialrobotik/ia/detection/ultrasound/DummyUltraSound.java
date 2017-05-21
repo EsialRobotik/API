@@ -29,15 +29,15 @@ public class DummyUltraSound implements UltraSoundInterface {
     @Inject
     public DummyUltraSound(@Assisted DetectionModuleConfiguration.GPioPair pair) {
         this.pair = pair;
-//        logger = LoggerFactory.getLogger(DummyUltraSound.class);
+        logger = LoggerFactory.getLogger(DummyUltraSound.class);
     }
 
     public void init() {
-//        logger.info("init DummyUltraSound");
+        logger.info("init DummyUltraSound");
     }
 
     public long getMeasure() {
-//        logger.info("getMeasure");
+        logger.info("getMeasure");
         return 2000000; //We don't want to detect something with this class
     }
 
