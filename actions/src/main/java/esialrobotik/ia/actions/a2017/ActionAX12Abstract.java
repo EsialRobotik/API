@@ -53,7 +53,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	@Override
 	public void sendCommandWithoutFeedBack(byte[] cmd, int baudRate) throws AX12LinkException {
 		if (serialAX12 != null) {
-			serialAX12.write(new String(cmd));
+			serialAX12.write(cmd);
 		}
 	}
 
