@@ -6,6 +6,8 @@ import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Communication serie
@@ -116,6 +118,32 @@ public class Serial {
      */
     public void removeReaderListeners(SerialDataEventListener... serialDataEventListeners) {
         serial.removeListener(serialDataEventListeners);
+    }
+
+    public void setDTR(boolean b) {
+        try {
+            serial.setDTR(b);
+        } catch (IllegalStateException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    public InputStream getInputStream() {
+        return serial.getInputStream();
+    }
+
+    public OutputStream getOutputStream() {
+        return serial.getOutputStream();
+    }
+
+    public void close() {
+        try {
+            serial.close();
+        } catch (IllegalStateException | IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
 }
