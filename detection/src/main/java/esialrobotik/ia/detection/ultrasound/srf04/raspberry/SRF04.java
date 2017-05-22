@@ -59,14 +59,14 @@ public class SRF04 implements UltraSoundInterface {
         long checkoutTimeout = System.currentTimeMillis();
         while (gpioInput.isLow()){
             if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
-                return 0;
+                return 10000;
             }
         }
         time[0] = System.nanoTime();
         checkoutTimeout = System.currentTimeMillis();
         while (gpioInput.isHigh()) {
             if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
-                return 0;
+                return 10000;
             }
         }
         time[1] = System.nanoTime();
