@@ -42,6 +42,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     @Override
     public void execute() {
     	this.childExecution();
+    	attend(500);
     	fini = true;
     }
     
