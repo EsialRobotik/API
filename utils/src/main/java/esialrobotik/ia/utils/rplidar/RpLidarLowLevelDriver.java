@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.pi4j.io.serial.Baud;
 
 import esialrobotik.ia.utils.communication.raspberry.Serial;
@@ -66,7 +68,8 @@ public class RpLidarLowLevelDriver {
      * @param listener Listener for in comming packets
      * @throws Exception
      */
-    public RpLidarLowLevelDriver(String portName, RpLidarListener listener) throws Exception {
+    @Inject
+    public RpLidarLowLevelDriver(@Named("lidarPort") String portName, RpLidarListener listener) throws Exception {
         System.out.println("Opening port " + portName);
 
         this.listener = listener;

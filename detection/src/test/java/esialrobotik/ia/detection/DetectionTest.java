@@ -19,25 +19,67 @@ import org.junit.Test;
 
 
 public class DetectionTest {
-    String configure = "{" +
-            "  \"type\":\"test\", \n" +
-            "  \"gpioList\":[ \n " +
-            "    {\n" +
-            "       \"in\":1, \n" +
-            "       \"out\":2 \n" +
+    String configure = "{\n" +
+            "    \"ultrasound\" : {\n" +
+            "      \"type\":\"test\",\n" +
+            "      \"gpioList\":[\n" +
+            "        {\n" +
+            "          \"desc\" : \"Avant droit\",\n" +
+            "          \"in\" : 0,\n" +
+            "          \"out\": 2\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"desc\" : \"Avant milieu\",\n" +
+            "          \"in\" : 12,\n" +
+            "          \"out\": 13\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"desc\" : \"Avant gauche\",\n" +
+            "          \"in\" : 21,\n" +
+            "          \"out\": 22\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"desc\" : \"Arrière\",\n" +
+            "          \"in\" : 24,\n" +
+            "          \"out\": 25\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    \"lidar\": {\n" +
+            "      \"port\": \"/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0\"\n" +
             "    }\n" +
-            "  ]\n" +
-            "}";
+            "  }";
 
-    String configureSRF04 = "{" +
-            "  \"type\":\"srf04\", \n" +
-            "  \"gpioList\":[ \n " +
-            "    {\n" +
-            "       \"in\":1, \n" +
-            "       \"out\":2 \n" +
+    String configureSRF04 = "{\n" +
+            "    \"ultrasound\" : {\n" +
+            "      \"type\":\"srf04\",\n" +
+            "      \"gpioList\":[\n" +
+            "        {\n" +
+            "          \"desc\" : \"Avant droit\",\n" +
+            "          \"in\" : 0,\n" +
+            "          \"out\": 2\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"desc\" : \"Avant milieu\",\n" +
+            "          \"in\" : 12,\n" +
+            "          \"out\": 13\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"desc\" : \"Avant gauche\",\n" +
+            "          \"in\" : 21,\n" +
+            "          \"out\": 22\n" +
+            "        },\n" +
+            "        {\n" +
+            "          \"desc\" : \"Arrière\",\n" +
+            "          \"in\" : 24,\n" +
+            "          \"out\": 25\n" +
+            "        }\n" +
+            "      ]\n" +
+            "    },\n" +
+            "    \"lidar\": {\n" +
+            "      \"port\": \"/dev/serial/by-id/usb-Silicon_Labs_CP2102_USB_to_UART_Bridge_Controller_0001-if00-port0\"\n" +
             "    }\n" +
-            "  ]\n" +
-            "}";
+            "  }";
     
     
     @Before
@@ -58,7 +100,7 @@ public class DetectionTest {
 
         detectionInterface.init();
         long[] res = detectionInterface.ultraSoundDetection();
-        Assert.assertEquals(1, res.length);
+        Assert.assertEquals(4, res.length);
         Assert.assertEquals(2000000, res[0]);
     }
 

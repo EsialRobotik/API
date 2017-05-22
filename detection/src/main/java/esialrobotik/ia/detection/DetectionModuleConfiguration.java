@@ -28,11 +28,26 @@ public class DetectionModuleConfiguration {
     private List<GPioPair> gPioPairList;
     private Class<? extends UltraSoundInterface> ultraSoundClass;
 
+    private String lidarPort;
+
     @Inject
     public DetectionModuleConfiguration() {
     }
 
     public void loadConfiguration(JsonObject configNode) {
+        lidarPort = null;
+        gPioPairList = null;
+        ultraSoundClass = null;
+
+        if(configNode.has("ultrasound")) {
+            setUltraConfig(configNode.get("ultrasound").getAsJsonObject());
+        }
+        if(configNode.has("lidar")) {
+            lidarPort = configNode.get("lidar").getAsJsonObject().get("port").getAsString();
+        }
+    }
+
+    private void setUltraConfig(JsonObject configNode) {
         this.gPioPairList = new ArrayList<GPioPair>();
         JsonArray gpioPairArray = configNode.getAsJsonArray("gpioList");
         for(JsonElement e : gpioPairArray) {
@@ -47,6 +62,10 @@ public class DetectionModuleConfiguration {
         else if(type.equals("test")) {
             ultraSoundClass = DummyUltraSound.class;
         }
+    }
+
+    public String getLidarPort() {
+        return lidarPort;
     }
 
     public List<GPioPair> getGPioPairList() {
