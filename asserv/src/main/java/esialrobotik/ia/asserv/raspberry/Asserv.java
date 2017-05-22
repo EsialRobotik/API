@@ -267,7 +267,7 @@ public class Asserv implements AsservInterface {
 
     @Override
     public MovementDirection getMovementDirection() {
-        return null;
+        return direction;
     }
 
     @Override
