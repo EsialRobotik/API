@@ -29,23 +29,22 @@ public class Actions implements ActionInterface {
         // On instancie les différents types d'actions, on fait les init et on stocke tout ça dans la liste
         actionExecutors = new ArrayList<>();
 
-        /**
-         * 1 - Ramasser du minerai
-         * 2 - Largueur du minerai dans la zone de départ
-         * 3 - Rentrer le ramasse minerai
+        /*
+         * 0 - Ramasser du minerai
+         * 1 - Largueur du minerai dans la zone de départ
+         * 2 - Rentrer le ramasse minerai
          */
         actionExecutors.add(new MineraiRamasser().init(this.serialAX12));
         actionExecutors.add(new MineraiLarguer().init(this.serialAX12));
         actionExecutors.add(new MineraiRentrer().init(this.serialAX12));
 
-        /**
-         * 4 - Sortir le bras
-         * 5 - Saisir un module
-         * 6 - Rentrer le bras
-         * 7 - Lacher un module à l'horizontale
-         * 8 - Lacher un module à la verticale
+        /*
+         * 3 - Sortir le bras
+         * 4 - Saisir un module
+         * 5 - Rentrer le bras
+         * 6 - Lacher un module à l'horizontale
+         * 7 - Lacher un module à la verticale
          */
-        // TODO vérifier que les actions suffisent
         actionExecutors.add(new BrasSortir().init(this.serialAX12));
         actionExecutors.add(new BrasSaisirModule().init(this.serialAX12));
         actionExecutors.add(new BrasRentrer().init(this.serialAX12));
