@@ -2,6 +2,7 @@ package esialrobotik.ia.utils.lcd.raspberry;
 
 import java.util.Scanner;
 
+import com.google.inject.Inject;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
@@ -75,6 +76,7 @@ public class LCD_I2C implements LCD {
     private String[] lines;
     private int lineLength;
 
+    @Inject
     public LCD_I2C() {
         this(DEFAULT_I2C_ADDRESS, DEFAULT_LINE_COUNT, DEFAULT_LINE_LENGTH);
     }
