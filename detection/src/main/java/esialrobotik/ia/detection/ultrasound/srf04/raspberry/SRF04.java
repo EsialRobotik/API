@@ -23,19 +23,19 @@ public class SRF04 implements UltraSoundInterface {
 
     public SRF04(int gpioInput, int gpioOutput){
         this.gpioInput = new GpioInput(gpioInput, false);
-        this.gpioOutput = new GpioOutput(gpioOutput, false);
+        this.gpioOutput = new GpioOutput(gpioOutput, true);
         this.init();
     }
 
     @Inject
     public SRF04(@Assisted DetectionModuleConfiguration.GPioPair pair) {
         this.gpioInput = new GpioInput(pair.gpio_in, false);
-        this.gpioOutput = new GpioOutput(pair.gpio_out, false);
+        this.gpioOutput = new GpioOutput(pair.gpio_out, true);
         this.init();
     }
 
     public void init() {
-
+        this.gpioOutput.setLow();
     }
 
     /**
@@ -66,7 +66,7 @@ public class SRF04 implements UltraSoundInterface {
         checkoutTimeout = System.currentTimeMillis();
         while (gpioInput.isHigh()) {
             if (System.currentTimeMillis() - checkoutTimeout > TIMEOUT) {
-                return 10000;
+                return 20000;
             }
         }
         time[1] = System.nanoTime();
