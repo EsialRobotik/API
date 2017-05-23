@@ -79,7 +79,6 @@ public class SRF04 implements UltraSoundInterface {
         SRF04 srf04AvantGauche = new SRF04(21, 22); // Avant gauche
         SRF04 srf04Arriere = new SRF04(24, 25); // Arriere
 
-        System.out.println(System.currentTimeMillis() + " - Start");
         long measureAvantDroit, measureAvantMilieu, measureAvantGauche, measureArriere;
         while (true) {
             measureAvantDroit = srf04AvantDroit.getMeasure();

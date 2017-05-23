@@ -60,12 +60,8 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <!--<mainClass>esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04</mainClass>-->
-                            <mainClass>esialrobotik.ia.detection.ultrasound.DummyUltraSound</mainClass>
-                            <!--<mainClass>esialrobotik.ia.utils.gpio.raspberry.GpioInput</mainClass>-->
-                            <!--<mainClass>esialrobotik.ia.asserv.raspberry.Asserv</mainClass>-->
-                            <!--<mainClass>esialrobotik.ia.asserv.DummyAsserv</mainClass>-->
-                            <!--<mainClass>esialrobotik.ia.utils.lcd.raspberry.LCD_I2C</mainClass>-->
+                            <mainClass>esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04</mainClass>
+                            <!--<mainClass>esialrobotik.ia.detection.ultrasound.DummyUltraSound</mainClass>-->
                         </manifest>
                     </archive>
                 </configuration>
