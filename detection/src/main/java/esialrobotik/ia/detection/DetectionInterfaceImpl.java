@@ -45,6 +45,11 @@ public class DetectionInterfaceImpl implements DetectionInterface{
         long[] res = new long[srf04List.size()];
         for(int i = 0; i < srf04List.size(); ++i) {
             res[i] = srf04List.get(i).getMeasure();
+            try {
+                Thread.sleep(12);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return res;
     }
