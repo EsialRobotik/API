@@ -31,6 +31,12 @@ public class Asserv implements AsservInterface {
     protected MovementDirection direction;
 
     /**
+     * Compteur de status pour éviter de finir les actions avant de les commencer
+     */
+    protected int statusCountdown = 0;
+    protected final Object lock = new Object();
+
+    /**
      * Status de la dernière commande
      */
     protected AsservStatus asservStatus;
@@ -117,6 +123,9 @@ public class Asserv implements AsservInterface {
     public void go(int dist) {
         logger.info("go : " + dist);
         asservStatus = AsservStatus.STATUS_RUNNING;
+        synchronized (lock) {
+            statusCountdown = 2;
+        }
         serial.write("v" + dist);
     }
 
@@ -124,6 +133,9 @@ public class Asserv implements AsservInterface {
     public void turn(int degree) {
         logger.info("turn : " + degree);
         asservStatus = AsservStatus.STATUS_RUNNING;
+        synchronized (lock) {
+            statusCountdown = 2;
+        }
         serial.write("t" + degree);
     }
 
@@ -135,6 +147,9 @@ public class Asserv implements AsservInterface {
     public void goTo(Position position) {
         logger.info("goTo : " + position.toString());
         asservStatus = AsservStatus.STATUS_RUNNING;
+        synchronized (lock) {
+            statusCountdown = 2;
+        }
         serial.write("go" + position.getX() + "#" + position.getY());
     }
 
@@ -142,6 +157,9 @@ public class Asserv implements AsservInterface {
     public void goToChain(Position position) {
         logger.info("goToChain : " + position.toString());
         asservStatus = AsservStatus.STATUS_RUNNING;
+        synchronized (lock) {
+            statusCountdown = 2;
+        }
         serial.write("ge" + position.getX() + "#" + position.getY());
     }
 
@@ -149,6 +167,9 @@ public class Asserv implements AsservInterface {
     public void goToReverse(Position position) {
         logger.info("goToReverse : " + position.toString());
         asservStatus = AsservStatus.STATUS_RUNNING;
+        synchronized (lock) {
+            statusCountdown = 2;
+        }
         serial.write("gb" + position.getX() + "#" + position.getY());
     }
 
@@ -156,6 +177,9 @@ public class Asserv implements AsservInterface {
     public void face(Position position) {
         logger.info("goToFace : " + position.toString());
         asservStatus = AsservStatus.STATUS_RUNNING;
+        synchronized (lock) {
+            statusCountdown = 2;
+        }
         serial.write("gf" + position.getX() + "#" + position.getY());
     }
 
@@ -235,7 +259,12 @@ public class Asserv implements AsservInterface {
             int asservStatusInt = Integer.parseInt(data[3]);
             switch(asservStatusInt) {
                 case 0:
-                    asservStatus = AsservStatus.STATUS_IDLE;
+                    synchronized (lock) {
+                        statusCountdown--;
+                        if (statusCountdown <= 0) {
+                            asservStatus = AsservStatus.STATUS_IDLE;
+                        }
+                    }
                     break;
                 case 1:
                     asservStatus = AsservStatus.STATUS_RUNNING;
