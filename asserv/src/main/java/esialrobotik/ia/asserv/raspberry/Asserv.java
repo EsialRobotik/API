@@ -58,7 +58,9 @@ public class Asserv implements AsservInterface {
         serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
             try {
                 parseAsservPosition(serialDataEvent.getAsciiString());
-                logger.trace("Position : " + getPosition().toString());
+                String serialBuffer = serialDataEvent.getAsciiString();
+                parseAsservPosition(serialBuffer);
+                logger.trace("Position : " + serialBuffer);
             } catch (IOException e) {
                 logger.error("Echec du parsing de la position : " + e.getMessage());
             }
@@ -82,8 +84,9 @@ public class Asserv implements AsservInterface {
         serial = new Serial(serialPort, baudRate);
         serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
             try {
-                parseAsservPosition(serialDataEvent.getAsciiString());
-                logger.trace("Position : " + getPosition().toString());
+                String serialBuffer = serialDataEvent.getAsciiString();
+                parseAsservPosition(serialBuffer);
+                logger.trace("Position : " + serialBuffer);
             } catch (IOException e) {
                 logger.error("Echec du parsing de la position : " + e.getMessage());
             }
