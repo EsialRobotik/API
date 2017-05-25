@@ -282,11 +282,9 @@ public class Asserv implements AsservInterface {
             int vitesseD = Integer.parseInt(data[6]);
             if(vitesseD > 0 && vitesseG > 0) {
                 direction = MovementDirection.FORWARD;
-            }
-            else if(vitesseD < 0 && vitesseG < 0) {
+            } else if(vitesseD < 0 && vitesseG < 0) {
                 direction = MovementDirection.BACKWARD;
-            }
-            else {
+            } else {
                 direction = MovementDirection.NONE;
             }
         }

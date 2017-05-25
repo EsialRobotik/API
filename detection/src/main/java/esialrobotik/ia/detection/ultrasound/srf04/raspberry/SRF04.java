@@ -91,6 +91,28 @@ public class SRF04 implements UltraSoundInterface {
             System.out.println("measureAvantDroit=" + measureAvantDroit + "  measureAvantMilieu=" + measureAvantMilieu + "  measureAvantGauche=" + measureAvantGauche + "  measureArriere=" + measureArriere);
             Thread.sleep(12);
         }
+
+//        GpioOutput out0 = new GpioOutput(0, true);
+//        GpioOutput out2 = new GpioOutput(2, true);
+//        GpioOutput out12 = new GpioOutput(12, true);
+//        GpioOutput out13 = new GpioOutput(13, true);
+//        GpioOutput out21 = new GpioOutput(21, true);
+//        GpioOutput out22 = new GpioOutput(22, true);
+//        GpioOutput out24 = new GpioOutput(24, true);
+//        GpioOutput out25 = new GpioOutput(25, true);
+//
+//        out0.setLow();
+//        out2.setLow();
+//        out12.setLow();
+//        out13.setLow();
+//        out21.setLow();
+//        out22.setLow();
+//        out24.setLow();
+//        out25.setLow();
+//
+//        while (true) {
+//            Thread.sleep(200);
+//        }
     }
 
 }

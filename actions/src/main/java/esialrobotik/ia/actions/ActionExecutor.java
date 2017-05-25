@@ -17,4 +17,9 @@ public interface ActionExecutor {
      */
     boolean finished();
 
+    /**
+     * On fait comme si l'action avait pas démarée
+     */
+    void resetActionState();
+
 }
