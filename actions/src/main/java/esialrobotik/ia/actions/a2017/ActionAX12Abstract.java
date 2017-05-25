@@ -22,7 +22,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		MAIN_DEPOSE(1, 20),
 		MAIN_GRANDE_OUVERTE(1, 80),
 		MINERAI_LARGUER(4, 237.1),
-		MINERAI_RAMASSER(4, 241.1),
+		MINERAI_RAMASSER(4, 245.1/*241.1*/),
 		MINERAI_RENTRER(4, 154.5);
 		
 		public final int addr;
