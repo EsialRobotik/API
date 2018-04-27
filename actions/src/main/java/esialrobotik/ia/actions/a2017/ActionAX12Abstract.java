@@ -20,7 +20,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		POIGNET_HORIZONTAL(2, 106),
 		MAIN_FERMEE(1, 0),
 		MAIN_DEPOSE(1, 20),
-		MAIN_GRANDE_OUVERTE(1, 80),
+		MAIN_GRANDE_OUVERTE(1, 70),
 		MINERAI_LARGUER(4, 237.1),
 		MINERAI_RAMASSER(4, 245.1/*241.1*/),
 		MINERAI_RENTRER(4, 154.5);
