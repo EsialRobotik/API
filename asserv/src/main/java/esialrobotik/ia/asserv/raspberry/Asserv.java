@@ -200,8 +200,8 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
-    public void setOdometireTheta(double theta) {
-        logger.info("setOdometireTheta");
+    public void setOdometrieTheta(double theta) {
+        logger.info("setOdometrieTheta");
         serial.write("Osa");
     }
 
@@ -312,36 +312,49 @@ public class Asserv implements AsservInterface {
 
     @Override
     public void calage(boolean isColor0) throws InterruptedException {
-        // TODO réécrire le calage du coup
-        // Calage bordure à la rache
+        // On semet au ralentie
         enableLowSpeed(true);
+
+        // On se colle à la bordure de 3000
         go(-200);
         Thread.sleep(2000);
         enableRegulatorAngle(false);
         Thread.sleep(2000);
-
         resetRegulatorAngle();
-        setOdometrieX(102);
+
+        // On set le X puis on avance un peu
+        setOdometrieX(102); // TODO vérifier cette valeur
+        setOdometrieTheta(0);
         enableRegulatorAngle(true);
         emergencyStop();
         emergencyReset();
         go(120);
         Thread.sleep(1000);
-//        turn(positiveY ? 90 : -90);
+
+        // On tourne de 90° pour mettre le cul vers la bordure de 2000
+        turn(isColor0 ? 90 : -90);
+
+        // On recule contre la bordure
         Thread.sleep(1000);
         go(-200);
         Thread.sleep(2000);
         enableRegulatorAngle(false);
         Thread.sleep(2000);
 
-//        setOdometrieY((positiveY ? 1 : -1) * (710 + 18 + 102));
+        setOdometrieY(isColor0 ? 102 : 3000 - 102); // TODO vérifier cette valeur
         emergencyStop();
         emergencyReset();
+
+        // On se remet à vitesse normale
         enableLowSpeed(false);
         enableRegulatorAngle(true);
-        go(80);
-        Thread.sleep(5000);
-//        turn(positiveY ? -90 : 90);
+
+        // On se positionne dans la zone de départ
+        go(200);
+        Position depart = new Position(100, isColor0 ? 100 : 3000 - 100);
+        goTo(depart);
+        Position alignement = new Position(1000, isColor0 ? 100 : 3000 - 100);
+        face(alignement);
     }
 
     public static void main(String... args) throws InterruptedException {

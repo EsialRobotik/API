@@ -62,7 +62,7 @@ public class DummyAsserv implements AsservInterface {
     }
 
     @Override
-    public void setOdometireTheta(double theta) {
+    public void setOdometrieTheta(double theta) {
 
     }
 
