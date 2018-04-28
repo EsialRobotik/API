@@ -311,7 +311,8 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
-    public void calage(boolean positiveY) throws InterruptedException {
+    public void calage(boolean isColor0) throws InterruptedException {
+        // TODO réécrire le calage du coup
         // Calage bordure à la rache
         enableLowSpeed(true);
         go(-200);
@@ -326,21 +327,21 @@ public class Asserv implements AsservInterface {
         emergencyReset();
         go(120);
         Thread.sleep(1000);
-        turn(positiveY ? 90 : -90);
+//        turn(positiveY ? 90 : -90);
         Thread.sleep(1000);
         go(-200);
         Thread.sleep(2000);
         enableRegulatorAngle(false);
         Thread.sleep(2000);
 
-        setOdometrieY((positiveY ? 1 : -1) * (710 + 18 + 102));
+//        setOdometrieY((positiveY ? 1 : -1) * (710 + 18 + 102));
         emergencyStop();
         emergencyReset();
         enableLowSpeed(false);
         enableRegulatorAngle(true);
         go(80);
         Thread.sleep(5000);
-        turn(positiveY ? -90 : 90);
+//        turn(positiveY ? -90 : 90);
     }
 
     public static void main(String... args) throws InterruptedException {
