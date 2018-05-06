@@ -58,7 +58,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>esialrobotik.ia.utils.rplidar.SpewOutMeasurements</mainClass>
+                            <mainClass>esialrobotik.ia.utils.lcd.raspberry.LCD_I2C</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

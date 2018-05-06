@@ -14,6 +14,7 @@ import esialrobotik.ia.utils.log.LoggerFactory;
  * LCD 2 lignes / 16 colonnes de Joy-It
  *
  * @see <a href="https://www.gotronic.fr/pj2-sbc-lcd16x2-fr-1441.pdf">Documentation</a>
+ * @see <a href="https://github.com/CaptainStouf/raspberry_lcd4x20_I2C">Librairie Python d'origine</a>
  */
 public class LCD_I2C implements LCD {
 
@@ -177,19 +178,23 @@ public class LCD_I2C implements LCD {
     public void clear() {
         i2cWrite(LCD_CLEARDISPLAY);
         i2cWrite(LCD_RETURNHOME);
+        println("");
+        println("");
     }
 
 
-    public static void main(String args[]) {
+    public static void main(String args[]) throws InterruptedException {
         LoggerFactory.init(Level.INFO);
+        System.out.println("Hello LCD");
 
         LCD screen = new LCD_I2C();
-        screen.println("Coucou");
-        screen.println("Youpi !!!");
-        Scanner sysin = new Scanner(System.in);
 
         while (true) {
-            screen.println(sysin.nextLine());
+            screen.println("Coucou");
+            Thread.sleep(1000);
+            screen.clear();
+            System.out.println("Clear");
+            Thread.sleep(1000);
         }
     }
 
