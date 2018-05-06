@@ -202,7 +202,7 @@ public class Asserv implements AsservInterface {
     @Override
     public void setOdometrieTheta(double theta) {
         logger.info("setOdometrieTheta");
-        serial.write("Osa");
+        serial.write("Osa" + theta);
     }
 
     /*******************************************************************************************************************
@@ -315,16 +315,16 @@ public class Asserv implements AsservInterface {
         // On semet au ralentie
         enableLowSpeed(true);
 
-        // On se colle à la bordure de 3000
+        // On se colle à la bordure de 2000
         go(-200);
         Thread.sleep(2000);
         enableRegulatorAngle(false);
         Thread.sleep(2000);
         resetRegulatorAngle();
 
-        // On set le X puis on avance un peu
-        setOdometrieX(102); // TODO vérifier cette valeur
-        setOdometrieTheta(0);
+        // On set le Y puis on avance un peu
+        setOdometrieY(isColor0 ? 102 : 3000 - 102);
+        setOdometrieTheta((isColor0 ? 1 : -1) * Math.PI/2);
         enableRegulatorAngle(true);
         emergencyStop();
         emergencyReset();
@@ -332,7 +332,7 @@ public class Asserv implements AsservInterface {
         Thread.sleep(1000);
 
         // On tourne de 90° pour mettre le cul vers la bordure de 2000
-        turn(isColor0 ? 90 : -90);
+        turn(isColor0 ? -90 : 90);
 
         // On recule contre la bordure
         Thread.sleep(1000);
@@ -341,7 +341,7 @@ public class Asserv implements AsservInterface {
         enableRegulatorAngle(false);
         Thread.sleep(2000);
 
-        setOdometrieY(isColor0 ? 102 : 3000 - 102); // TODO vérifier cette valeur
+        setOdometrieX(102);
         emergencyStop();
         emergencyReset();
 
@@ -351,9 +351,9 @@ public class Asserv implements AsservInterface {
 
         // On se positionne dans la zone de départ
         go(200);
-        Position depart = new Position(100, isColor0 ? 100 : 3000 - 100);
+        Position depart = new Position(400, isColor0 ? 200 : 3000 - 200);
         goTo(depart);
-        Position alignement = new Position(1000, isColor0 ? 100 : 3000 - 100);
+        Position alignement = new Position(400, isColor0 ? 3000 : 0);
         face(alignement);
     }
 
