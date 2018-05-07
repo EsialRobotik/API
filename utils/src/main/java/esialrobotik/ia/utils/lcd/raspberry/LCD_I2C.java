@@ -181,8 +181,8 @@ public class LCD_I2C implements LCD {
 
     @Override
     public void clear() {
-        println("");
-        println("");
+        lines = new String[lines.length];
+        refresh();
     }
 
 
