@@ -105,6 +105,11 @@ public class Asserv implements AsservInterface {
      * Commandes basiques
      ******************************************************************************************************************/
 
+    public void initialize() {
+        logger.info("init");
+        serial.write("I");
+    }
+
     @Override
     public void emergencyStop() {
         logger.info("emergencyStop");
@@ -312,6 +317,9 @@ public class Asserv implements AsservInterface {
 
     @Override
     public void calage(boolean isColor0) throws InterruptedException {
+        // On init
+        initialize();
+
         // On semet au ralentie
         enableLowSpeed(true);
 
