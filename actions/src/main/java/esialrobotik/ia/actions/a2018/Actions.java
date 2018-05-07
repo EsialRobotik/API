@@ -8,6 +8,8 @@ import esialrobotik.ia.actions.a2018.bras.BrasDroitRentrer;
 import esialrobotik.ia.actions.a2018.bras.BrasDroitSortir;
 import esialrobotik.ia.actions.a2018.bras.BrasGaucheRentrer;
 import esialrobotik.ia.actions.a2018.bras.BrasGaucheSortir;
+import esialrobotik.ia.actions.a2018.domotik.InterrupteurAllumer;
+import esialrobotik.ia.actions.a2018.domotik.InterrupteurPreparer;
 import esialrobotik.ia.actions.a2018.eau.*;
 import esialrobotik.ia.utils.communication.raspberry.Serial;
 
@@ -49,8 +51,8 @@ public class Actions implements ActionInterface {
          * 7 - Largage Eau Sale Préparation
          * 8 - Rangement Tubes
          * 9 - Remplissage
-         * 9 - Remplissage Préparation
-         * 9 - Remplissage Rangement
+         * 10 - Remplissage Préparation
+         * 11 - Remplissage Rangement
          */
         actionExecutors.add(new LancementEauPropre().init(this.serialAX12));
         actionExecutors.add(new LargageEauSaleDroit().init(this.serialAX12));
@@ -60,6 +62,13 @@ public class Actions implements ActionInterface {
         actionExecutors.add(new Remplissage().init(this.serialAX12));
         actionExecutors.add(new RemplissagePreparation().init(this.serialAX12));
         actionExecutors.add(new RemplissageRangement().init(this.serialAX12));
+        
+        /*
+         * 12 - Pr�paration de l'allumage de l'interrupteur
+         * 13 - Allumage de l'interrupteur
+         */
+        actionExecutors.add(new InterrupteurPreparer().init(this.serialAX12));
+        actionExecutors.add(new InterrupteurAllumer().init(this.serialAX12));
     }
 
     @Override
