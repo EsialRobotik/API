@@ -62,9 +62,9 @@ public class Actions implements ActionInterface {
         actionExecutors.add(new Remplissage().init(this.serialAX12));
         actionExecutors.add(new RemplissagePreparation().init(this.serialAX12));
         actionExecutors.add(new RemplissageRangement().init(this.serialAX12));
-        
+
         /*
-         * 12 - Préparation de l'allumage de l'interrupteur
+         * 12 - PrÃ©paration de l'allumage de l'interrupteur
          * 13 - Allumage de l'interrupteur
          */
         actionExecutors.add(new InterrupteurPreparer().init(this.serialAX12));
