@@ -15,14 +15,14 @@ import esialrobotik.ia.utils.communication.raspberry.Serial;
  */
 public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 
-	// La liaison série vers les AX12
+	// La liaison sï¿½rie vers les AX12
     private Serial serialAX12;
-    // Pour éviter un getOutputStream() à chaque fois qu'on a besoin d'écrire
+    // Pour ï¿½viter un getOutputStream() ï¿½ chaque fois qu'on a besoin d'ï¿½crire
     private OutputStream os;
-    // Pour éviter un getInputStream() à chaque fois qu'on a besoin de lire
+    // Pour ï¿½viter un getInputStream() ï¿½ chaque fois qu'on a besoin de lire
     private InputStream is;
     
-    // Utilisé pour la lecture des réponses des ax12
+    // Utilisï¿½ pour la lecture des rï¿½ponses des ax12
     protected ArrayList<Byte> lecture;
     // Permet d'utiliser une liaison half duplex en reliant les pins rx et tx de l'uart entre elles
     protected boolean combinedRxTx = true;
@@ -47,7 +47,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     
     // Les diverses actions possibles par AX12
 	protected enum ACTION_AX12 {
-		// Gère la crémaillère pour faire tranlster les tubes
+		// Gï¿½re la crï¿½maillï¿½re pour faire tranlster les tubes
 		EAU_RAIL_GARAGE(AX12_NAME.RAIL, 267.7),
 		EAU_RAIL_REMPLISSAGE_1(AX12_NAME.RAIL, 173.0),
 		EAU_RAIL_REMPLISSAGE_2(AX12_NAME.RAIL, 66.4),
@@ -65,7 +65,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		EAU_ORIENTATION_HORIZONTAL_GAUCHE(AX12_NAME.ORIENTATION, 240.2),
 		EAU_ORIENTATION_HORIZONTAL_DROIT(AX12_NAME.ORIENTATION, 60.3),
 		
-		// Gère l'inclinaison des tubes à l'intérieur du robot
+		// Gï¿½re l'inclinaison des tubes ï¿½ l'intï¿½rieur du robot
 		EAU_PENTE_HORIZONTALE(AX12_NAME.PENTE, 142.3),
 		EAU_PENTE_QUASI_HORIZONTALE(AX12_NAME.PENTE, 150.0),
 		EAU_PENTE_VERTICALE(AX12_NAME.PENTE, 231.7),
@@ -75,11 +75,11 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		EAU_PENTE_REMPLISSAGE(AX12_NAME.PENTE, 242.3),
 		EAU_PENTE_INTERRUPTEUR(AX12_NAME.PENTE, 190.0),
 		
-		// Gère le bras gauche du robot (du point de vue du robot)
+		// Gï¿½re le bras gauche du robot (du point de vue du robot)
 		BRAS_GAUCHE_SORTIR(AX12_NAME.BRAS_GAUCHE, 145.7),
 		BRAS_GAUCHE_RENTRER(AX12_NAME.BRAS_GAUCHE, 242.0),
 		
-		// Gère le bras droit du robot (du point de vue du robot)
+		// Gï¿½re le bras droit du robot (du point de vue du robot)
 		BRAS_DROIT_SORTIR(AX12_NAME.BRAS_DROIT, 247.7),
 		BRAS_DROIT_RENTRER(AX12_NAME.BRAS_DROIT, 153.5);
 		
@@ -121,16 +121,16 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 			os.write(cmd);
 			os.flush();
 			
-			// On retire du flux d'entrée la commande qu'on vient juste d'envoyer si rx et tx sont combinés
+			// On retire du flux d'entrï¿½e la commande qu'on vient juste d'envoyer si rx et tx sont combinï¿½s
 			if (this.combinedRxTx) {
 				for (int i=0; i<cmd.length; i++) {
 					if (is.read() == -1) {
-						throw new AX12LinkException("Erreur de vidange du flux d'entrée. Rx et Tx sont-ils vraiment reliés entre eux ?");
+						throw new AX12LinkException("Erreur de vidange du flux d'entrï¿½e. Rx et Tx sont-ils vraiment reliï¿½s entre eux ?");
 					}
 				}	
 			}
 			
-			// On lit la réponse de l'AX12
+			// On lit la rï¿½ponse de l'AX12
 			this.lecture.clear();
 			int r;
 			while ((r = is.read()) != -1) {
@@ -169,8 +169,8 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	}
 	
 	/**
-	 * Applique l'état demandé
-	 * Cette fonction s'appelle go parce que do est déjà pris :'(
+	 * Applique l'ï¿½tat demandï¿½
+	 * Cette fonction s'appelle go parce que do est dï¿½jï¿½ pris :'(
 	 * @param et
 	 */
 	protected void go(ACTION_AX12 et) {
@@ -180,8 +180,8 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		
 		ax12.setAddress(et.ax12.adresse);
 		try {
-			// Ptit hack dégueu : on ajoute de l'élasticité à l'ax12 qui lève les tubes
-			// Ça évite de perdre les balles du dessus à cause des secousses
+			// Ptit hack dï¿½gueu : on ajoute de l'ï¿½lasticitï¿½ ï¿½ l'ax12 qui lï¿½ve les tubes
+			// ï¿½a ï¿½vite de perdre les balles du dessus ï¿½ cause des secousses
 			if (et.ax12 == AX12_NAME.PENTE) {
 				ax12.setCwComplianceSlope(99);
 				ax12.setCcwComplianceSlope(99);
@@ -195,8 +195,8 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	}
 	
 	/**
-	 * Attend une certaine durée en ms
-	 * @param duree tps à attendre en ms
+	 * Attend une certaine durï¿½e en ms
+	 * @param duree tps ï¿½ attendre en ms
 	 */
 	protected void attend(long duree) {
 		try {
@@ -209,14 +209,13 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	/**
 	 * Attend que tous les ax12 de la liste aient fini de bouger
 	 * Attention aux blagues avec le mode rotation continue ;)
-	 * @param ax12
 	 */
 	protected void attendreImmobilisation(AX12_NAME... liste) {
 		boolean bouge = false;
 		
 		do {
 			if (bouge) {
-				// Pour éviter de spammer la liaison série, on est pas à 50ms près
+				// Pour ï¿½viter de spammer la liaison sï¿½rie, on est pas ï¿½ 50ms prï¿½s
 				attend(50);
 			}
 			bouge = false;
@@ -242,8 +241,8 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     protected abstract void childExecution();
     
     /**
-     * Allume ou éteint le lanceur
-     * Oui ça n'a normalement rien à voir avec un AX12 mais c'est contrôlé par le pin DTR de l'UART :p
+     * Allume ou ï¿½teint le lanceur
+     * Oui ï¿½a n'a normalement rien ï¿½ voir avec un AX12 mais c'est contrï¿½lï¿½ par le pin DTR de l'UART :p
      * @param allumer
      */
     protected void allumerLanceur(boolean allumer) {

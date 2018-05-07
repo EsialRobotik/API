@@ -29,6 +29,7 @@ public class Actions implements ActionInterface {
     @Inject
     public Actions(ActionModuleConfiguration actionModuleConfiguration) {
         this.serialAX12 = new Serial(actionModuleConfiguration.getSerialPort(), Baud.getInstance(actionModuleConfiguration.getBaud()));
+        this.serialAX12.setDTR(false);
         // On instancie les différents types d'actions, on fait les init et on stocke tout ça dans la liste
         actionExecutors = new ArrayList<>();
 
