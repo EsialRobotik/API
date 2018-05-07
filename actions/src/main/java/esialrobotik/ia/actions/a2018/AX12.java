@@ -1,5 +1,6 @@
 package esialrobotik.ia.actions.a2018;
 
+import java.util.BitSet;
 
 public class AX12 {
 	
@@ -603,8 +604,23 @@ public class AX12 {
 		if (val < 0 || val > 255) {
 			throw new IllegalArgumentException("La valeur doit être comprise entre 0 et 255 : "+val);
 		}
-
-		return (byte) val;
+		
+		if(val == 0) {
+			return 0;
+		}
+		BitSet bs = new BitSet(8);
+		int vals[] = new int[]{1, 2, 4, 8, 16, 32, 64, 128};
+		
+		for(int i=vals.length-1; i>=0; i--) {
+			if (val >= vals[i]) {
+				val -= vals[i];
+				bs.set(i, true);
+			} else {
+				bs.set(i, false);
+			}
+		}
+		
+		return bs.toByteArray()[0];
 	}
 	
 	/**
@@ -614,11 +630,18 @@ public class AX12 {
 	 * @throws IllegalArgumentException Si la valeur donnée n'est pas comprise entre 0 et 255
 	 */
 	public static int unsignedByteToInt(byte b) throws IllegalArgumentException {
-		int r = b;
-		if (r < 0) {
-			r += 256;
+		BitSet bs = BitSet.valueOf(new byte[]{b});
+		int vals[] = new int[]{1, 2, 4, 8, 16, 32, 64, 128};
+		int res = 0;
+		
+		for(int i=vals.length-1; i>=0; i--) {
+			if (bs.get(i)) {
+				res += vals[i];
+				bs.set(i, true);
+			}
 		}
-		return r;
+		
+		return res;
 	}
 	
 	/**
