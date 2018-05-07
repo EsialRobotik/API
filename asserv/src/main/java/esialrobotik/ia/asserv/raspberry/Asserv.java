@@ -353,7 +353,7 @@ public class Asserv implements AsservInterface {
         go(200);
         Position depart = new Position(400, isColor0 ? 200 : 3000 - 200);
         goTo(depart);
-        Position alignement = new Position(400, isColor0 ? 3000 : 0);
+        Position alignement = new Position(1000, isColor0 ? 850 : 3000 - 850);
         face(alignement);
     }
 
