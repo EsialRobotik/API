@@ -140,7 +140,7 @@ public class LCD_I2C implements LCD {
     }
 
     private void refresh() {
-        clear();
+        clearLcd();
 
         for (int i = 0; i < lines.length; i++) {
             if (lines[i] != null) {
@@ -174,10 +174,13 @@ public class LCD_I2C implements LCD {
         refresh();
     }
 
-    @Override
-    public void clear() {
+    private void clearLcd() {
         i2cWrite(LCD_CLEARDISPLAY);
         i2cWrite(LCD_RETURNHOME);
+    }
+
+    @Override
+    public void clear() {
         println("");
         println("");
     }
