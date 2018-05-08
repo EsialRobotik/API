@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 
+import com.pi4j.io.serial.SerialDataEvent;
+import com.pi4j.io.serial.SerialDataEventListener;
 import esialrobotik.ia.actions.ActionExecutor;
 import esialrobotik.ia.utils.communication.raspberry.Serial;
 
@@ -16,11 +18,7 @@ import esialrobotik.ia.utils.communication.raspberry.Serial;
 public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 
 	// La liaison s�rie vers les AX12
-    private Serial serialAX12;
-    // Pour �viter un getOutputStream() � chaque fois qu'on a besoin d'�crire
-    private OutputStream os;
-    // Pour �viter un getInputStream() � chaque fois qu'on a besoin de lire
-    private InputStream is;
+    private AX12Serial serialAX12;
     
     // Utilis� pour la lecture des r�ponses des ax12
     protected ArrayList<Byte> lecture;
@@ -91,10 +89,9 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		}
 	}
 
-    public ActionExecutor init(Serial serialAX12) {
+    public ActionExecutor init(AX12Serial serialAX12) {
+
         this.serialAX12 = serialAX12;
-        this.is = serialAX12.getInputStream();
-        this.os = serialAX12.getOutputStream();
         this.combinedRxTx = true;
         ax12 = new AX12(1, this);
         return this;
@@ -116,15 +113,15 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	public byte[] sendCommand(byte[] cmd, int baudRate) throws AX12LinkException {
 		int oldBr = -1;
 		byte[] response = null;
-		
+
 		try {
-			os.write(cmd);
-			os.flush();
+			serialAX12.write(cmd);
+			serialAX12.flush();
 			
 			// On retire du flux d'entr�e la commande qu'on vient juste d'envoyer si rx et tx sont combin�s
 			if (this.combinedRxTx) {
 				for (int i=0; i<cmd.length; i++) {
-					if (is.read() == -1) {
+					if (serialAX12.read() == -1) {
 						throw new AX12LinkException("Erreur de vidange du flux d'entr�e. Rx et Tx sont-ils vraiment reli�s entre eux ?");
 					}
 				}	
@@ -133,7 +130,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 			// On lit la r�ponse de l'AX12
 			this.lecture.clear();
 			int r;
-			while ((r = is.read()) != -1) {
+			while ((r = serialAX12.read()) != -1) {
 				lecture.add(AX12.intToUnsignedByte(r));
 			}
 			
@@ -175,9 +172,10 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	 */
 	protected void go(ACTION_AX12 et) {
 		if (ax12 == null) {
+			System.out.println("Pas d'ax12");
 			return;
 		}
-		
+		System.out.println("AX12 go");
 		ax12.setAddress(et.ax12.adresse);
 		try {
 			// Ptit hack d�gueu : on ajoute de l'�lasticit� � l'ax12 qui l�ve les tubes
@@ -192,6 +190,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		} catch (AX12Exception e) {
 			e.printStackTrace();
 		}
+		System.out.println("AX12 go end");
 	}
 	
 	/**
@@ -214,6 +213,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		boolean bouge = false;
 		
 		do {
+			System.out.println("attendreImmobilisation");
 			if (bouge) {
 				// Pour �viter de spammer la liaison s�rie, on est pas � 50ms pr�s
 				attend(50);

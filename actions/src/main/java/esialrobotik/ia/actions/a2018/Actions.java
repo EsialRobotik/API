@@ -23,6 +23,7 @@ import java.util.List;
 public class Actions implements ActionInterface {
 
     private Serial serialAX12;
+    private AX12Serial customSerialAX12;
 
     private List<ActionExecutor> actionExecutors;
 
@@ -30,6 +31,7 @@ public class Actions implements ActionInterface {
     public Actions(ActionModuleConfiguration actionModuleConfiguration) {
         this.serialAX12 = new Serial(actionModuleConfiguration.getSerialPort(), Baud.getInstance(actionModuleConfiguration.getBaud()));
         this.serialAX12.setDTR(false);
+        this.customSerialAX12 = new AX12Serial(this.serialAX12);
         // On instancie les différents types d'actions, on fait les init et on stocke tout ça dans la liste
         actionExecutors = new ArrayList<>();
 
@@ -40,10 +42,10 @@ public class Actions implements ActionInterface {
          * 2 - Rentrer Bras Gauche
          * 3 - Sortir Bras Gauche
          */
-        actionExecutors.add(new BrasDroitRentrer().init(this.serialAX12));
-        actionExecutors.add(new BrasDroitSortir().init(this.serialAX12));
-        actionExecutors.add(new BrasGaucheRentrer().init(this.serialAX12));
-        actionExecutors.add(new BrasGaucheSortir().init(this.serialAX12));
+        actionExecutors.add(new BrasDroitRentrer().init(this.customSerialAX12));
+        actionExecutors.add(new BrasDroitSortir().init(this.customSerialAX12));
+        actionExecutors.add(new BrasGaucheRentrer().init(this.customSerialAX12));
+        actionExecutors.add(new BrasGaucheSortir().init(this.customSerialAX12));
 
         /*
          * 4 - Lancement Eau Propre
@@ -55,21 +57,21 @@ public class Actions implements ActionInterface {
          * 10 - Remplissage Préparation
          * 11 - Remplissage Rangement
          */
-        actionExecutors.add(new LancementEauPropre().init(this.serialAX12));
-        actionExecutors.add(new LargageEauSaleDroit().init(this.serialAX12));
-        actionExecutors.add(new LargageEauSaleGauche().init(this.serialAX12));
-        actionExecutors.add(new LargageEauSalePreparation().init(this.serialAX12));
-        actionExecutors.add(new RangementTubes().init(this.serialAX12));
-        actionExecutors.add(new Remplissage().init(this.serialAX12));
-        actionExecutors.add(new RemplissagePreparation().init(this.serialAX12));
-        actionExecutors.add(new RemplissageRangement().init(this.serialAX12));
+        actionExecutors.add(new LancementEauPropre().init(this.customSerialAX12));
+        actionExecutors.add(new LargageEauSaleDroit().init(this.customSerialAX12));
+        actionExecutors.add(new LargageEauSaleGauche().init(this.customSerialAX12));
+        actionExecutors.add(new LargageEauSalePreparation().init(this.customSerialAX12));
+        actionExecutors.add(new RangementTubes().init(this.customSerialAX12));
+        actionExecutors.add(new Remplissage().init(this.customSerialAX12));
+        actionExecutors.add(new RemplissagePreparation().init(this.customSerialAX12));
+        actionExecutors.add(new RemplissageRangement().init(this.customSerialAX12));
 
         /*
          * 12 - Préparation de l'allumage de l'interrupteur
          * 13 - Allumage de l'interrupteur
          */
-        actionExecutors.add(new InterrupteurPreparer().init(this.serialAX12));
-        actionExecutors.add(new InterrupteurAllumer().init(this.serialAX12));
+        actionExecutors.add(new InterrupteurPreparer().init(this.customSerialAX12));
+        actionExecutors.add(new InterrupteurAllumer().init(this.customSerialAX12));
     }
 
     @Override
