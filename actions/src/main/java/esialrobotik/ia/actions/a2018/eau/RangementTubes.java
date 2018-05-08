@@ -3,7 +3,7 @@ package esialrobotik.ia.actions.a2018.eau;
 import esialrobotik.ia.actions.a2018.ActionAX12Abstract;
 
 /**
- * Met les tubes en mode "garage" sur le côté gauche du robot
+ * Met les tubes en mode "garage" sur le cï¿½tï¿½ gauche du robot
  * @author gryttix
  *
  */
