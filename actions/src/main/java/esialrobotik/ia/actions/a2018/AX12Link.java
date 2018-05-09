@@ -23,9 +23,9 @@ public interface AX12Link {
 	public void setBaudRate(int baudRate) throws AX12LinkException;
 
 	/**
-	 * Active ou d�sactuve la PIN DTR de l'UART
-	 * @param acitvate
+	 * ALlume ou éteint le lanceur de balles
+	 * @param enable
+	 * @throws AX12LinkException 
 	 */
-	public void enableDTR(boolean acitvate);
-
+	public void enableLanceur(boolean enable) throws AX12LinkException;
 }

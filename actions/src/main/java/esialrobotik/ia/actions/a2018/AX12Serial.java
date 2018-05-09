@@ -83,4 +83,21 @@ public class AX12Serial implements SerialDataEventListener {
             }
         }
     }
+    
+    /**
+     * Allume ou éteint le lanceur de balles
+     * @param enable
+     * @throws AX12LinkException
+     */
+	public void enableLanceur(boolean enable) throws AX12LinkException {
+		try {
+			String cmd = enable ? "1111111111" : "0000000000";
+			int count = 11;
+			os.write(cmd.getBytes());	
+			os.flush();
+			
+		} catch (IOException e1) {
+			throw new AX12LinkException("Erreur de transmission de la commande du lanceur", e1);
+		}
+	}
 }
