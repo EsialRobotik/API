@@ -10,12 +10,12 @@ import java.util.ArrayList;
  * @author gryttix
  *
  */
-public abstract class ActionAX12Abstract implements ActionExecutor {
+public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 
-	// La liaison série vers les AX12
-    private AX12Link serialAX12;
+	// La liaison serie vers les AX12
+    private AX12Serial serialAX12;
     
-    // Utilisé pour la lecture des réponses des ax12
+    // Utilise pour la lecture des reponses des ax12
     protected ArrayList<Byte> lecture;
     
     // Une seule instance de l'ax12 : on change son adresse pour chaque commande
@@ -38,7 +38,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
     
     // Les diverses actions possibles par AX12
 	protected enum ACTION_AX12 {
-		// Gère la crémaillère pour faire tranlster les tubes
+		// Gère la cremaillère pour faire tranlster les tubes
 		EAU_RAIL_GARAGE(AX12_NAME.RAIL, 267.7),
 		EAU_RAIL_REMPLISSAGE_1(AX12_NAME.RAIL, 173.0),
 		EAU_RAIL_REMPLISSAGE_2(AX12_NAME.RAIL, 57.5),
@@ -58,7 +58,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
 		EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_GAUCHE(AX12_NAME.ORIENTATION, 145.5),
 		EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_DROITE(AX12_NAME.ORIENTATION, 154.5),
 		
-		// Gère l'inclinaison des tubes à l'intérieur du robot
+		// Gère l'inclinaison des tubes a l'interieur du robot
 		EAU_PENTE_HORIZONTALE(AX12_NAME.PENTE, 142.3),
 		EAU_PENTE_QUASI_HORIZONTALE(AX12_NAME.PENTE, 150.0),
 		EAU_PENTE_VERTICALE(AX12_NAME.PENTE, 231.7),
@@ -84,9 +84,9 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
 		}
 	}
 
-    public ActionExecutor init(AX12Link serialAX12) {
+    public ActionExecutor init(AX12Serial serialAX12) {
         this.serialAX12 = serialAX12;
-        ax12 = new AX12(1, serialAX12);
+        ax12 = new AX12(1, this);
         return this;
     }
     
@@ -103,8 +103,8 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
     }
 	
 	/**
-	 * Applique l'état demandé
-	 * Cette fonction s'appelle go parce que do est déjà pris :'(
+	 * Applique l'etat demande
+	 * Cette fonction s'appelle go parce que do est deja pris :'(
 	 * @param et
 	 */
 	protected void go(ACTION_AX12 et) {
@@ -118,8 +118,8 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
 		
 		while(essaisRestants > 0) {
 			try {
-				// Ptit hack dégueu : on ajoute de l'élasticité à l'ax12 qui lève les tubes
-				// Ça évite de perdre les balles du dessus à cause des secousses
+				// Ptit hack degueu : on ajoute de l'elasticite a l'ax12 qui lève les tubes
+				// Ça evite de perdre les balles du dessus a cause des secousses
 				if (et.ax12 == AX12_NAME.PENTE) {
 					ax12.setCwComplianceSlope(99);
 					ax12.setCcwComplianceSlope(99);
@@ -142,9 +142,53 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
 		}
 	}
 	
+
+    @Override
+    public byte[] sendCommand(byte[] cmd, int baudRate) throws AX12LinkException {
+        int oldBr = -1;
+        byte[] response = null;
+
+        try {
+            serialAX12.write(cmd);
+            serialAX12.flush();
+            
+            // On lit la reponse de l'AX12
+            this.lecture.clear();
+            int r;
+            while ((r = serialAX12.read()) != -1) {
+                lecture.add(AX12.intToUnsignedByte(r));
+            }
+            
+            response = new byte[lecture.size()];
+            for (int i=lecture.size()-1; i>=0; i--) {
+                response[i] = lecture.get(i);
+            }
+            
+        } catch (IOException e1) {
+            throw new AX12LinkException("Erreur de transmission de la commande", e1);
+        } finally {
+            if (oldBr != -1) {
+                this.setBaudRate(oldBr);
+            }
+        }
+        
+        return response;
+    }
+
+    @Override
+    public int getBaudRate() {
+        return 115200;
+    }
+
+    @Override
+    public void setBaudRate(int baudRate) throws AX12LinkException {
+        // Nothing
+    }
+
+	
 	/**
-	 * Attend une certaine durée en ms
-	 * @param duree tps à attendre en ms
+	 * Attend une certaine duree en ms
+	 * @param duree tps a attendre en ms
 	 */
 	protected void attend(long duree) {
 		try {
@@ -165,7 +209,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
 		
 		do {
 			if (bouge) {
-				// Pour éviter de spammer la liaison série, on est pas à 50ms près
+				// Pour eviter de spammer la liaison serie, on est pas a 50ms près
 				attend(50);
 			}
 			bouge = false;
@@ -196,9 +240,22 @@ public abstract class ActionAX12Abstract implements ActionExecutor {
 	 */
     protected abstract void childExecution();
     
+   /**
+    * Allume ou eteint le lanceur
+    * @param allumer
+    * @throws AX12LinkException
+    */
+   @Override
+   public void enableLanceur(boolean allumer) throws AX12LinkException {
+       try {
+           this.serialAX12.enableLanceur(allumer);
+       } catch (AX12LinkException e) {
+           e.printStackTrace();
+       }
+   }
+   
     /**
-     * Allume ou éteint le lanceur
-     * Oui ça n'a normalement rien à voir avec un AX12 mais c'est contrôlé par le pin DTR de l'UART :p
+     * Allume ou eteint le lanceur
      * @param allumer
      */
     protected void allumerLanceur(boolean allumer) {
