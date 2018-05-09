@@ -3,7 +3,7 @@ package esialrobotik.ia.actions.a2018.eau;
 import esialrobotik.ia.actions.a2018.ActionAX12Abstract;
 
 /**
- * Prépare les tubes pour un remplissage avant que le robot ne les présente sur le côté de la colonne d'eau
+ * PrÃ©pare les tubes pour un remplissage avant que le robot ne les prÃ©sente sur le cÃ´tÃ© de la colonne d'eau
  * @author gryttix
  *
  */

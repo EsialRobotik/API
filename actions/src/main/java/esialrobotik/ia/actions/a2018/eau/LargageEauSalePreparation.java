@@ -3,7 +3,7 @@ package esialrobotik.ia.actions.a2018.eau;
 import esialrobotik.ia.actions.a2018.ActionAX12Abstract;
 
 /**
- * Prépare les tubes pour larguer l'eau sale
+ * PrÃ©pare les tubes pour larguer l'eau sale
  * @author gryttix
  *
  */
