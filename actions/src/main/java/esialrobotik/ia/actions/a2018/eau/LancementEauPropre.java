@@ -24,6 +24,10 @@ public class LancementEauPropre extends ActionAX12Abstract {
 		// Feu !
 		go(ACTION_AX12.EAU_PENTE_FORTE_DROIT);
 		attend(2000);
+		go(ACTION_AX12.EAU_PENTE_QUASI_HORIZONTALE);
+		attendreImmobilisation(AX12_NAME.PENTE);
+		go(ACTION_AX12.EAU_PENTE_FORTE_DROIT);
+		attend(2000);
 		
 		// Positionnement du tube gauche devant le lanceur
 		go(ACTION_AX12.EAU_PENTE_QUASI_HORIZONTALE);
@@ -31,8 +35,13 @@ public class LancementEauPropre extends ActionAX12Abstract {
 		go(ACTION_AX12.EAU_RAIL_LANCEUR_GAUCHE);
 		go(ACTION_AX12.EAU_ORIENTATION_LANCEUR_GAUCHE);
 		attendreImmobilisation(AX12_NAME.RAIL, AX12_NAME.ORIENTATION);
+		attend(500);
 		
 		// Feu !
+		go(ACTION_AX12.EAU_PENTE_FORTE_GAUCHE);
+		attend(2000);
+		go(ACTION_AX12.EAU_PENTE_QUASI_HORIZONTALE);
+		attendreImmobilisation(AX12_NAME.PENTE);
 		go(ACTION_AX12.EAU_PENTE_FORTE_GAUCHE);
 		attend(2000);
 		

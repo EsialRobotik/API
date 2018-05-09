@@ -34,11 +34,7 @@ public class AX12Serial implements SerialDataEventListener {
     public void setDefaultReadTimeout(int timeout) {
         this.timeout = timeout;
     }
-
-    public void setDTR(boolean dtr) {
-        serial.setDTR(dtr);
-    }
-
+    
     public int read() {
         return read(timeout);
     }
@@ -92,7 +88,7 @@ public class AX12Serial implements SerialDataEventListener {
 	public void enableLanceur(boolean enable) throws AX12LinkException {
 		try {
 			String cmd = enable ? "1111111111" : "0000000000";
-			int count = 11;
+
 			os.write(cmd.getBytes());	
 			os.flush();
 			
