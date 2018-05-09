@@ -468,12 +468,12 @@ public class AX12 {
 	 */
 	protected byte[] sendRequest(AX12_Instr instruction, byte... params) throws AX12LinkException, AX12Exception {
 		if (instruction.minParamCount != -1 && params.length < instruction.minParamCount) {
-			throw new RuntimeException(instruction.toString()+" attend au moins "+instruction.minParamCount+" param�tre(s). "+params.length+" re�u(s)");
+			throw new RuntimeException(instruction.toString()+" attend au moins "+instruction.minParamCount+" paramètre(s). "+params.length+" reçu(s)");
 		}
 		if (instruction.maxParamCount != -1 && params.length > instruction.maxParamCount) {
-			throw new RuntimeException(instruction.toString()+" attend au plus "+instruction.maxParamCount+" param�tre(s). "+params.length+" re�u(s)");
+			throw new RuntimeException(instruction.toString()+" attend au plus "+instruction.maxParamCount+" paramètre(s). "+params.length+" reçu(s)");
 		}
-
+		
 		// Instruction packet : FF FF <ID> <LEN> <INSTR> <PAR0>..<PARN> <CKSUM>
 		// <CKSUM> = ( ~(<ID> + <LEN> + <INSTR> + <PAR0> + .. + <PARN>)~) % 0xFF
 		byte buffer[] = new byte[params.length + 6];
@@ -485,25 +485,26 @@ public class AX12 {
 		checksum += (buffer[pos++] = this.addr);
 		checksum += (buffer[pos++] = AX12.intToUnsignedByte(params.length+2));
 		checksum += (buffer[pos++] = instruction.instr);
-		for(i=0; i<params.length; i++){
-			buffer[pos++] = params[i];
-			checksum += params[i];
+		 for(i=0; i<params.length; i++){
+		  buffer[pos++] = params[i];
+		  checksum += params[i];
 		}
 		checksum = (~checksum) & 0xFF;
 		buffer[pos++] = AX12.intToUnsignedByte(checksum);
-
+		
 		byte[] response = alink.sendCommand(buffer, this.baudRate);
 		int address = AX12.unsignedByteToInt(this.addr);
 		if (response.length > 0) {
-			if (!validatePacket(response, address)) {
-				throw new AX12Exception(AX12_Error.AX12_ERR_INVALID_RESPONSE);
+			String validation = validatePacket(response, address); 
+			if (validation != null) {
+				throw new AX12Exception(validation, AX12_Error.AX12_ERR_INVALID_RESPONSE);
 			}
 			AX12_Error[] errors = extractErrors(response[4]);
 			if (errors.length > 0) {
 				throw new AX12Exception("Erreur de l'AX12", errors);
 			}
 		}
-
+		
 		return response;
 	}
 
@@ -513,29 +514,29 @@ public class AX12 {
 	 * @param ax12Addr l'adresse de l'AX12 solicit�
 	 * @return
 	 */
-	protected static boolean validatePacket(byte[] packet, int ax12Addr) {
+	protected static String validatePacket(byte[] packet, int ax12Addr) {
 		// Taille minimum
 		if (packet.length < 6) {
-			return false;
+			return "La taille minimale du packet n'est pas valide ("+packet.length+")";
 		}
-
+		
 		// Doit commencer par 0xFF deux fois
 		if (packet[0] != packet[1] || packet[0] != AX12.intToUnsignedByte(0xFF)) {
-			return false;
+			return "Le header du paquet n'est pas valide";
 		}
-
+		
 		// Doit contenir l'id de l'AX12
 		if (AX12.unsignedByteToInt(packet[2]) != ax12Addr) {
-			return false;
+			return "Le paquet ne contient pas le bon id de l'ax12";
 		}
-
-		// La longueur doit �tre > 2 et < taille du packet - 2
+		
+		// La longueur doit être > 2 et < taille du packet - 2
 		int l = AX12.unsignedByteToInt(packet[3]);
 		if (l < 2 || l > packet.length - 2) {
-			return false;
+			return "La taille de la charge utile mentionnée par le paquet ne correspond pas à la taille reelle";
 		}
-
-		// V�rification du checksum
+		
+		// Vérification du checksum
 		l -= 3;
 		int cc = packet[2]; // ID
 		cc += packet[3];    // Length
@@ -543,12 +544,12 @@ public class AX12 {
 		while (l >= 0) {
 			cc += packet[5 + l--];
 		}
-
+		
 		if ((~cc & 0xFF) != AX12.unsignedByteToInt(packet[packet.length - 1])) {
-			return false;
+			return "Le checksum n'est pas valide";
 		}
-
-		return true;
+		
+		return null;
 	}
 
 	/**

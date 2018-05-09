@@ -10,7 +10,7 @@ public class AX12Exception extends Exception {
 		this(null, new AX12.AX12_Error[0]);
 	}
 	
-	public AX12Exception(String msg, AX12.AX12_Error errors[]) {
+	public AX12Exception(String msg, AX12.AX12_Error... errors) {
 		super(msg);
 		this.errors =  errors;
 	}
@@ -46,7 +46,7 @@ public class AX12Exception extends Exception {
 	}
 	
 	/**
-	 * Vérifie si l'exception contient un motif d'erreur spécifique
+	 * Vï¿½rifie si l'exception contient un motif d'erreur spï¿½cifique
 	 * @param err
 	 * @return
 	 */
