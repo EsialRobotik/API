@@ -10,12 +10,12 @@ import esialrobotik.ia.actions.ActionExecutor;
  * @author gryttix
  *
  */
-public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
+public abstract class ActionAX12Abstract implements ActionExecutor {
 
-	// La liaison s�rie vers les AX12
-    private AX12Serial serialAX12;
+	// La liaison série vers les AX12
+    private AX12Link serialAX12;
     
-    // Utilis� pour la lecture des r�ponses des ax12
+    // Utilisé pour la lecture des réponses des ax12
     protected ArrayList<Byte> lecture;
     
     // Une seule instance de l'ax12 : on change son adresse pour chaque commande
@@ -38,10 +38,10 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     
     // Les diverses actions possibles par AX12
 	protected enum ACTION_AX12 {
-		// G�re la cr�maill�re pour faire tranlster les tubes
+		// Gère la crémaillère pour faire tranlster les tubes
 		EAU_RAIL_GARAGE(AX12_NAME.RAIL, 267.7),
 		EAU_RAIL_REMPLISSAGE_1(AX12_NAME.RAIL, 173.0),
-		EAU_RAIL_REMPLISSAGE_2(AX12_NAME.RAIL, 66.4),
+		EAU_RAIL_REMPLISSAGE_2(AX12_NAME.RAIL, 57.5),
 		EAU_RAIL_MILIEU_VIDANGE(AX12_NAME.RAIL, 131.4),
 		EAU_RAIL_LANCEUR_GAUCHE(AX12_NAME.RAIL, 300.0),
 		EAU_RAIL_LANCEUR_DROIT(AX12_NAME.RAIL, 183.9),
@@ -55,8 +55,10 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		EAU_ORIENTATION_LANCEUR_DROIT(AX12_NAME.ORIENTATION, 146.9),
 		EAU_ORIENTATION_HORIZONTAL_GAUCHE(AX12_NAME.ORIENTATION, 240.2),
 		EAU_ORIENTATION_HORIZONTAL_DROIT(AX12_NAME.ORIENTATION, 60.3),
+		EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_GAUCHE(AX12_NAME.ORIENTATION, 145.5),
+		EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_DROITE(AX12_NAME.ORIENTATION, 154.5),
 		
-		// G�re l'inclinaison des tubes � l'int�rieur du robot
+		// Gère l'inclinaison des tubes à l'intérieur du robot
 		EAU_PENTE_HORIZONTALE(AX12_NAME.PENTE, 142.3),
 		EAU_PENTE_QUASI_HORIZONTALE(AX12_NAME.PENTE, 150.0),
 		EAU_PENTE_VERTICALE(AX12_NAME.PENTE, 231.7),
@@ -66,11 +68,11 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		EAU_PENTE_REMPLISSAGE(AX12_NAME.PENTE, 242.3),
 		EAU_PENTE_INTERRUPTEUR(AX12_NAME.PENTE, 190.0),
 		
-		// G�re le bras gauche du robot (du point de vue du robot)
+		// Gère le bras gauche du robot (du point de vue du robot)
 		BRAS_GAUCHE_SORTIR(AX12_NAME.BRAS_GAUCHE, 145.7),
 		BRAS_GAUCHE_RENTRER(AX12_NAME.BRAS_GAUCHE, 242.0),
 		
-		// G�re le bras droit du robot (du point de vue du robot)
+		// Gère le bras droit du robot (du point de vue du robot)
 		BRAS_DROIT_SORTIR(AX12_NAME.BRAS_DROIT, 247.7),
 		BRAS_DROIT_RENTRER(AX12_NAME.BRAS_DROIT, 153.5);
 		
@@ -82,10 +84,9 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		}
 	}
 
-    public ActionExecutor init(AX12Serial serialAX12) {
-    	this.lecture = new ArrayList<Byte>();
+    public ActionExecutor init(AX12Link serialAX12) {
         this.serialAX12 = serialAX12;
-        ax12 = new AX12(1, this);
+        ax12 = new AX12(1, serialAX12);
         return this;
     }
     
@@ -100,52 +101,10 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     public boolean finished() {
         return fini;
     }
-
-	@Override
-	public byte[] sendCommand(byte[] cmd, int baudRate) throws AX12LinkException {
-		int oldBr = -1;
-		byte[] response = null;
-
-		try {
-			serialAX12.write(cmd);
-			serialAX12.flush();
-			
-			// On lit la r�ponse de l'AX12
-			this.lecture.clear();
-			int r;
-			while ((r = serialAX12.read()) != -1) {
-				lecture.add(AX12.intToUnsignedByte(r));
-			}
-			
-			response = new byte[lecture.size()];
-			for (int i=lecture.size()-1; i>=0; i--) {
-				response[i] = lecture.get(i);
-			}
-			
-		} catch (IOException e1) {
-			throw new AX12LinkException("Erreur de transmission de la commande", e1);
-		} finally {
-			if (oldBr != -1) {
-				this.setBaudRate(oldBr);
-			}
-		}
-		
-		return response;
-	}
-
-	@Override
-	public int getBaudRate() {
-		return 115200;
-	}
-
-	@Override
-	public void setBaudRate(int baudRate) throws AX12LinkException {
-		// Nothing
-	}
 	
 	/**
-	 * Applique l'�tat demand�
-	 * Cette fonction s'appelle go parce que do est d�j� pris :'(
+	 * Applique l'état demandé
+	 * Cette fonction s'appelle go parce que do est déjà pris :'(
 	 * @param et
 	 */
 	protected void go(ACTION_AX12 et) {
@@ -165,21 +124,27 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 					ax12.setCwComplianceSlope(99);
 					ax12.setCcwComplianceSlope(99);
 				}
+				if (et.ax12 == AX12_NAME.ORIENTATION) {
+					ax12.setCwComplianceSlope(100);
+					ax12.setCcwComplianceSlope(100);
+				}
 				ax12.setServoPositionInDegrees(et.angle);
 				essaisRestants = 0;
 			} catch (AX12LinkException e) {
-				essaisRestants--;
 				e.printStackTrace();
+				essaisRestants--;
+				System.out.println("essais restant : "+essaisRestants);
 			} catch (AX12Exception e) {
 				e.printStackTrace();
 				essaisRestants--;
+				System.out.println("essais restant : "+essaisRestants);
 			}	
 		}
 	}
 	
 	/**
-	 * Attend une certaine dur�e en ms
-	 * @param duree tps � attendre en ms
+	 * Attend une certaine durée en ms
+	 * @param duree tps à attendre en ms
 	 */
 	protected void attend(long duree) {
 		try {
@@ -192,6 +157,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	/**
 	 * Attend que tous les ax12 de la liste aient fini de bouger
 	 * Attention aux blagues avec le mode rotation continue ;)
+	 * @param ax12
 	 */
 	protected void attendreImmobilisation(AX12_NAME... liste) {
 		boolean bouge = false;
@@ -231,21 +197,6 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     protected abstract void childExecution();
     
     /**
-     * Allume ou �teint le lanceur
-     * Oui �a n'a normalement rien � voir avec un AX12 mais c'est contr�l� par le pin DTR de l'UART :p
-     * @param allumer
-     * @throws AX12LinkException
-     */
-    @Override
-	public void enableLanceur(boolean allumer) throws AX12LinkException {
-    	try {
-			this.serialAX12.enableLanceur(allumer);
-		} catch (AX12LinkException e) {
-			e.printStackTrace();
-		}
-    }
-    
-    /**
      * Allume ou éteint le lanceur
      * Oui ça n'a normalement rien à voir avec un AX12 mais c'est contrôlé par le pin DTR de l'UART :p
      * @param allumer
@@ -257,7 +208,6 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 			e.printStackTrace();
 		}
     }
-
 
 	@Override
 	public void resetActionState() {
