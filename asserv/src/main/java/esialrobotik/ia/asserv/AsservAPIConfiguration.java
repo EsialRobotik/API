@@ -1,8 +1,6 @@
 package esialrobotik.ia.asserv;
 
 import com.google.gson.JsonObject;
-import com.pi4j.io.serial.Baud;
-import esialrobotik.ia.asserv.raspberry.Asserv;
 import esialrobotik.ia.utils.log.LoggerFactory;
 import org.apache.logging.log4j.Logger;
 

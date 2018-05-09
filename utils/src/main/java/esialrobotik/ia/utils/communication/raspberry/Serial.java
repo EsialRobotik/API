@@ -2,7 +2,6 @@ package esialrobotik.ia.utils.communication.raspberry;
 
 import com.pi4j.io.serial.*;
 import esialrobotik.ia.utils.log.LoggerFactory;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;

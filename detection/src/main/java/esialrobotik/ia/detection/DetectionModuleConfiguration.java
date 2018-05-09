@@ -4,9 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
+import esialrobotik.ia.detection.ultrasound.DummyUltraSound;
 import esialrobotik.ia.detection.ultrasound.UltraSoundInterface;
 import esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04;
-import esialrobotik.ia.detection.ultrasound.DummyUltraSound;
 import esialrobotik.ia.utils.log.LoggerFactory;
 import org.apache.logging.log4j.Logger;
 

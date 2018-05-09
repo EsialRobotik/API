@@ -2,7 +2,6 @@ package esialrobotik.ia.utils.gpio.raspberry;
 
 import com.pi4j.io.gpio.*;
 import com.pi4j.io.gpio.impl.PinImpl;
-import com.pi4j.util.CommandArgumentParser;
 
 import java.util.EnumSet;
 

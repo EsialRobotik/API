@@ -1,14 +1,11 @@
 package esialrobotik.ia.utils.lcd.raspberry;
 
-import java.util.Scanner;
-
 import com.google.inject.Inject;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
-
 import esialrobotik.ia.utils.communication.raspberry.I2C;
 import esialrobotik.ia.utils.lcd.LCD;
 import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 
 /**
  * LCD 2 lignes / 16 colonnes de Joy-It

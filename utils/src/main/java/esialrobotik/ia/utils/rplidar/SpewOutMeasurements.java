@@ -1,8 +1,7 @@
 package esialrobotik.ia.utils.rplidar;
 
-import org.apache.logging.log4j.Level;
-
 import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Level;
 
 /**
  * Prints out raw scans from the low level driver

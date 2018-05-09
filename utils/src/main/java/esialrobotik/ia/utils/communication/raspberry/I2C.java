@@ -4,7 +4,6 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import esialrobotik.ia.utils.log.LoggerFactory;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;

@@ -2,7 +2,6 @@ package esialrobotik.ia.asserv;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.inject.AbstractModule;
 import org.junit.Test;
 
 /**

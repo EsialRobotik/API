@@ -2,15 +2,14 @@ package esialrobotik.ia.utils.log;
 
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
-import org.junit.*;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import java.io.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-
-import static org.junit.Assert.fail;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by icule on 27/03/17.
