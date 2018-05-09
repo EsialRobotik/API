@@ -1,14 +1,9 @@
 package esialrobotik.ia.actions.a2018;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 
-import com.pi4j.io.serial.SerialDataEvent;
-import com.pi4j.io.serial.SerialDataEventListener;
 import esialrobotik.ia.actions.ActionExecutor;
-import esialrobotik.ia.utils.communication.raspberry.Serial;
 
 /**
  * 
@@ -22,8 +17,6 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     
     // Utilis� pour la lecture des r�ponses des ax12
     protected ArrayList<Byte> lecture;
-    // Permet d'utiliser une liaison half duplex en reliant les pins rx et tx de l'uart entre elles
-    protected boolean combinedRxTx = true;
     
     // Une seule instance de l'ax12 : on change son adresse pour chaque commande
     private AX12 ax12;
@@ -92,7 +85,6 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     public ActionExecutor init(AX12Serial serialAX12) {
 
         this.serialAX12 = serialAX12;
-        this.combinedRxTx = true;
         ax12 = new AX12(1, this);
         return this;
     }
@@ -118,15 +110,6 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 			serialAX12.write(cmd);
 			serialAX12.flush();
 			
-			// On retire du flux d'entr�e la commande qu'on vient juste d'envoyer si rx et tx sont combin�s
-			if (this.combinedRxTx) {
-				for (int i=0; i<cmd.length; i++) {
-					if (serialAX12.read() == -1) {
-						throw new AX12LinkException("Erreur de vidange du flux d'entr�e. Rx et Tx sont-ils vraiment reli�s entre eux ?");
-					}
-				}	
-			}
-			
 			// On lit la r�ponse de l'AX12
 			this.lecture.clear();
 			int r;
@@ -149,11 +132,6 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		
 		return response;
 	}
-	
-	@Override
-	public void enableDTR(boolean acitvate) {
-		serialAX12.setDTR(acitvate);
-	}
 
 	@Override
 	public int getBaudRate() {
@@ -172,25 +150,31 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	 */
 	protected void go(ACTION_AX12 et) {
 		if (ax12 == null) {
-			System.out.println("Pas d'ax12");
 			return;
 		}
-		System.out.println("AX12 go");
+		
+		int essaisRestants = 5;
+		
 		ax12.setAddress(et.ax12.adresse);
-		try {
-			// Ptit hack d�gueu : on ajoute de l'�lasticit� � l'ax12 qui l�ve les tubes
-			// �a �vite de perdre les balles du dessus � cause des secousses
-			if (et.ax12 == AX12_NAME.PENTE) {
-				ax12.setCwComplianceSlope(99);
-				ax12.setCcwComplianceSlope(99);
-			}
-			ax12.setServoPositionInDegrees(et.angle);
-		} catch (AX12LinkException e) {
-			e.printStackTrace();
-		} catch (AX12Exception e) {
-			e.printStackTrace();
+		
+		while(essaisRestants > 0) {
+			try {
+				// Ptit hack dégueu : on ajoute de l'élasticité à l'ax12 qui lève les tubes
+				// Ça évite de perdre les balles du dessus à cause des secousses
+				if (et.ax12 == AX12_NAME.PENTE) {
+					ax12.setCwComplianceSlope(99);
+					ax12.setCcwComplianceSlope(99);
+				}
+				ax12.setServoPositionInDegrees(et.angle);
+				essaisRestants = 0;
+			} catch (AX12LinkException e) {
+				essaisRestants--;
+				e.printStackTrace();
+			} catch (AX12Exception e) {
+				e.printStackTrace();
+				essaisRestants--;
+			}	
 		}
-		System.out.println("AX12 go end");
 	}
 	
 	/**
@@ -211,11 +195,11 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 	 */
 	protected void attendreImmobilisation(AX12_NAME... liste) {
 		boolean bouge = false;
+		int maxExceptionTolerance = 10;
 		
 		do {
-			System.out.println("attendreImmobilisation");
 			if (bouge) {
-				// Pour �viter de spammer la liaison s�rie, on est pas � 50ms pr�s
+				// Pour éviter de spammer la liaison série, on est pas à 50ms près
 				attend(50);
 			}
 			bouge = false;
@@ -228,8 +212,14 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 					}
 				} catch (AX12LinkException e) {
 					e.printStackTrace();
+					if (maxExceptionTolerance-- < 0) {
+						bouge = true;
+					}
 				} catch (AX12Exception e) {
 					e.printStackTrace();
+					if (maxExceptionTolerance-- < 0) {
+						bouge = true;
+					}
 				}
 			}
 		} while (bouge);
@@ -244,10 +234,30 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
      * Allume ou �teint le lanceur
      * Oui �a n'a normalement rien � voir avec un AX12 mais c'est contr�l� par le pin DTR de l'UART :p
      * @param allumer
+     * @throws AX12LinkException
+     */
+    @Override
+	public void enableLanceur(boolean allumer) throws AX12LinkException {
+    	try {
+			this.serialAX12.enableLanceur(allumer);
+		} catch (AX12LinkException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    /**
+     * Allume ou éteint le lanceur
+     * Oui ça n'a normalement rien à voir avec un AX12 mais c'est contrôlé par le pin DTR de l'UART :p
+     * @param allumer
      */
     protected void allumerLanceur(boolean allumer) {
-    	this.serialAX12.setDTR(allumer);
+    	try {
+			this.serialAX12.enableLanceur(allumer);
+		} catch (AX12LinkException e) {
+			e.printStackTrace();
+		}
     }
+
 
 	@Override
 	public void resetActionState() {
