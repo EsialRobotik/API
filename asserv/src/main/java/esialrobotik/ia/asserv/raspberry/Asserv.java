@@ -63,7 +63,7 @@ public class Asserv implements AsservInterface {
         serial = new Serial(serialPort, baudRate);
         serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
             try {
-                parseAsservPosition(serialDataEvent.getAsciiString());
+//                parseAsservPosition(serialDataEvent.getAsciiString());
                 String serialBuffer = serialDataEvent.getAsciiString();
                 parseAsservPosition(serialBuffer);
                 logger.trace("Position : " + serialBuffer);
