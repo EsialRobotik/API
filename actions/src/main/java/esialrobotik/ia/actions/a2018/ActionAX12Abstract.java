@@ -86,6 +86,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 
     public ActionExecutor init(AX12Serial serialAX12) {
         this.serialAX12 = serialAX12;
+        this.lecture = new ArrayList<Byte>();
         ax12 = new AX12(1, this);
         return this;
     }
