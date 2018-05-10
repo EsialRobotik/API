@@ -12,35 +12,24 @@ public class Remplissage extends ActionAX12Abstract {
 
 	@Override
 	protected void childExecution() {
-		// Remplissage partie 1
-		// On se place sous el tube
-		go(ACTION_AX12.EAU_RAIL_REMPLISSAGE_1);
-		attendreImmobilisation(AX12_NAME.RAIL);
 		
-		// On fait plusieurs fois un va et vient dans l'inclinaison du tube sous le reservoir
-		secouer();
-		attend(500);
-		
-		// Remplissage partie 2
-		go(ACTION_AX12.EAU_RAIL_REMPLISSAGE_2);
-		attendreImmobilisation(AX12_NAME.RAIL);
-		
-		secouer();
-		attend(500);
+		for (ACTION_AX12 action : new ACTION_AX12[]{ACTION_AX12.EAU_RAIL_REMPLISSAGE_1_A, ACTION_AX12.EAU_RAIL_REMPLISSAGE_1_B, ACTION_AX12.EAU_RAIL_REMPLISSAGE_2_A, ACTION_AX12.EAU_RAIL_REMPLISSAGE_2_B}) {
+			go(action);
+			attendreImmobilisation(AX12_NAME.RAIL);
+			secouer();
+			attend(250);
+		}
 	}
 	
 	protected void secouer() {
-		// On fait plusieurs fois un va et vient dans l'inclinaison du tube sous le reservoir
-		for (int i =0; i<2; i++) {
-			go(ACTION_AX12.EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_GAUCHE);
-			attendreImmobilisation(AX12_NAME.ORIENTATION);
-			go(ACTION_AX12.EAU_ORIENTATION_DROIT);
-			attendreImmobilisation(AX12_NAME.ORIENTATION);
-			go(ACTION_AX12.EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_DROITE);
-			attendreImmobilisation(AX12_NAME.ORIENTATION);
-			go(ACTION_AX12.EAU_ORIENTATION_DROIT);
-			attendreImmobilisation(AX12_NAME.ORIENTATION);
-		}
+		go(ACTION_AX12.EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_GAUCHE);
+		attendreImmobilisation(AX12_NAME.ORIENTATION);
+		go(ACTION_AX12.EAU_ORIENTATION_DROIT);
+		attendreImmobilisation(AX12_NAME.ORIENTATION);
+		go(ACTION_AX12.EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_DROITE);
+		attendreImmobilisation(AX12_NAME.ORIENTATION);
+		go(ACTION_AX12.EAU_ORIENTATION_DROIT);
+		attendreImmobilisation(AX12_NAME.ORIENTATION);
 	}
 
 }

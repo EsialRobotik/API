@@ -38,10 +38,12 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
     
     // Les diverses actions possibles par AX12
 	protected enum ACTION_AX12 {
-		// Gère la cremaillère pour faire tranlster les tubes
+		// Gere la cremaillere pour faire translater les tubes
 		EAU_RAIL_GARAGE(AX12_NAME.RAIL, 267.7),
-		EAU_RAIL_REMPLISSAGE_1(AX12_NAME.RAIL, 173.0),
-		EAU_RAIL_REMPLISSAGE_2(AX12_NAME.RAIL, 57.5),
+		EAU_RAIL_REMPLISSAGE_1_A(AX12_NAME.RAIL, 173.0),
+		EAU_RAIL_REMPLISSAGE_1_B(AX12_NAME.RAIL, 164.2),
+		EAU_RAIL_REMPLISSAGE_2_A(AX12_NAME.RAIL, 57.5),
+		EAU_RAIL_REMPLISSAGE_2_B(AX12_NAME.RAIL, 48.7),
 		EAU_RAIL_MILIEU_VIDANGE(AX12_NAME.RAIL, 131.4),
 		EAU_RAIL_LANCEUR_GAUCHE(AX12_NAME.RAIL, 300.0),
 		EAU_RAIL_LANCEUR_DROIT(AX12_NAME.RAIL, 183.9),
@@ -58,7 +60,7 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_GAUCHE(AX12_NAME.ORIENTATION, 143.5),
 		EAU_ORIENTATION_REMPLISSAGE_INCLINAISON_DROITE(AX12_NAME.ORIENTATION, 159.5),
 		
-		// Gère l'inclinaison des tubes a l'interieur du robot
+		// Gère l'inclinaison des tubes à l'interieur du robot
 		EAU_PENTE_HORIZONTALE(AX12_NAME.PENTE, 142.3),
 		EAU_PENTE_QUASI_HORIZONTALE(AX12_NAME.PENTE, 150.0),
 		EAU_PENTE_VERTICALE(AX12_NAME.PENTE, 231.7),
@@ -68,11 +70,11 @@ public abstract class ActionAX12Abstract implements ActionExecutor, AX12Link {
 		EAU_PENTE_REMPLISSAGE(AX12_NAME.PENTE, 242.3),
 		EAU_PENTE_INTERRUPTEUR(AX12_NAME.PENTE, 190.0),
 		
-		// Gère le bras gauche du robot (du point de vue du robot)
+		// Gere le bras gauche du robot (du point de vue du robot)
 		BRAS_GAUCHE_SORTIR(AX12_NAME.BRAS_GAUCHE, 145.7),
 		BRAS_GAUCHE_RENTRER(AX12_NAME.BRAS_GAUCHE, 242.0),
 		
-		// Gère le bras droit du robot (du point de vue du robot)
+		// Gere le bras droit du robot (du point de vue du robot)
 		BRAS_DROIT_SORTIR(AX12_NAME.BRAS_DROIT, 247.7),
 		BRAS_DROIT_RENTRER(AX12_NAME.BRAS_DROIT, 153.5);
 		
