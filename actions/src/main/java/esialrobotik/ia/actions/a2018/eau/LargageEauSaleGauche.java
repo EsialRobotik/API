@@ -14,7 +14,7 @@ public class LargageEauSaleGauche extends ActionAX12Abstract {
 	protected void childExecution() {
 		go(ACTION_AX12.EAU_ORIENTATION_VIDANGE_GAUCHE);
 		attendreImmobilisation(AX12_NAME.ORIENTATION);
-		attend(2000);
+		attend(200);
 		go(ACTION_AX12.EAU_ORIENTATION_DROIT);
 		// Pas besoin d'attendre la fin de la rotation qui remet les tubes � la verticale
 	}
