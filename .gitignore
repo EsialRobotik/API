@@ -1,2 +1,4 @@
 *.jar
 dependency-reduced-pom.xml
+*.log
+*.iml
