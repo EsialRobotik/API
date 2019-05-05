@@ -82,7 +82,7 @@ public interface AsservInterface {
      * Définie l'angle théta du robot
      * @param theta Angle theta en radian
      */
-    void setOdometireTheta(double theta);
+    void setOdometrieTheta(double theta);
 
     /**
      * Définie la position X du robot
@@ -158,7 +158,7 @@ public interface AsservInterface {
 
     /**
      * Cale le robot
-     * @param positiveY Le robot se trouve du coté des Y positifs
+     * @param isColor0 true si la couleur est pour le (x,y) en (0,0), false pour le (0,3000)
      */
-    void calage(boolean positiveY) throws InterruptedException;
+    void calage(boolean isColor0) throws InterruptedException;
 }

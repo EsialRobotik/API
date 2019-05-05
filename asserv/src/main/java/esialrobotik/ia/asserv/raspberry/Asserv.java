@@ -63,7 +63,7 @@ public class Asserv implements AsservInterface {
         serial = new Serial(serialPort, baudRate);
         serial.addReaderListeners((SerialDataEventListener) serialDataEvent -> {
             try {
-                parseAsservPosition(serialDataEvent.getAsciiString());
+//                parseAsservPosition(serialDataEvent.getAsciiString());
                 String serialBuffer = serialDataEvent.getAsciiString();
                 parseAsservPosition(serialBuffer);
                 logger.trace("Position : " + serialBuffer);
@@ -104,6 +104,11 @@ public class Asserv implements AsservInterface {
     /*******************************************************************************************************************
      * Commandes basiques
      ******************************************************************************************************************/
+
+    public void initialize() {
+        logger.info("init");
+        serial.write("I");
+    }
 
     @Override
     public void emergencyStop() {
@@ -200,9 +205,9 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
-    public void setOdometireTheta(double theta) {
-        logger.info("setOdometireTheta");
-        serial.write("Osa");
+    public void setOdometrieTheta(double theta) {
+        logger.info("setOdometrieTheta");
+        serial.write("Osa" + theta);
     }
 
     /*******************************************************************************************************************
@@ -311,36 +316,53 @@ public class Asserv implements AsservInterface {
     }
 
     @Override
-    public void calage(boolean positiveY) throws InterruptedException {
-        // Calage bordure à la rache
+    public void calage(boolean isColor0) throws InterruptedException {
+        // On init
+        initialize();
+
+        // On semet au ralentie
         enableLowSpeed(true);
+
+        // On se colle à la bordure de 2000
         go(-200);
         Thread.sleep(2000);
         enableRegulatorAngle(false);
         Thread.sleep(2000);
-
         resetRegulatorAngle();
-        setOdometrieX(102);
+
+        // On set le Y puis on avance un peu
+        setOdometrieY(isColor0 ? 102 : 3000 - 102);
+        setOdometrieTheta((isColor0 ? 1 : -1) * Math.PI/2);
         enableRegulatorAngle(true);
         emergencyStop();
         emergencyReset();
         go(120);
         Thread.sleep(1000);
-        turn(positiveY ? 90 : -90);
+
+        // On tourne de 90° pour mettre le cul vers la bordure de 2000
+        turn(isColor0 ? -90 : 90);
+
+        // On recule contre la bordure
         Thread.sleep(1000);
         go(-200);
         Thread.sleep(2000);
         enableRegulatorAngle(false);
         Thread.sleep(2000);
 
-        setOdometrieY((positiveY ? 1 : -1) * (710 + 18 + 102));
+        setOdometrieX(102);
         emergencyStop();
         emergencyReset();
+
+        // On se remet à vitesse normale
         enableLowSpeed(false);
         enableRegulatorAngle(true);
-        go(80);
-        Thread.sleep(5000);
-        turn(positiveY ? -90 : 90);
+
+        // On se positionne dans la zone de départ
+        go(200);
+        Position depart = new Position(400, isColor0 ? 200 : 3000 - 200);
+        goTo(depart);
+        Position alignement = new Position(1000, isColor0 ? 850 : 3000 - 850);
+        face(alignement);
     }
 
     public static void main(String... args) throws InterruptedException {

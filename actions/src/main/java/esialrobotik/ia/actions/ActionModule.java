@@ -1,7 +1,7 @@
 package esialrobotik.ia.actions;
 
 import com.google.inject.AbstractModule;
-import esialrobotik.ia.actions.a2017.Actions;
+import esialrobotik.ia.actions.a2018.Actions;
 
 /**
  * Created by icule on 21/05/17.

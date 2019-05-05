@@ -4,7 +4,6 @@ import com.pi4j.io.i2c.I2CBus;
 import com.pi4j.io.i2c.I2CDevice;
 import com.pi4j.io.i2c.I2CFactory;
 import esialrobotik.ia.utils.log.LoggerFactory;
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
 import java.io.IOException;
@@ -64,29 +63,26 @@ public class I2C {
      */
     public int read(byte register) {
         try {
-            logger.trace(String.format("I2C 0x%02X read register 0x%02X", deviceAddress, register));
+//            logger.trace(String.format("I2C 0x%02X read register 0x%02X", deviceAddress, register));
             return i2CDevice.read(register);
         } catch (IOException e) {
-            logger.error(String.format("I2C 0x%02X read register 0x%02X fail : " + e.getMessage(),
-                    deviceAddress, register));
+//            logger.error(String.format("I2C 0x%02X read register 0x%02X fail : " + e.getMessage(), deviceAddress, register));
             return 0;
         }
     }
 
     public void write(byte register, byte value) {
         try {
-            logger.trace(String.format("I2C 0x%02X write register 0x%02X with value 0x%02X",
-                    deviceAddress, register , value));
+//            logger.trace(String.format("I2C 0x%02X write register 0x%02X with value 0x%02X", deviceAddress, register , value));
             i2CDevice.write(register, value);
         } catch (IOException e) {
-            logger.error(String.format("I2C 0x%02X write register 0x%02X with value 0x%02X fail : " + e.getMessage(),
-                    deviceAddress, register , value));
+            logger.error(String.format("I2C 0x%02X write register 0x%02X with value 0x%02X fail : " + e.getMessage(), deviceAddress, register , value));
         }
     }
 
     public void write(byte value) {
         try {
-            logger.trace(String.format("I2C 0x%02X write value 0x%02X", deviceAddress, value));
+//            logger.trace(String.format("I2C 0x%02X write value 0x%02X", deviceAddress, value));
             i2CDevice.write(value);
         } catch (IOException e) {
             logger.error(String.format("I2C 0x%02X write value 0x%02X fail : " + e.getMessage(),

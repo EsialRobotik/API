@@ -5,7 +5,6 @@ import com.google.inject.assistedinject.Assisted;
 import esialrobotik.ia.detection.DetectionModuleConfiguration;
 import esialrobotik.ia.utils.log.LoggerFactory;
 import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**

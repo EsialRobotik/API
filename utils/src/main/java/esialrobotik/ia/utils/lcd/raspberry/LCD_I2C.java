@@ -1,19 +1,17 @@
 package esialrobotik.ia.utils.lcd.raspberry;
 
-import java.util.Scanner;
-
 import com.google.inject.Inject;
-import org.apache.logging.log4j.Level;
-import org.apache.logging.log4j.Logger;
-
 import esialrobotik.ia.utils.communication.raspberry.I2C;
 import esialrobotik.ia.utils.lcd.LCD;
 import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 
 /**
  * LCD 2 lignes / 16 colonnes de Joy-It
  *
  * @see <a href="https://www.gotronic.fr/pj2-sbc-lcd16x2-fr-1441.pdf">Documentation</a>
+ * @see <a href="https://github.com/CaptainStouf/raspberry_lcd4x20_I2C">Librairie Python d'origine</a>
  */
 public class LCD_I2C implements LCD {
 
@@ -139,7 +137,7 @@ public class LCD_I2C implements LCD {
     }
 
     private void refresh() {
-        clear();
+        clearLcd();
 
         for (int i = 0; i < lines.length; i++) {
             if (lines[i] != null) {
@@ -173,23 +171,30 @@ public class LCD_I2C implements LCD {
         refresh();
     }
 
-    @Override
-    public void clear() {
+    private void clearLcd() {
         i2cWrite(LCD_CLEARDISPLAY);
         i2cWrite(LCD_RETURNHOME);
     }
 
+    @Override
+    public void clear() {
+        lines = new String[lines.length];
+        refresh();
+    }
 
-    public static void main(String args[]) {
+
+    public static void main(String args[]) throws InterruptedException {
         LoggerFactory.init(Level.INFO);
+        System.out.println("Hello LCD");
 
         LCD screen = new LCD_I2C();
-        screen.println("Coucou");
-        screen.println("Youpi !!!");
-        Scanner sysin = new Scanner(System.in);
 
         while (true) {
-            screen.println(sysin.nextLine());
+            screen.println("Coucou");
+            Thread.sleep(1000);
+            screen.clear();
+            System.out.println("Clear");
+            Thread.sleep(1000);
         }
     }
 

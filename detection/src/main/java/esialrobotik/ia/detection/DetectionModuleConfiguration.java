@@ -4,9 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
+import esialrobotik.ia.detection.ultrasound.DummyUltraSound;
 import esialrobotik.ia.detection.ultrasound.UltraSoundInterface;
 import esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04;
-import esialrobotik.ia.detection.ultrasound.DummyUltraSound;
+import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +17,7 @@ import java.util.List;
  * Created by Guillaume on 14/05/2017.
  */
 public class DetectionModuleConfiguration {
+
     public static class GPioPair {
         public int gpio_in;
         public int gpio_out;
@@ -30,11 +33,16 @@ public class DetectionModuleConfiguration {
 
     private String lidarPort;
 
+    private Logger logger;
+
     @Inject
     public DetectionModuleConfiguration() {
+        logger = LoggerFactory.getLogger(DetectionModuleConfiguration.class);
     }
 
     public void loadConfiguration(JsonObject configNode) {
+        logger.info("DetectionModuleConfiguration = " + configNode.toString());
+
         lidarPort = null;
         gPioPairList = null;
         ultraSoundClass = null;

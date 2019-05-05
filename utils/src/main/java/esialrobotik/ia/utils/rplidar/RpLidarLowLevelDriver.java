@@ -1,14 +1,13 @@
 package esialrobotik.ia.utils.rplidar;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.pi4j.io.serial.Baud;
-
 import esialrobotik.ia.utils.communication.raspberry.Serial;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Low level driver for RP-LIDAR.  Just sends and receives packets.  Doesn't attempt to filter bad data or care about

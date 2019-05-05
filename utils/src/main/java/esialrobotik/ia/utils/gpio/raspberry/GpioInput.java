@@ -5,9 +5,7 @@ import com.pi4j.io.gpio.event.GpioPinListenerDigital;
 import com.pi4j.io.gpio.impl.PinImpl;
 import com.pi4j.util.CommandArgumentParser;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
-import java.util.List;
 
 /**
  * Raspberry GPIO Input wrapper

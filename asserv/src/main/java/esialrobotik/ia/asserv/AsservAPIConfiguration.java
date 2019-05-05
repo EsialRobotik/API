@@ -1,7 +1,8 @@
 package esialrobotik.ia.asserv;
 
 import com.google.gson.JsonObject;
-import com.pi4j.io.serial.Baud;
+import esialrobotik.ia.utils.log.LoggerFactory;
+import org.apache.logging.log4j.Logger;
 
 import javax.inject.Inject;
 
@@ -13,11 +14,15 @@ public class AsservAPIConfiguration {
     private int baud;
     private String serie;
 
+    private Logger logger;
+
     @Inject
     public AsservAPIConfiguration() {
+        logger = LoggerFactory.getLogger(AsservAPIConfiguration.class);
     }
 
     public void loadConfig(JsonObject object) {
+        logger.info("AsservAPIConfiguration = " + object.toString());
         baud = object.get("baud").getAsInt();
         serie = object.get("serie").getAsString();
     }
