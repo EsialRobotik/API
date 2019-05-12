@@ -16,21 +16,21 @@ import java.util.concurrent.locks.LockSupport;
  */
 public class SRF04 implements UltraSoundInterface {
 
-    private static long TIMEOUT = 300; // If no change after 30ms, it's a timeout
+    private static long TIMEOUT = 300; // If no change after 36ms, it's a timeout
 
     private GpioInput gpioInput;
     private GpioOutput gpioOutput;
 
     public SRF04(int gpioInput, int gpioOutput){
-        this.gpioInput = new GpioInput(gpioInput, false);
-        this.gpioOutput = new GpioOutput(gpioOutput, true);
+        this.gpioInput = new GpioInput(gpioInput, false); // Echo
+        this.gpioOutput = new GpioOutput(gpioOutput, true); // Trigger
         this.init();
     }
 
     @Inject
     public SRF04(@Assisted DetectionModuleConfiguration.GPioPair pair) {
-        this.gpioInput = new GpioInput(pair.gpio_in, false);
-        this.gpioOutput = new GpioOutput(pair.gpio_out, true);
+        this.gpioInput = new GpioInput(pair.gpio_in, false); // Echo
+        this.gpioOutput = new GpioOutput(pair.gpio_out, true); // Trigger
         this.init();
     }
 
@@ -50,7 +50,6 @@ public class SRF04 implements UltraSoundInterface {
          * Le capteur répond en mettant à 1 le GPIO pendant une certaine durée, c'est cette durée qui donne la mesure de distance.
          * C'est la mesure brute, en nanosecondes. D'après la doc, il faut diviser par 5800 pour avoir une valeur en mm.
          */
-
         this.gpioOutput.setHigh();
         LockSupport.parkNanos(10000);
         this.gpioOutput.setLow();
@@ -74,22 +73,22 @@ public class SRF04 implements UltraSoundInterface {
     }
 
     public static void main(String args[]) throws InterruptedException {
-        SRF04 srf04AvantDroit = new SRF04(0, 2); // Avant droit
-        SRF04 srf04AvantMilieu = new SRF04(12, 13); // Avant milieu
-        SRF04 srf04AvantGauche = new SRF04(21, 22); // Avant gauche
-        SRF04 srf04Arriere = new SRF04(24, 25); // Arriere
+        SRF04 srf04AvantDroit = new SRF04(24, 25); // Avant droit
+        SRF04 srf04AvantMilieu = new SRF04(2, 0); // Avant milieu
+        SRF04 srf04AvantGauche = new SRF04(22, 21); // Avant gauche
+        SRF04 srf04Arriere = new SRF04(12, 13); // Arriere
 
         long measureAvantDroit, measureAvantMilieu, measureAvantGauche, measureArriere;
         while (true) {
             measureAvantDroit = srf04AvantDroit.getMeasure();
-            Thread.sleep(12);
+            Thread.sleep(20);
             measureAvantMilieu = srf04AvantMilieu.getMeasure();
-            Thread.sleep(12);
+            Thread.sleep(20);
             measureAvantGauche = srf04AvantGauche.getMeasure();
-            Thread.sleep(12);
+            Thread.sleep(20);
             measureArriere = srf04Arriere.getMeasure();
             System.out.println("measureAvantDroit=" + measureAvantDroit + "  measureAvantMilieu=" + measureAvantMilieu + "  measureAvantGauche=" + measureAvantGauche + "  measureArriere=" + measureArriere);
-            Thread.sleep(12);
+            Thread.sleep(200);
         }
 
 //        GpioOutput out0 = new GpioOutput(0, true);
@@ -110,8 +109,17 @@ public class SRF04 implements UltraSoundInterface {
 //        out24.setLow();
 //        out25.setLow();
 //
+//        System.out.println("init");
+//        Thread.sleep(2000);
 //        while (true) {
-//            Thread.sleep(200);
+//            System.out.println("up");
+//            out0.setHigh();
+//            out2.setHigh();
+//            Thread.sleep(2000);
+//            System.out.println("down");
+//            out0.setLow();
+//            out2.setLow();
+//            Thread.sleep(2000);
 //        }
     }
 

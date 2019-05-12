@@ -315,8 +315,7 @@ public class Asserv implements AsservInterface {
         return queueSize;
     }
 
-    @Override
-    public void calage(boolean isColor0) throws InterruptedException {
+    public void calage2018(boolean isColor0) throws InterruptedException {
         // On init
         initialize();
 
@@ -362,6 +361,58 @@ public class Asserv implements AsservInterface {
         Position depart = new Position(400, isColor0 ? 200 : 3000 - 200);
         goTo(depart);
         Position alignement = new Position(1000, isColor0 ? 850 : 3000 - 850);
+        face(alignement);
+    }
+
+    @Override
+    public void calage(boolean isColor0) throws InterruptedException {
+        // On init
+        initialize();
+
+        // On semet au ralentie
+        enableLowSpeed(true);
+
+        // On effectue le calage grâce à une calle dans le coin supérieur gauche de la zone de départ rouge
+
+        // On se colle à la calle sur l'axe Y
+        go(-200);
+        Thread.sleep(2000);
+        enableRegulatorAngle(false);
+        Thread.sleep(2000);
+        resetRegulatorAngle();
+
+        // On set le Y puis on avance un peu
+        setOdometrieY(isColor0 ? (450 - 125) : 3000 - (450 - 125));
+        setOdometrieTheta((isColor0 ? -1 : 1) * Math.PI/2);
+        enableRegulatorAngle(true);
+        emergencyStop();
+        emergencyReset();
+        go(120);
+        Thread.sleep(1000);
+
+        // On tourne de 90° pour mettre le cul vers la calle sur l'axe X
+        turn(isColor0 ? 90 : -90);
+
+        // On recule contre la calle
+        Thread.sleep(1000);
+        go(-200);
+        Thread.sleep(2000);
+        enableRegulatorAngle(false);
+        Thread.sleep(2000);
+
+        setOdometrieX(300 - 125);
+        emergencyStop();
+        emergencyReset();
+
+        // On se remet à vitesse normale
+        enableLowSpeed(false);
+        enableRegulatorAngle(true);
+
+        // On se positionne dans la zone de départ
+        go(200);
+        Position depart = new Position(450, isColor0 ? 200 : 3000 - 200);
+        goTo(depart);
+        Position alignement = new Position(0, isColor0 ? 200 : 3000 - 200);
         face(alignement);
     }
 
