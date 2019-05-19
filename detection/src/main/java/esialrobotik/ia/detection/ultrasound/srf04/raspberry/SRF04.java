@@ -50,9 +50,9 @@ public class SRF04 implements UltraSoundInterface {
          * Le capteur répond en mettant à 1 le GPIO pendant une certaine durée, c'est cette durée qui donne la mesure de distance.
          * C'est la mesure brute, en nanosecondes. D'après la doc, il faut diviser par 5800 pour avoir une valeur en mm.
          */
-        this.gpioOutput.setHigh();
-        LockSupport.parkNanos(10000);
         this.gpioOutput.setLow();
+        LockSupport.parkNanos(10000);
+        this.gpioOutput.setHigh();
         final long[] time = new long[2];
 
         long checkoutTimeout = System.currentTimeMillis();

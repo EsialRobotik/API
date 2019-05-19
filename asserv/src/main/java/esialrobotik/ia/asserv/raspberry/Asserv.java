@@ -400,7 +400,7 @@ public class Asserv implements AsservInterface {
         enableRegulatorAngle(false);
         Thread.sleep(2000);
 
-        setOdometrieX(300 - 125);
+        setOdometrieX(300 + 125);
         emergencyStop();
         emergencyReset();
 
