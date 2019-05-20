@@ -3,8 +3,9 @@ package esialrobotik.ia.detection;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import com.google.inject.name.Names;
+import esialrobotik.ia.detection.lidar.LidarInterface;
+import esialrobotik.ia.detection.lidar.rplidar.raspberry.RpLidar;
 import esialrobotik.ia.detection.ultrasound.UltraSoundInterface;
-import esialrobotik.ia.utils.rplidar.RpLidarLowLevelDriver;
 
 import javax.inject.Singleton;
 
@@ -17,6 +18,7 @@ public class DetectionAPIModule extends AbstractModule{
     public DetectionAPIModule(DetectionModuleConfiguration configuration) {
         this.detectionModuleConfiguration = configuration;
     }
+
     protected void configure() {
         bind(DetectionInterface.class).to(DetectionInterfaceImpl.class).in(Singleton.class);
         bind(DetectionModuleConfiguration.class).toInstance(detectionModuleConfiguration);
@@ -26,8 +28,7 @@ public class DetectionAPIModule extends AbstractModule{
                 .build(UltraSoundInterface.UltraSoundInterfaceFactory.class));
 
         // Loading of the lidar
-        // NOTE the listener is not bind here and nee to be bind somewhere else
-        bind(String.class).annotatedWith(Names.named("lidarPort")).toInstance(detectionModuleConfiguration.getLidarPort());
-        bind(RpLidarLowLevelDriver.class).in(Singleton.class);
+        // NOTE the listener is not bind here and need to be bind somewhere else
+        bind(LidarInterface.class).to(RpLidar.class).in(Singleton.class);
     }
 }

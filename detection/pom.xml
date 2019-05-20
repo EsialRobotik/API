@@ -13,6 +13,13 @@
         <version>1.0</version>
     </parent>
 
+    <repositories>
+        <repository>
+            <id>jitpack.io</id>
+            <url>https://jitpack.io</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>fr.esialrobotik</groupId>
@@ -45,6 +52,12 @@
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.ev3dev-lang-java</groupId>
+            <artifactId>RPLidar4J</artifactId>
+            <version>0.4.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -60,7 +73,8 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04</mainClass>
+                            <!--<mainClass>esialrobotik.ia.detection.ultrasound.srf04.raspberry.SRF04</mainClass>-->
+                            <mainClass>esialrobotik.ia.detection.lidar.rplidar.raspberry.RpLidar</mainClass>
                             <!--<mainClass>esialrobotik.ia.detection.ultrasound.DummyUltraSound</mainClass>-->
                         </manifest>
                     </archive>
