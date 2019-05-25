@@ -410,9 +410,9 @@ public class Asserv implements AsservInterface {
 
         // On se positionne dans la zone de départ
         go(200);
-        Position depart = new Position(450, isColor0 ? 200 : 3000 - 200);
+        Position depart = new Position(450, isColor0 ? 250 : 3000 - 250);
         goTo(depart);
-        Position alignement = new Position(0, isColor0 ? 200 : 3000 - 200);
+        Position alignement = new Position(0, isColor0 ? 2000 : 3000 - 200);
         face(alignement);
     }
 
