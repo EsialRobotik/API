@@ -5,6 +5,7 @@ import java.io.File;
 import esialrobotik.ia.actions.ActionExecutor;
 import esialrobotik.ia.actions.ActionInterface;
 import esialrobotik.ia.actions.a2019.ax12.AX12Link;
+import esialrobotik.ia.actions.a2019.ax12.AX12LinkException;
 
 public class ActionFileBinder implements ActionInterface {
 	
@@ -21,6 +22,14 @@ public class ActionFileBinder implements ActionInterface {
 	}
 
 	public ActionFileBinder(AX12Link ax12Link, File dataDirectory) {
+		// Disable pumps
+		try {
+			ax12Link.enableDtr(false);
+			ax12Link.enableRts(false);
+		} catch (AX12LinkException e) {
+			e.printStackTrace();
+		}
+		
 		ActionFile[] files = ActionFile.values();
 		actionsList = new ActionExecutor[files.length];
 		
