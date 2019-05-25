@@ -2,6 +2,9 @@ package esialrobotik.ia.actions;
 
 import com.google.gson.JsonObject;
 import esialrobotik.ia.utils.log.LoggerFactory;
+
+import java.io.File;
+
 import org.apache.logging.log4j.Logger;
 
 /**
@@ -11,6 +14,7 @@ public class ActionModuleConfiguration {
 
     private String serialPort;
     private int baud;
+    private String dataDir;
 
     private Logger logger;
 
@@ -22,6 +26,7 @@ public class ActionModuleConfiguration {
         logger.info("ActionModuleConfiguration = " + object.toString());
         baud = object.get("baud").getAsInt();
         serialPort = object.get("serie").getAsString();
+        dataDir = object.get("dataDir").getAsString();
     }
 
     public int getBaud() {
@@ -30,5 +35,9 @@ public class ActionModuleConfiguration {
 
     public String getSerialPort() {
         return this.serialPort;
+    }
+    
+    public File getDataDir() {
+    	return new File(this.dataDir);
     }
 }
