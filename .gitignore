@@ -2,3 +2,8 @@
 dependency-reduced-pom.xml
 *.log
 *.iml
+*.settings
+*.project
+.classpath
+.gitignore
+*.pom
