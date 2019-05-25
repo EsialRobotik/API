@@ -369,47 +369,15 @@ public class Asserv implements AsservInterface {
         // On init
         initialize();
 
-        // On semet au ralentie
-        enableLowSpeed(true);
-
         // On effectue le calage grâce à une calle dans le coin supérieur gauche de la zone de départ rouge
-
-        // On se colle à la calle sur l'axe Y
-        go(-200);
-        Thread.sleep(2000);
-        enableRegulatorAngle(false);
-        Thread.sleep(2000);
-        resetRegulatorAngle();
-
-        // On set le Y puis on avance un peu
+        setOdometrieX(300 + 150);
         setOdometrieY(isColor0 ? (450 - 125) : 3000 - (450 - 125));
-        setOdometrieTheta((isColor0 ? -1 : 1) * Math.PI/2);
-        enableRegulatorAngle(true);
-        emergencyStop();
-        emergencyReset();
-        go(120);
-        Thread.sleep(1000);
+        setOdometrieTheta((isColor0 ? 1 : -1) * Math.PI/2);
+    }
 
-        // On tourne de 90° pour mettre le cul vers la calle sur l'axe X
-        turn(isColor0 ? 90 : -90);
-
-        // On recule contre la calle
-        Thread.sleep(1000);
-        go(-200);
-        Thread.sleep(2000);
-        enableRegulatorAngle(false);
-        Thread.sleep(2000);
-
-        setOdometrieX(300 + 125);
-        emergencyStop();
-        emergencyReset();
-
-        // On se remet à vitesse normale
-        enableLowSpeed(false);
-        enableRegulatorAngle(true);
-
+    @Override
+    public void goStart(boolean isColor0) throws InterruptedException {
         // On se positionne dans la zone de départ
-        go(200);
         Position depart = new Position(450, isColor0 ? 250 : 3000 - 250);
         goTo(depart);
         Position alignement = new Position(0, isColor0 ? 2000 : 3000 - 200);

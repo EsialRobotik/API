@@ -126,6 +126,11 @@ public class DummyAsserv implements AsservInterface {
         // TODO Auto-generated method stub
     }
 
+    @Override
+    public void goStart(boolean isColor0) throws InterruptedException {
+
+    }
+
     public static void main(String... args) {
         LoggerFactory.init(Level.TRACE);
         DummyAsserv asserv = new DummyAsserv();

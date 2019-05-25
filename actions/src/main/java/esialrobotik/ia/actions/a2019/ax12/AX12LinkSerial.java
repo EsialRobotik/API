@@ -6,10 +6,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import gnu.io.CommPortIdentifier;
-import gnu.io.PortInUseException;
-import gnu.io.SerialPort;
-import gnu.io.UnsupportedCommOperationException;
+import gnu.io.*;
 
 public class AX12LinkSerial implements AX12Link {
 	

@@ -161,4 +161,6 @@ public interface AsservInterface {
      * @param isColor0 true si la couleur est pour le (x,y) en (0,0), false pour le (0,3000)
      */
     void calage(boolean isColor0) throws InterruptedException;
+
+    void goStart(boolean isColor0) throws InterruptedException;
 }
