@@ -14,7 +14,8 @@ public class ActionAX12Json implements ActionExecutor {
 	protected ActionOrchestrator ao;
 	protected Semaphore semaphore;
 	protected boolean finished;
-	
+	protected boolean forcedFinished;
+
 	public ActionAX12Json(AX12Link ax12link, File fileToLoad) {
 		try {
 			ao = ActionOrchestratorHelper.unserializeFromJson(ax12link, fileToLoad);
@@ -23,6 +24,18 @@ public class ActionAX12Json implements ActionExecutor {
 		}
 		semaphore = new Semaphore(1);
 		finished = false;
+		forcedFinished = false;
+	}
+
+	public ActionAX12Json(AX12Link ax12link, File fileToLoad, boolean instantReturn) {
+		try {
+			ao = ActionOrchestratorHelper.unserializeFromJson(ax12link, fileToLoad);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		semaphore = new Semaphore(1);
+		finished = false;
+		forcedFinished = instantReturn;
 	}
 	
 	@Override
@@ -39,12 +52,12 @@ public class ActionAX12Json implements ActionExecutor {
 				finished = true;
 				semaphore.release();
 			}
-		}).start();;
+		}).start();
 	}
 
 	@Override
 	public boolean finished() {
-		return this.finished;
+		return this.finished || this.forcedFinished;
 	}
 
 	@Override

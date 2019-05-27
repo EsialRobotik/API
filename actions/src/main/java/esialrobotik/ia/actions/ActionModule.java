@@ -1,7 +1,7 @@
 package esialrobotik.ia.actions;
 
 import com.google.inject.AbstractModule;
-import esialrobotik.ia.actions.a2018.Actions;
+import esialrobotik.ia.actions.a2019.ActionFileBinder;
 
 /**
  * Created by icule on 21/05/17.
@@ -17,6 +17,6 @@ public class ActionModule extends AbstractModule{
     @Override
     protected void configure() {
         bind(ActionModuleConfiguration.class).toInstance(actionModuleConfiguration);
-        bind(ActionInterface.class).to(Actions.class);
+        bind(ActionInterface.class).to(ActionFileBinder.class);
     }
 }

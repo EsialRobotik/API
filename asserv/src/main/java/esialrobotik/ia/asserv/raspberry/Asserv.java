@@ -369,6 +369,8 @@ public class Asserv implements AsservInterface {
         // On init
         initialize();
 
+        Thread.sleep(2000);
+
         // On effectue le calage grâce à une calle dans le coin supérieur gauche de la zone de départ rouge
         setOdometrieX(300 + 150);
         setOdometrieY(isColor0 ? (450 - 125) : 3000 - (450 - 125));
@@ -380,7 +382,7 @@ public class Asserv implements AsservInterface {
         // On se positionne dans la zone de départ
         Position depart = new Position(450, isColor0 ? 250 : 3000 - 250);
         goTo(depart);
-        Position alignement = new Position(0, isColor0 ? 2000 : 3000 - 200);
+        Position alignement = new Position(2000, isColor0 ? 250 : 3000 - 250);
         face(alignement);
     }
 
