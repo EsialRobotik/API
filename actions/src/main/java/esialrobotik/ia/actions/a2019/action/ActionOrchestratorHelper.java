@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 
+import esialrobotik.ia.actions.a2019.action.ax12.AX12DisableTorqueAction;
 import esialrobotik.ia.actions.a2019.action.ax12.AX12PositionAction;
 import esialrobotik.ia.actions.a2019.action.ax12.BehaviourAction;
 import esialrobotik.ia.actions.a2019.action.ax12.PumpAction;
@@ -34,6 +35,7 @@ public class ActionOrchestratorHelper {
 		actions,
 		actionPools,
 		actionOrchestrator,
+		actionDisableTorque,
 		
 		actionPosition,
 		actionPump,
@@ -144,6 +146,8 @@ public class ActionOrchestratorHelper {
 				jsa.add(waitingActionToJson((WaitingAction) a));
 			} else if (a instanceof BehaviourAction) {
 				jsa.add(behaviourActionToJson((BehaviourAction) a));
+			} else if (a instanceof AX12DisableTorqueAction) {
+				jsa.add(disableTorqueActionToJson((AX12DisableTorqueAction) a));
 			}
 		}
 
@@ -194,6 +198,10 @@ public class ActionOrchestratorHelper {
 		
 		if (actionId.equals(JSON_KEYS.actionBehaviour.name())) {
 			return behaviourActionFromJson(o, ax12Link);
+		}
+		
+		if (actionId.equals(JSON_KEYS.actionDisableTorque.name())) {
+			return disableTorqueActionFromJson(o, ax12Link);
 		}
 		
 		return null;
@@ -248,6 +256,12 @@ public class ActionOrchestratorHelper {
 		return o;
 	}
 	
+	public static JsonObject disableTorqueActionToJson(AX12DisableTorqueAction dta) {
+		JsonObject o = createEmtyObjectWithId(JSON_KEYS.actionDisableTorque);
+		o.add(JSON_KEYS.ax12Id.name(), new JsonPrimitive(dta.getAx12().getAddress()));
+		return o;
+	}
+	
 	public static WaitingAction waitingActionFromJson(JsonObject o) {
 		JsonElement elt = o.get(JSON_KEYS.waitingTimeMs.name());
 		if (elt == null || !elt.isJsonPrimitive()) {
@@ -270,6 +284,17 @@ public class ActionOrchestratorHelper {
 					o.get(JSON_KEYS.acceleration.name()).getAsInt(),
 					AX12Compliance.fromFriendlyValue(o.get(JSON_KEYS.compliance.name()).getAsInt())
 			);
+		} catch (ClassCastException | IllegalStateException | IllegalArgumentException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public static AX12DisableTorqueAction disableTorqueActionFromJson(JsonObject o, AX12Link ax12Link) {
+		try {
+			int ax12Id = o.get(JSON_KEYS.ax12Id.name()).getAsInt();
+			
+			return new AX12DisableTorqueAction(new AX12(ax12Id, ax12Link));
 		} catch (ClassCastException | IllegalStateException | IllegalArgumentException e) {
 			e.printStackTrace();
 			return null;
