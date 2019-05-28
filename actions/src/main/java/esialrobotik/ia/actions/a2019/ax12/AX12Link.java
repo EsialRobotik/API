@@ -36,4 +36,10 @@ public interface AX12Link {
 	 */
 	public void enableRts(boolean enable) throws AX12LinkException;
 	
+	/**
+	 * Désactive le couple de tous les ax avant d'activer le rejet de toutes
+	 * les autres commandes qui leurs seront adressées
+	 */
+	public void disableAx12AndShutdownLink();
+	
 }

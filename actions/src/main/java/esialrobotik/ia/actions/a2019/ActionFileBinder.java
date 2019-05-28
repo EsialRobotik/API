@@ -86,12 +86,7 @@ public class ActionFileBinder implements ActionInterface {
 
 	@Override
 	public void stopActions() {
-		AX12 ax12Broadcast = new AX12(AX12.AX12_ADDRESS_BROADCAST, this.ax12Link);
-		try {
-			ax12Broadcast.disableTorque();
-		} catch (AX12LinkException | AX12Exception e) {
-			e.printStackTrace();	
-		}
+		this.ax12Link.disableAx12AndShutdownLink();
 		ax12Link.enableDtr(false);
 		ax12Link.enableRts(false);
 	}

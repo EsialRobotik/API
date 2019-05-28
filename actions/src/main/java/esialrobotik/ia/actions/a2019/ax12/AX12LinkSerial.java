@@ -69,7 +69,7 @@ public class AX12LinkSerial implements AX12Link {
 	}
 
 	@Override 
-	public byte[] sendCommand(byte[] cmd, int baudRate) throws AX12LinkException {
+	public synchronized byte[] sendCommand(byte[] cmd, int baudRate) throws AX12LinkException {
 		int oldBr = -1;
 		byte[] response = null;
 		if (sp.getBaudRate() != baudRate) {
@@ -78,23 +78,25 @@ public class AX12LinkSerial implements AX12Link {
 		}
 		
 		try {
-			os.write(cmd);
-			os.flush();
+			synchronized (this.os) {
+				os.write(cmd);
+				os.flush();
 			
-			// On retire du flux d'entr�e la commande qu'on vient juste d'envoyer si rx et tx sont combin�s
-			if (this.combinedRxTx) {
-				for (int i=0; i<cmd.length; i++) {
-					if (is.read() == -1) {
-						throw new AX12LinkException("Erreur de changement d'�chapement de la commande dans le flux d'entr�e");
-					}
-				}	
-			}
-			
-			// On lit la r�ponse de l'AX12
-			this.lecture.clear();
-			int r;
-			while ((r = is.read()) != -1) {
-				lecture.add(AX12.intToUnsignedByte(r));
+				// On retire du flux d'entr�e la commande qu'on vient juste d'envoyer si rx et tx sont combin�s
+				if (this.combinedRxTx) {
+					for (int i=0; i<cmd.length; i++) {
+						if (is.read() == -1) {
+							throw new AX12LinkException("Erreur de changement d'�chapement de la commande dans le flux d'entr�e");
+						}
+					}	
+				}
+				
+				// On lit la r�ponse de l'AX12
+				this.lecture.clear();
+				int r;
+				while ((r = is.read()) != -1) {
+					lecture.add(AX12.intToUnsignedByte(r));
+				}
 			}
 			
 			response = new byte[lecture.size()];
@@ -174,6 +176,20 @@ public class AX12LinkSerial implements AX12Link {
 	@Override
 	public void enableRts(boolean enable) {
 		sp.setRTS(enable);
+	}
+
+
+	@Override
+	public void disableAx12AndShutdownLink() {
+		synchronized (this.os) {
+			AX12 ax = new AX12(AX12.AX12_ADDRESS_BROADCAST, this);
+			try {
+				ax.disableTorque();
+				os.close();
+			} catch (IOException | AX12LinkException | AX12Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	
 }
