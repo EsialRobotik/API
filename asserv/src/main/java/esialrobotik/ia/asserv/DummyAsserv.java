@@ -22,6 +22,16 @@ public class DummyAsserv implements AsservInterface {
     }
 
     @Override
+    public void initialize() {
+        logger.info("initialize");
+    }
+
+    @Override
+    public void stop() {
+        logger.info("stop");
+    }
+
+    @Override
     public void emergencyStop() {
         logger.info("emergencyStop");
     }

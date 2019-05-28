@@ -24,6 +24,16 @@ public interface AsservInterface {
      ************************************************************************/
 
     /**
+     * Démarre l'asservissement
+     */
+    void initialize();
+
+    /**
+     * Arrête l'asservissement
+     */
+    void stop();
+
+    /**
      * Arrêt d'urgence de l'asserv, défini la consigne comme étant la position courante du robot
      */
     void emergencyStop();

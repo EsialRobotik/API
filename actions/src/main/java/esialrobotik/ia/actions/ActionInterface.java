@@ -7,4 +7,5 @@ public interface ActionInterface {
 
     ActionExecutor getActionExecutor(int id);
 
+    void stopActions();
 }

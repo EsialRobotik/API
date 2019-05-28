@@ -79,4 +79,9 @@ public class Actions implements ActionInterface {
         return this.actionExecutors.get(id);
     }
 
+    @Override
+    public void stopActions() {
+
+    }
+
 }

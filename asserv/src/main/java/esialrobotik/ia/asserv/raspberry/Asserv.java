@@ -105,9 +105,16 @@ public class Asserv implements AsservInterface {
      * Commandes basiques
      ******************************************************************************************************************/
 
+    @Override
     public void initialize() {
         logger.info("init");
         serial.write("I");
+    }
+
+    @Override
+    public void stop() {
+        logger.info("stop");
+        serial.write("!");
     }
 
     @Override

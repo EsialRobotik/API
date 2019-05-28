@@ -26,9 +26,14 @@ public class ActionFileBinder implements ActionInterface {
 		RANGEMENT_BRAS_PILE_3("rangement_bras_pile_3.json"), // 7
 		PREPARATION_GDISTRIB_ROUGES("preparation_gdistrib_rouges.json"), // 8
 		RECUPERATION_GDISTRIB_ROUGES("recuperation_gdistrib_rouges.json"), // 9
-		LARGAGE_GDISTRIB_1("largage_gdistrib_1.json"), // 10
+		LARGAGE_GDISTRIB_1("largage_gdistrib_1.json"), // 10 --> 1 - 2 - 3
 		LARGAGE_GDISTRIB_2("largage_gdistrib_2.json"), // 11
-		LARGAGE_GDISTRIB_3("largage_gdistrib_3.json"); // 12
+		LARGAGE_GDISTRIB_3("largage_gdistrib_3.json"), // 12
+		LARGAGE_GDISTRIB_4("largage_gdistrib_4.json"), // 13 --> 4 - 2 - 3
+		LARGAGE_GDISTRIB_5("largage_gdistrib_5.json"), // 14 --> 4 - 2 - 3
+		PREPARATION_RECUR_GOLD("preparation_recup_gold.json"), // 15
+		PREPARATION_LARGAGE_GOLD("preparation_largage_gold.json"), // 16
+		LARGAGE_GOLD("largage_gold.json"); // 17
 
 		public final String nomFichier;
 		public final boolean instantReturn;
@@ -74,6 +79,11 @@ public class ActionFileBinder implements ActionInterface {
 	@Override
 	public ActionExecutor getActionExecutor(int id) {
 		return actionsList[id];
+	}
+
+	@Override
+	public void stopActions() {
+
 	}
 
 }
