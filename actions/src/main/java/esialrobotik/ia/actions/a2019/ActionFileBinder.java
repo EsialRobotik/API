@@ -3,6 +3,8 @@ package esialrobotik.ia.actions.a2019;
 import esialrobotik.ia.actions.ActionExecutor;
 import esialrobotik.ia.actions.ActionInterface;
 import esialrobotik.ia.actions.ActionModuleConfiguration;
+import esialrobotik.ia.actions.a2019.ax12.AX12;
+import esialrobotik.ia.actions.a2019.ax12.AX12Exception;
 import esialrobotik.ia.actions.a2019.ax12.AX12LinkException;
 import esialrobotik.ia.actions.a2019.ax12.AX12LinkSerial;
 import gnu.io.SerialPort;
@@ -14,6 +16,7 @@ public class ActionFileBinder implements ActionInterface {
 	
 	protected ActionExecutor[] actionsList;
 	protected File dataDir;
+	protected AX12LinkSerial ax12Link;
 	
 	public enum ActionFile {
 		PREPARATION_PDISTRIB("preparation_pdistrib.json", true), // 0
@@ -50,7 +53,7 @@ public class ActionFileBinder implements ActionInterface {
 	@Inject
 	public ActionFileBinder(ActionModuleConfiguration actionModuleConfiguration) throws AX12LinkException {
 		SerialPort sp = AX12LinkSerial.getSerialPort(actionModuleConfiguration.getSerialPort());
-		AX12LinkSerial ax12Link = new AX12LinkSerial(sp, actionModuleConfiguration.getBaud());
+		ax12Link = new AX12LinkSerial(sp, actionModuleConfiguration.getBaud());
 		this.dataDir = actionModuleConfiguration.getDataDir();
 		loadFiles(ax12Link);
 	}
@@ -83,7 +86,14 @@ public class ActionFileBinder implements ActionInterface {
 
 	@Override
 	public void stopActions() {
-
+		AX12 ax12Broadcast = new AX12(AX12.AX12_ADDRESS_BROADCAST, this.ax12Link);
+		try {
+			ax12Broadcast.disableTorque();
+		} catch (AX12LinkException | AX12Exception e) {
+			e.printStackTrace();	
+		}
+		ax12Link.enableDtr(false);
+		ax12Link.enableRts(false);
 	}
 
 }
