@@ -1,0 +1,76 @@
+{
+    "actionPools": [
+        {
+            "actions": [
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 2,
+                    "rawAngle": 549,
+                    "readOnlyAngleDegrees": 160.99706744868035
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 3,
+                    "rawAngle": 821,
+                    "readOnlyAngleDegrees": 240.7624633431085
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 4,
+                    "rawAngle": 154,
+                    "readOnlyAngleDegrees": 45.16129032258065
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 1,
+                    "rawAngle": 478,
+                    "readOnlyAngleDegrees": 140.17595307917887
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 5,
+                    "rawAngle": 186,
+                    "readOnlyAngleDegrees": 54.54545454545455
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 9,
+                    "rawAngle": 863,
+                    "readOnlyAngleDegrees": 253.0791788856305
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 6,
+                    "rawAngle": 783,
+                    "readOnlyAngleDegrees": 229.61876832844575
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 7,
+                    "rawAngle": 185,
+                    "readOnlyAngleDegrees": 54.25219941348974
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 8,
+                    "rawAngle": 864,
+                    "readOnlyAngleDegrees": 253.3724340175953
+                }
+            ]
+        },
+        {
+            "actions": [
+                {
+                    "actionId": "actionPump",
+                    "switchState": true,
+                    "pumpId": 0
+                },
+                {
+                    "actionId": "actionPump",
+                    "switchState": true,
+                    "pumpId": 1
+                }
+            ]
+        }
+    ]
+}

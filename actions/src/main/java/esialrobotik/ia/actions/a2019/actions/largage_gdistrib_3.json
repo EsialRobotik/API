@@ -1,0 +1,26 @@
+{
+    "actionPools": [
+        {
+            "actions": [
+                {
+                    "actionId": "actionPump",
+                    "switchState": false,
+                    "pumpId": 0
+                },
+                {
+                    "actionId": "actionPump",
+                    "switchState": false,
+                    "pumpId": 1
+                }
+            ]
+        },
+        {
+            "actions": [
+                {
+                    "actionId": "actionWaiting",
+                    "waitingTimeMs": 1500
+                }
+            ]
+        }
+    ]
+}

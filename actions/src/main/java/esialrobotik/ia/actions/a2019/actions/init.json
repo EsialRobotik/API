@@ -1,0 +1,245 @@
+{
+    "actionPools": [
+        {
+            "actions": [
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 2,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 3,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 4,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 1,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 5,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 9,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 6,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 7,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                },
+                {
+                    "actionId": "actionBehaviour",
+                    "ax12Id": 8,
+                    "speed": 800,
+                    "acceleration": 15,
+                    "compliance": 2
+                }
+            ]
+        },
+        {
+            "actions": [
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 2,
+                    "rawAngle": 575,
+                    "readOnlyAngleDegrees": 168.62170087976537
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 3,
+                    "rawAngle": 792,
+                    "readOnlyAngleDegrees": 232.25806451612902
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 4,
+                    "rawAngle": 150,
+                    "readOnlyAngleDegrees": 43.98826979472141
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 1,
+                    "rawAngle": 450,
+                    "readOnlyAngleDegrees": 131.96480938416423
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 5,
+                    "rawAngle": 214,
+                    "readOnlyAngleDegrees": 62.75659824046921
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 9,
+                    "rawAngle": 870,
+                    "readOnlyAngleDegrees": 255.13196480938416
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 6,
+                    "rawAngle": 769,
+                    "readOnlyAngleDegrees": 225.5131964809384
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 7,
+                    "rawAngle": 206,
+                    "readOnlyAngleDegrees": 60.41055718475073
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 8,
+                    "rawAngle": 869,
+                    "readOnlyAngleDegrees": 254.83870967741936
+                }
+            ]
+        },
+        {
+            "actions": [
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 2,
+                    "rawAngle": 577,
+                    "readOnlyAngleDegrees": 169.20821114369502
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 3,
+                    "rawAngle": 807,
+                    "readOnlyAngleDegrees": 236.65689149560117
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 4,
+                    "rawAngle": 394,
+                    "readOnlyAngleDegrees": 115.5425219941349
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 1,
+                    "rawAngle": 449,
+                    "readOnlyAngleDegrees": 131.6715542521994
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 5,
+                    "rawAngle": 195,
+                    "readOnlyAngleDegrees": 57.18475073313783
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 9,
+                    "rawAngle": 624,
+                    "readOnlyAngleDegrees": 182.99120234604106
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 6,
+                    "rawAngle": 769,
+                    "readOnlyAngleDegrees": 225.5131964809384
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 7,
+                    "rawAngle": 189,
+                    "readOnlyAngleDegrees": 55.42521994134898
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 8,
+                    "rawAngle": 589,
+                    "readOnlyAngleDegrees": 172.72727272727275
+                }
+            ]
+        },
+        {
+            "actions": [
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 2,
+                    "rawAngle": 746,
+                    "readOnlyAngleDegrees": 218.7683284457478
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 3,
+                    "rawAngle": 688,
+                    "readOnlyAngleDegrees": 201.75953079178885
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 4,
+                    "rawAngle": 259,
+                    "readOnlyAngleDegrees": 75.95307917888563
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 1,
+                    "rawAngle": 283,
+                    "readOnlyAngleDegrees": 82.99120234604105
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 5,
+                    "rawAngle": 336,
+                    "readOnlyAngleDegrees": 98.53372434017595
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 9,
+                    "rawAngle": 735,
+                    "readOnlyAngleDegrees": 215.54252199413492
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 6,
+                    "rawAngle": 589,
+                    "readOnlyAngleDegrees": 172.72727272727275
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 7,
+                    "rawAngle": 321,
+                    "readOnlyAngleDegrees": 94.13489736070382
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 8,
+                    "rawAngle": 729,
+                    "readOnlyAngleDegrees": 213.78299120234604
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,62 @@
+{
+    "actionPools": [
+        {
+            "actions": [
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 2,
+                    "rawAngle": 618,
+                    "readOnlyAngleDegrees": 181.23167155425222
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 3,
+                    "rawAngle": 982,
+                    "readOnlyAngleDegrees": 287.97653958944284
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 4,
+                    "rawAngle": 229,
+                    "readOnlyAngleDegrees": 67.15542521994135
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 1,
+                    "rawAngle": 416,
+                    "readOnlyAngleDegrees": 121.99413489736071
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 5,
+                    "rawAngle": 27,
+                    "readOnlyAngleDegrees": 7.9178885630498534
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 9,
+                    "rawAngle": 783,
+                    "readOnlyAngleDegrees": 229.61876832844575
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 6,
+                    "rawAngle": 707,
+                    "readOnlyAngleDegrees": 207.33137829912025
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 7,
+                    "rawAngle": 41,
+                    "readOnlyAngleDegrees": 12.023460410557185
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 8,
+                    "rawAngle": 783,
+                    "readOnlyAngleDegrees": 229.61876832844575
+                }
+            ]
+        }
+    ]
+}
