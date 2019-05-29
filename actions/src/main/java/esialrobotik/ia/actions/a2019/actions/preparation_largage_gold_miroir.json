@@ -1,0 +1,62 @@
+{
+    "actionPools": [
+        {
+            "actions": [
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 6,
+                    "rawAngle": 273,
+                    "readOnlyAngleDegrees": 80.05865102639295
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 7,
+                    "rawAngle": 828,
+                    "readOnlyAngleDegrees": 242.81524926686217
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 8,
+                    "rawAngle": 260,
+                    "readOnlyAngleDegrees": 76.24633431085044
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 1,
+                    "rawAngle": 379,
+                    "readOnlyAngleDegrees": 111.14369501466275
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 5,
+                    "rawAngle": 160,
+                    "readOnlyAngleDegrees": 46.9208211143695
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 9,
+                    "rawAngle": 708,
+                    "readOnlyAngleDegrees": 207.62463343108507
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 2,
+                    "rawAngle": 666,
+                    "readOnlyAngleDegrees": 195.30791788856305
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 3,
+                    "rawAngle": 183,
+                    "readOnlyAngleDegrees": 53.66568914956012
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 4,
+                    "rawAngle": 729,
+                    "readOnlyAngleDegrees": 213.78299120234604
+                }
+            ]
+        }
+    ]
+}
