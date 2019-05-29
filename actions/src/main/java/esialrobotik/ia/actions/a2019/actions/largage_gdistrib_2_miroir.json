@@ -1,0 +1,70 @@
+{
+    "actionPools": [
+        {
+            "actions": [
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 6,
+                    "rawAngle": 325,
+                    "readOnlyAngleDegrees": 95.30791788856305
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 7,
+                    "rawAngle": 890,
+                    "readOnlyAngleDegrees": 260.99706744868035
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 8,
+                    "rawAngle": 299,
+                    "readOnlyAngleDegrees": 87.68328445747801
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 1,
+                    "rawAngle": 661,
+                    "readOnlyAngleDegrees": 193.841642228739
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 5,
+                    "rawAngle": 156,
+                    "readOnlyAngleDegrees": 45.747800586510266
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 9,
+                    "rawAngle": 713,
+                    "readOnlyAngleDegrees": 209.0909090909091
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 2,
+                    "rawAngle": 922,
+                    "readOnlyAngleDegrees": 270.38123167155425
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 3,
+                    "rawAngle": 182,
+                    "readOnlyAngleDegrees": 53.37243401759531
+                },
+                {
+                    "actionId": "actionPosition",
+                    "ax12Id": 4,
+                    "rawAngle": 731,
+                    "readOnlyAngleDegrees": 214.36950146627566
+                }
+            ]
+        },
+        {
+            "actions": [
+                {
+                    "actionId": "actionDisableTorque",
+                    "ax12Id": 254
+                }
+            ]
+        }
+    ]
+}
