@@ -23,4 +23,8 @@ public class LoggerFactory {
         }
         return LogManager.getLogger(clazz);
     }
+
+    public static void shutdown() {
+        LogManager.shutdown();
+    }
 }

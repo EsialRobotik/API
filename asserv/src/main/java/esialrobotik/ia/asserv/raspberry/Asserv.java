@@ -379,14 +379,15 @@ public class Asserv implements AsservInterface {
         Thread.sleep(2000);
 
         // On effectue le calage grâce à une calle dans le coin supérieur gauche de la zone de départ rouge
-        setOdometrieX(300 + 150);
-        setOdometrieY(isColor0 ? (450 - 125) : 3000 - (450 - 125));
+        setOdometrieX(300 + 40 + 150);
+        setOdometrieY(isColor0 ? (40 + 125) : 3000 - (40 + 125));
         setOdometrieTheta((isColor0 ? 1 : -1) * Math.PI/2);
     }
 
     @Override
     public void goStart(boolean isColor0) throws InterruptedException {
         // On se positionne dans la zone de départ
+        go(100);
         Position depart = new Position(450, isColor0 ? 250 : 3000 - 250);
         goTo(depart);
         Position alignement = new Position(2000, isColor0 ? 250 : 3000 - 250);

@@ -36,7 +36,10 @@ public class ActionFileBinder implements ActionInterface {
 		LARGAGE_GDISTRIB_5("largage_gdistrib_5.json"), // 14 --> 4 - 2 - 3
 		PREPARATION_RECUR_GOLD("preparation_recup_gold.json"), // 15
 		PREPARATION_LARGAGE_GOLD("preparation_largage_gold.json"), // 16
-		LARGAGE_GOLD("largage_gold.json"); // 17
+		LARGAGE_GOLD("largage_gold.json"), // 17
+		LARGAGE_GDISTRIB_MIROIR_2("largage_gdistrib_2_miroir.json"), // 18
+		PREPARATION_RECUR_GOLD_MIROIR("preparation_recup_gold_miroir.json"), // 19
+		PREPARATION_LARGAGE_GOLD_MIROIR("preparation_largage_gold_miroir.json"); // 20
 
 		public final String nomFichier;
 		public final boolean instantReturn;
